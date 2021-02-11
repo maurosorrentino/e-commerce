@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Form from './styles/Form';
 import FormErrors from './FormErrors';
+import MessageStyles from '../components/styles/MessageStyles';
 
 class Signup extends Component {
 
@@ -20,6 +21,7 @@ class Signup extends Component {
             passwordValid: false,
             nameValid: false,
             formValid: false,
+            message: null,
             formErrors: { email: '', password: '', name: '' },
 
         }
@@ -122,6 +124,12 @@ class Signup extends Component {
         // handling any errors that we might get
         .then(resData => {
 
+            if(resData) {
+                
+                this.setState({ message: resData.message });
+
+            }
+
             if(resData.errors && resData.errors[0].status === 422) {
 
                 this.setState({ loading: false });
@@ -148,7 +156,8 @@ class Signup extends Component {
 
         <>
         {/*     {/* showing error messages */}
-            {!this.state.formValid && <FormErrors formErrors={this.state.formErrors} />} */}
+           
+            {this.state.message ? <MessageStyles><p>{this.state.message}</p></MessageStyles> : <FormErrors formErrors={this.state.formErrors} />}
         
             <Form method="POST" onSubmit={this.signupHandler}>
                 
