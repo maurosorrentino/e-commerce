@@ -8,28 +8,11 @@ const router = express.Router();
 
 router.put('/signup', [
 
-    body('email')
+    body('email').isEmail(),
 
-        .isEmail()
-        .custom((email, { req }) => {
+    body('password').trim().isLength({ min: 5 }),
 
-            return User.findOne({ email })
-
-                .then(user => {
-
-                    if(user) {
-
-                        return Promise.reject('user already exists');
-
-                    }
-
-                });
-
-        }),
-
-    body('password').trim().isLength({ min: 5 }).withMessage('password is too short!'),
-
-    body('name').not().isEmpty().withMessage('please include your name')
+    body('name').not().isEmpty()
 
 ], authController.signup);
 

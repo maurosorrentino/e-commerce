@@ -6,24 +6,37 @@ const { validationResult } = require('express-validator');
 
 exports.signup = async (req, res, next) => {
 
-    const errors = validationResult(req);
-
-    // getting any errors that we might occur
-    if(!errors.isEmpty()) {
-
-        const error = new Error('validation failed');
-        error.data = errors.array();
-        error.statusCode = 422;
-        throw error;
-
-    };
-
-    // getting inputs of user
-    const email = req.body.email;
-    const password = req.body.password;
-    const name = req.body.name;
-
     try {
+
+        const errors = validationResult(req);
+
+        // getting any errors that we might occur
+        if(!errors.isEmpty()) {
+    
+            const error = new Error('validation failed');
+            error.data = errors.array();
+            error.statusCode = 422;
+            throw error;
+    
+        };
+    
+        // getting inputs of user
+        const email = req.body.email;
+        const password = req.body.password;
+        const name = req.body.name;
+
+        // checking if there is already an user with the same email
+        const userExists = await User.findOne({ email });
+
+        // if user already exists we throw an error
+        if(userExists) {
+
+            const error = new Error(`user ${email} already exists`);
+            error.data = errors.array();
+            error.statusCode = 409;
+            throw error;
+
+        }
 
         // hashing password
         const hashedPassword = await bcrypt.hash(password, 12);

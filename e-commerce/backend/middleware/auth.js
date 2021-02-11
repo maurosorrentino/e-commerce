@@ -2,22 +2,22 @@ const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
 
-    // getting auth header
-    const authHeader = req.get('x-access-token') || req.get('Authorization');
-
-    // if auth header not present we won't autheticate
-    if(!authHeader) {
-
-        req.isAuth = false;
-        return next();
-
-    }
-
-    // getting the token from the client side
-    const token = authHeader.split(' ')[1];
-    let decodedToken;
-
     try {
+
+        // getting auth header
+        const authHeader = req.get('x-access-token') || req.get('Authorization');
+
+        // if auth header not present we won't autheticate
+        if(!authHeader) {
+
+            req.isAuth = false;
+            return next();
+
+        }
+
+        // getting the token from the client side
+        const token = authHeader.split(' ')[1];
+        let decodedToken;
 
         // checking if token is valid
         decodedToken = jwt.verify(token, 'SomeSuperSecretIntoNode');

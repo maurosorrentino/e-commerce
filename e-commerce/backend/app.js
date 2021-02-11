@@ -24,54 +24,15 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-    /* // graphql does not accept options method
-    if(req.method === 'OPTIONS') {
-
-        return res.sendStatus(200);
-
-    } */
-
     next();
 
 });
 
+// auth routes before
 app.use('/auth', authRoutes);
 
 // authorization middleware
 app.use(auth);
-
-// creating express server that runs graphql api
-/* app.use(
-
-    '/graphql',
-    graphqlHTTP({
-
-        schema: graphqlSchema,
-        rootValue: graphqlResolver,
-
-        // this allows us to go into http://localhost:8080/graphql and have the tool in there
-        graphiql: true,
-
-        // customize errors
-        customFormatErrorFn(err) {
-
-            if(!err.originalError) {
-
-                return err;
-
-            }
-
-            const data = err.originalError.data;
-            const message = err.message || 'an error occured';
-            const code = err.originalError.code || 500;
-
-            return { message, data, status: code };
-
-        }
-
-    })
-
-);  */
 
 // error middleware
 app.use((error, req, res, next) => {
@@ -90,35 +51,8 @@ app.use((error, req, res, next) => {
 mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 
     .then(() => {
-
-        User.findOne()
-
-            .then(user => {
-
-                if(!user) {
-
-                    const user = new User({
-
-                        name: 'mauro',
-                        email: 'test@test.com',
-                        password: 'tester',
-                        isAdmin: true,
-                        
-                        cart: {
-
-                            items: [],
-
-                        } 
-
-                    });
-
-                    user.save();
-
-                }
-
-            })
-
-            app.listen(8080);
+        
+        app.listen(8090);
 
     })
 
