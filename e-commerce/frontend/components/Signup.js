@@ -1,32 +1,99 @@
 import React, { Component } from 'react';
 import Form from './styles/Form';
+import FormErrors from './FormErrors';
 
 class Signup extends Component {
-    
-    // handling the inputs of the user
-    handleChange = e => {
+
+    constructor(props) {
         
-        this.setState({ [e.target.name]: e.target.value })
+        super(props);
+
+        // loading is for animation while the user is waiting for the account to be created
+        // all the other "valid" states and formErrors is for handling validation on the client side
+        this.state = {
+
+            email: '',
+            name: '',
+            password: '',
+            loading: false,
+            emailValid: false,
+            passwordValid: false,
+            nameValid: false,
+            formValid: false,
+            formErrors: { email: '', password: '', name: '' },
+
+        }
+
+        this.validateField = this.validateField.bind(this);
+        this.validateForm = this.validateForm.bind(this);
 
     }
 
-    // loading is for animation while the user is waiting for the account to be created
-    state = {
+    // handling errors and inputs
+    handleInputs = e => {
 
-        email: '',
-        name: '',
-        password: '',
-        loading: false,
+        const name = e.target.name;
+        const value = e.target.value;             // validateField is the next function
+        this.setState({ [name]: value }, () => {this.validateField(name, value)});
 
     }
 
+    // function that will be used in handleError function (here we validate the user input)
+    validateField(fieldName, value) {
+
+        let fieldValidationErrors = this.state.formErrors;
+        let emailValid = this.state.emailValid;
+        let passwordValid = this.state.passwordValid;
+        let nameValid = this.state.nameValid;
+
+        // validating user inputs
+        switch(fieldName) {
+
+            case 'email':
+                emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+                fieldValidationErrors.email = emailValid ? '' : 'please enter a valid email';
+                break;
+
+            case 'password':
+                passwordValid = this.state.password.length >= 5;
+                fieldValidationErrors.password = passwordValid ? '' : 'password is too short';
+                break;
+
+            case 'name':
+                nameValid = this.state.name.length > 0;
+                fieldValidationErrors.name = nameValid ? '' : 'please enter your name';
+                break;
+
+        }
+
+        // setting the stases based on validation
+        this.setState({ 
+            
+            formErrors: fieldValidationErrors, 
+            emailValid: emailValid,
+            passwordValid: passwordValid,
+            nameValid: nameValid,
+
+                // validateForm is the next function
+        }, this.validateForm);
+
+    }
+
+    // validating the form (it will be only true if all the inputs are correct)
+    validateForm() {
+
+        this.setState({ formValid: this.state.nameValid && this.state.passwordValid && this.state.emailValid })
+
+    }
+
+    // connecting react with node
     signupHandler = e => {
 
         e.preventDefault();
 
         this.setState({ loading: true })
 
-        fetch(`http://localhost:8080/auth/signup`, {
+        fetch(`http://localhost:8090/auth/signup`, {
 
             method: 'PUT',
     
@@ -52,18 +119,20 @@ class Signup extends Component {
 
         })
 
-        // handling errors
+        // handling any errors that we might get
         .then(resData => {
 
             if(resData.errors && resData.errors[0].status === 422) {
 
+                this.setState({ loading: false });
                 throw new Error('validation failed');
 
             }
 
             if(resData.errors) {
 
-                throw new Error('creating user failed')
+                this.setState({ loading: false });
+                throw new Error('creating user failed');
 
             }
 
@@ -76,6 +145,10 @@ class Signup extends Component {
     render() {
 
         return (
+
+        <>
+        {/*     {/* showing error messages */}
+            {!this.state.formValid && <FormErrors formErrors={this.state.formErrors} />} */}
         
             <Form method="POST" onSubmit={this.signupHandler}>
                 
@@ -90,11 +163,12 @@ class Signup extends Component {
                                 
                             <input
                                 
+                                className={this.state.emailValid ? '' : 'invalid'}
                                 type="email"
                                 name="email"
                                 placeholder="email"
                                 value={this.state.email}
-                                onChange={this.handleChange}
+                                onChange={this.handleInputs}
                                 
                             />
                             
@@ -106,11 +180,12 @@ class Signup extends Component {
 
                             <input
 
+                                className={this.state.nameValid ? '' : 'invalid'}
                                 type="text"
                                 name="name"
                                 placeholder="name"
                                 value={this.state.name}
-                                onChange={this.handleChange}
+                                onChange={this.handleInputs}
 
                             />
 
@@ -122,11 +197,12 @@ class Signup extends Component {
 
                             <input
 
+                                className={this.state.passwordValid ? '' : 'invalid'}
                                 type="password"
                                 name="password"
                                 placeholder="password"
                                 value={this.state.password}
-                                onChange={this.handleChange}
+                                onChange={this.handleInputs}
 
                             />
 
@@ -139,6 +215,8 @@ class Signup extends Component {
 
                 </Form>
 
+        </>
+        
         )
 
     }

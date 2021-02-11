@@ -26,6 +26,12 @@ const Form = styled.form`
   font-weight: 600;
   text-align: center;
 
+  .invalid {
+
+    border: 2px solid red;
+
+  }
+
   label {
 
     display: block;
