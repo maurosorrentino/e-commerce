@@ -1,5 +1,5 @@
 /* if we don't add these codes to our website every time that we load the page for 1 second we get the page that is not styled */
-
+import React from 'react';
 import Document, { Head, Main, NextScript, Html } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 

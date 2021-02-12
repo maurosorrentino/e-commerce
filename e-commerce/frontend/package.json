@@ -5,18 +5,39 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.8",
-    "apollo-client": "^2.6.10",
-    "buggy": "^0.1.1",
-    "graphql": "^15.5.0",
-    "graphql-tag": "^2.11.0",
+    "@babel/preset-env": "^7.12.16",
+    "@babel/preset-react": "^7.12.13",
+    "jsx": "^0.9.89",
+    "mailslurp-client": "^11.3.0",
+    "mongoose": "^5.11.15",
     "next": "10.0.6",
-    "react": "17.0.1",
-    "react-apollo": "^3.1.5",
-    "react-dom": "17.0.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "styled-components": "^5.2.1"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^7.29.4",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "babel-jest": "^26.6.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "jest": "^26.6.3",
+    "jest-dom": "^4.0.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react",
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      "@babel/plugin-transform-react-jsx",
+      "@babel/plugin-proposal-class-properties"
+    ]
   }
 }

@@ -1,5 +1,6 @@
 import NavStyle from './styles/NavStyles';
 import Link from 'next/link';
+import React from 'react';
 
 export default function Nav() {
 

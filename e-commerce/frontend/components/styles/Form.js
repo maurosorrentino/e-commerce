@@ -28,7 +28,7 @@ const Form = styled.form`
 
   .invalid {
 
-    border: 2px solid red;
+    border: 5px solid red;
 
   }
 

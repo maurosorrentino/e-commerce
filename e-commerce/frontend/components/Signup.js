@@ -10,19 +10,21 @@ class Signup extends Component {
         super(props);
 
         // loading is for animation while the user is waiting for the account to be created
-        // all the other "valid" states and formErrors is for handling validation on the client side
+        // all the other "valid" states and formErrors are there for handling validation on the client side
         this.state = {
 
             email: '',
             name: '',
             password: '',
+            confirmPassword: '',
             loading: false,
             emailValid: false,
             passwordValid: false,
+            confirmPasswordValid: false,
             nameValid: false,
             formValid: false,
             message: null,
-            formErrors: { email: '', password: '', name: '' },
+            formErrors: { email: '', password: '', name: '', confirmPasswordValid: '' },
 
         }
 
@@ -47,6 +49,7 @@ class Signup extends Component {
         let emailValid = this.state.emailValid;
         let passwordValid = this.state.passwordValid;
         let nameValid = this.state.nameValid;
+        let confirmPasswordValid = this.state.confirmPasswordValid;
 
         // validating user inputs
         switch(fieldName) {
@@ -66,6 +69,11 @@ class Signup extends Component {
                 fieldValidationErrors.name = nameValid ? '' : 'please enter your name';
                 break;
 
+            case 'confirmPassword':
+                confirmPasswordValid = this.state.password === this.state.confirmPassword;
+                fieldValidationErrors.confirmPassword = confirmPasswordValid ? '' : 'passwords do not match!';
+                break;
+
         }
 
         // setting the stases based on validation
@@ -75,6 +83,7 @@ class Signup extends Component {
             emailValid: emailValid,
             passwordValid: passwordValid,
             nameValid: nameValid,
+            confirmPasswordValid: confirmPasswordValid,
 
                 // validateForm is the next function
         }, this.validateForm);
@@ -84,11 +93,11 @@ class Signup extends Component {
     // validating the form (it will be only true if all the inputs are correct)
     validateForm() {
 
-        this.setState({ formValid: this.state.nameValid && this.state.passwordValid && this.state.emailValid })
+        this.setState({ formValid: this.state.nameValid && this.state.passwordValid && this.state.emailValid && this.state.confirmPasswordValid })
 
     }
 
-    // connecting react with node
+    // connecting react with node in order to have a connection between the client side and the database
     signupHandler = e => {
 
         e.preventDefault();
@@ -109,6 +118,7 @@ class Signup extends Component {
 
                 name: this.state.name,
                 password: this.state.password,
+                confirmPassword: this.state.confirmPassword,
                 email: this.state.email,
                     
             })
@@ -121,21 +131,10 @@ class Signup extends Component {
 
         })
 
-        // handling any errors that we might get
+        // handling any errors that we might get and also messages that tells the user that the account was created
         .then(resData => {
 
-            if(resData) {
-                
-                this.setState({ message: resData.message });
-
-            }
-
-            if(resData.errors && resData.errors[0].status === 422) {
-
-                this.setState({ loading: false });
-                throw new Error('validation failed');
-
-            }
+            this.setState({ message: resData.message });
 
             if(resData.errors) {
 
@@ -155,11 +154,11 @@ class Signup extends Component {
         return (
 
         <>
-        {/*     {/* showing error messages */}
+            {/* showing error/messages */}
            
             {this.state.message ? <MessageStyles><p>{this.state.message}</p></MessageStyles> : <FormErrors formErrors={this.state.formErrors} />}
         
-            <Form method="POST" onSubmit={this.signupHandler}>
+            <Form className="signUp-form" method="POST" onSubmit={this.signupHandler}>
                 
                 <fieldset aria-busy={this.state.loading} disabled={this.state.loading}>
                     
@@ -173,6 +172,7 @@ class Signup extends Component {
                             <input
                                 
                                 className={this.state.emailValid ? '' : 'invalid'}
+                                id="email-test"
                                 type="email"
                                 name="email"
                                 placeholder="email"
@@ -190,6 +190,7 @@ class Signup extends Component {
                             <input
 
                                 className={this.state.nameValid ? '' : 'invalid'}
+                                id="name-test"
                                 type="text"
                                 name="name"
                                 placeholder="name"
@@ -207,10 +208,29 @@ class Signup extends Component {
                             <input
 
                                 className={this.state.passwordValid ? '' : 'invalid'}
+                                id="password-test"
                                 type="password"
                                 name="password"
                                 placeholder="password"
                                 value={this.state.password}
+                                onChange={this.handleInputs}
+
+                            />
+
+                        </label>
+
+                        <label htmlFor="confirmPassword">
+
+                            Confirm Password
+
+                            <input
+
+                                className={this.state.confirmPasswordValid ? '' : 'invalid'}
+                                id="confirmPassword-test"
+                                type="password"
+                                name="confirmPassword"
+                                placeholder="confirm password"
+                                value={this.state.confirmPassword}
                                 onChange={this.handleInputs}
 
                             />

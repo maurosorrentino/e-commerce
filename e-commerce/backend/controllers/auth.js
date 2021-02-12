@@ -13,7 +13,7 @@ exports.signup = async (req, res, next) => {
         // getting any errors that we might occur
         if(!errors.isEmpty()) {
     
-            const error = new Error('validation failed');
+            const error = new Error('validation failed, please check email, password and name');
             error.data = errors.array();
             error.statusCode = 422;
             throw error;
@@ -23,6 +23,7 @@ exports.signup = async (req, res, next) => {
         // getting inputs of user
         const email = req.body.email;
         const password = req.body.password;
+        const confirmPassword = req.body.confirmPassword;
         const name = req.body.name;
 
         // checking if there is already an user with the same email
@@ -34,6 +35,16 @@ exports.signup = async (req, res, next) => {
             const error = new Error(`user ${email} already exists`);
             error.data = errors.array();
             error.statusCode = 409;
+            throw error;
+
+        }
+
+        // checking if the user wrote the password requested (double check so that we do not need to send a "change password" email)
+        if(password !== confirmPassword) {
+
+            const error = new Error('passwords do not match');
+            error.data = errors.array();
+            error.statusCode = 403;
             throw error;
 
         }
