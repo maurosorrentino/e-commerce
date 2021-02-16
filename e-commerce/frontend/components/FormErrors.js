@@ -27,9 +27,15 @@ const FormErrors = ({ formErrors }) =>
 
             if(formErrors[fieldName].length > 0) {
 
+                if(fieldName === 'confirmPassword') {
+
+                    return <p id="error-test" key={i}>Invalid Input: {formErrors[fieldName]}</p>
+                    
+                }
+
                 return (
 
-                    <p key={i}>Invalid {fieldName}: {formErrors[fieldName]}</p>
+                    <p id="error-test" key={i}>Invalid {fieldName}: {formErrors[fieldName]}</p>
 
                 )
 

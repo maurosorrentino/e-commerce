@@ -2,10 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-/* const { graphqlHTTP } = require('express-graphql');
-const graphqlSchema = require('./src/graphql/schema');
-const graphqlResolver = require('./src/graphql/resolvers'); */
-
 const User = require('./models/user');
 const auth = require('./middleware/auth');
 const authRoutes = require('./routes/auth');
@@ -28,7 +24,7 @@ app.use((req, res, next) => {
 
 });
 
-// auth routes before
+// auth routes
 app.use('/auth', authRoutes);
 
 // authorization middleware

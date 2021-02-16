@@ -17,7 +17,8 @@
     "next": "10.0.6",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "waait": "^1.0.5"
   },
   "devDependencies": {
     "@testing-library/dom": "^7.29.4",
@@ -28,7 +29,9 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "jest": "^26.6.3",
-    "jest-dom": "^4.0.0"
+    "jest-dom": "^4.0.0",
+    "react-testing-library": "^8.0.1",
+    "sinon": "^9.2.4"
   },
   "babel": {
     "presets": [

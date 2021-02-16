@@ -147,6 +147,8 @@ class Signup extends Component {
 
         })
 
+        .catch(err => console.log(err));
+
     }
 
     render() {
@@ -158,12 +160,12 @@ class Signup extends Component {
            
             {this.state.message ? <MessageStyles><p>{this.state.message}</p></MessageStyles> : <FormErrors formErrors={this.state.formErrors} />}
         
-            <Form className="signUp-form" method="POST" onSubmit={this.signupHandler}>
+            <Form className="signUp-form-test" method="POST" onSubmit={this.signupHandler}>
                 
                 <fieldset aria-busy={this.state.loading} disabled={this.state.loading}>
                     
                     {/* this line will show signing up while waiting */}
-                    <h1>Sign{this.state.loading ? 'ing' : ''} Up For An Account</h1>
+                    <h1 id="h1-test">Sign{this.state.loading ? 'ing' : ''} Up For An Account</h1>
 
                         <label htmlFor="email">
 
@@ -238,7 +240,7 @@ class Signup extends Component {
                         </label>
 
                         {/* this line will show signing up while waiting */}
-                        <button>Sign{this.state.loading ? 'ing' : ''} up!</button>
+                        <button id="button-test">Sign{this.state.loading ? 'ing' : ''} Up!</button>
 
                     </fieldset>
 

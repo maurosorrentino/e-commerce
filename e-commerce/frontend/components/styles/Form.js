@@ -50,12 +50,6 @@ const Form = styled.form`
     text-align: center;
     border: 1px solid black;
 
-    &:focus {
-
-      outline: 0;
-      border-color: green;
-
-    }
   }
   
   button,
