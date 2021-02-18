@@ -2,11 +2,7 @@ import Signup from '../components/Signup';
 
 import { mount } from 'enzyme';
 import React from 'react';
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import "regenerator-runtime/runtime.js";
-
-configure({ adapter: new Adapter() });
+import configure from './configure/config';
 
 // signup test
 describe('<Signup /> Component', () => {
@@ -93,12 +89,12 @@ describe('<Signup /> Component', () => {
         );
 
         wrapper.setState({ loading: true });
-        const h1 = wrapper.find('#h1-test').html();
-        const button = wrapper.find('#button-test').html();
+        const h1 = wrapper.find('#h1-test').text();
+        const button = wrapper.find('#button-test').text();
         wrapper.update();
 
-        expect(h1).toEqual('<h1 id="h1-test">Signing Up For An Account</h1>');
-        expect(button).toEqual('<button id="button-test">Signing Up!</button>');
+        expect(h1).toEqual('Signing Up For An Account');
+        expect(button).toEqual('Signing Up!');
 
     });
 
@@ -113,9 +109,9 @@ describe('<Signup /> Component', () => {
         // checking if it shows an error message for the email
         wrapper.find('#email-test').props().onChange({ target: { name: 'email', value: 'test' }});
         wrapper.update();
-        const errorEmail = wrapper.children(0).find('#error-test').html();
+        const errorEmail = wrapper.children(0).find('#error-test').text();
         
-        expect(errorEmail).toBe('<p id="error-test">Invalid email: please enter a valid email</p>');
+        expect(errorEmail).toBe('Invalid email: please enter a valid email');
 
         // simulating email input with a valid email so that I can find the error of the password
         wrapper.find('#email-test').props().onChange({ target: { name: 'email', value: 'test@test.com' }});
@@ -124,9 +120,9 @@ describe('<Signup /> Component', () => {
         // checking if it shows an error message for the password (password needs to be at least 5 characters)
         wrapper.find('#password-test').props().onChange({ target: { name: 'password', value: '123' }});
         wrapper.update();
-        const errorPassword = wrapper.children(0).find('#error-test').html();
+        const errorPassword = wrapper.children(0).find('#error-test').text();
 
-        expect(errorPassword).toEqual('<p id="error-test">Invalid password: password is too short</p>');
+        expect(errorPassword).toEqual('Invalid password: password is too short');
 
         // simulating password input with a valid password so that I can find the error of the confirmPassword
         wrapper.find('#password-test').props().onChange({ target: { name: 'password', value: '12345' }});
@@ -135,9 +131,9 @@ describe('<Signup /> Component', () => {
         // confirmPassword needs to be like password that right now is '12345'
         wrapper.find('#confirmPassword-test').props().onChange({ target: { name: 'confirmPassword', value: '123456'}});
         wrapper.update();
-        const errorConfirmPassword = wrapper.children(0).find('#error-test').html();
+        const errorConfirmPassword = wrapper.children(0).find('#error-test').text();
 
-        expect(errorConfirmPassword).toEqual('<p id="error-test">Invalid Input: passwords do not match!</p>');
+        expect(errorConfirmPassword).toEqual('Invalid Input: passwords do not match!');
 
         // simulating confirmPassword input with a valid input so that I can find the error of the name
         wrapper.find('#confirmPassword-test').props().onChange({ target: { name: 'confirmPassword', value: '12345' }});
@@ -146,9 +142,9 @@ describe('<Signup /> Component', () => {
         // last check with name input (name should NOT be empty)
         wrapper.find('#name-test').props().onChange({ target: { name: 'name', value: '' }});
         wrapper.update();
-        const errorName = wrapper.children(0).find('#error-test').html();
+        const errorName = wrapper.children(0).find('#error-test').text();
 
-        expect(errorName).toEqual('<p id="error-test">Invalid name: please enter your name</p>')
+        expect(errorName).toEqual('Invalid name: please enter your name')
 
     });
     

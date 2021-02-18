@@ -44,7 +44,8 @@ app.use((error, req, res, next) => {
 });
 
 // setting up database
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+// DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true,  useFindAndModify: false }
+mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true,  useFindAndModify: false })
 
     .then(() => {
         
@@ -53,3 +54,5 @@ mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true 
     })
 
     .catch(err => console.log("mongodb error: " + err));
+
+module.exports = app;

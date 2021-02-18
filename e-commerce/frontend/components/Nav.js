@@ -8,13 +8,13 @@ export default function Nav() {
 
         <NavStyle>
 
-            <Link passHref href="/">Shop</Link>
+            <Link id="shop-test" href="/">Shop</Link>
 
-            <Link passHref href="/sell">Sell</Link>
+            <Link id="sell-test" href="/auth/sell">Sell</Link>
 
-            <Link passHref href="/auth/signup">Signup</Link>
+            <Link id="signup-test" href="/auth/signup">Signup</Link>
 
-            <Link passHref href="/login">Login</Link>
+            <Link id="login-test" href="/auth/login">Login</Link>
 
         </NavStyle>
 
