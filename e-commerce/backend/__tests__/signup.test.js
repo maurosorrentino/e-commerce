@@ -1,9 +1,10 @@
 const supertest = require('supertest');
 const app = require('../app');
+const server = require('../app');
 
 const User = require('../models/user');
 
-const request = supertest(app); 
+const request = supertest(app);
 
 function put(url, body) {
     
@@ -16,6 +17,13 @@ function put(url, body) {
 }
 
 describe('Signup errors', () => {
+
+    // this is needed because otherwise we will get an error saying that we are already listening to that port
+    afterEach(async() => {
+
+        server.close();
+
+    });
 
     // there is an account with email: 'test@test.com' into the db for testing purposes
     it("shows an error and status code 409 if user already exists", async (done) => {
@@ -114,9 +122,12 @@ describe('Signup errors', () => {
 
 describe('Signup success', () => {
 
+    // 1st line is needed because if we do not cancel this user the 2nd time that we run the test it will fail (since I'm testing if a user is able to sign up)
+    // 2nd line is needed because otherwise we will get an error saying that we are already listening to that port
     afterEach(async () => {
 
         await User.findOneAndRemove({ email: 'test2@test.com' });
+        await server.close();
 
     })
     

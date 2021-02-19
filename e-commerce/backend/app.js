@@ -1,14 +1,18 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const http = require('http')
 
 const User = require('./models/user');
 const auth = require('./middleware/auth');
 const authRoutes = require('./routes/auth');
 
+const MONGODB_URL = 'mongodb+srv://mauro:Gliuccellivolano95!@cluster0.kyrqs.mongodb.net/shop';
+
 const app = express();
 
-const MONGODB_URL = 'mongodb+srv://mauro:Gliuccellivolano95!@cluster0.kyrqs.mongodb.net/shop';
+// I am declaring the server like this instead of app.listen because otherwise the tests won't work
+const server = http.createServer(app);
 
 // able to parse json data application/json into headers
 app.use(bodyParser.json());
@@ -43,16 +47,17 @@ app.use((error, req, res, next) => {
 
 });
 
-// setting up database
-// DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true,  useFindAndModify: false }
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true,  useFindAndModify: false })
+// connecting to db
+// DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
+mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
 
     .then(() => {
-        
-        app.listen(8090);
+
+        server.listen(8090);
 
     })
 
-    .catch(err => console.log("mongodb error: " + err));
+    .catch(err => console.log('mongo error: ' + err));
 
 module.exports = app;
+module.exports = server;

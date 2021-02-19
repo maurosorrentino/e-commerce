@@ -6,7 +6,7 @@ const MessageStyles = styled.div`
     background: white;
     margin: 2rem auto;
     border: 5px solid lightgreen;
-    width: 70%;
+    width: 80%;
 
     p {
 

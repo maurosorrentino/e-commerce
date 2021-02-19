@@ -134,20 +134,16 @@ class Signup extends Component {
         // handling any errors that we might get and also messages that tells the user that the account was created
         .then(resData => {
 
-            this.setState({ message: resData.message });
-
-            if(resData.errors) {
-
-                this.setState({ loading: false });
-                throw new Error('creating user failed');
-
-            }
-
-            this.setState({ loading: false });
+            this.setState({ message: resData.message, loading: false });
 
         })
 
-        .catch(err => console.log(err));
+        .catch(err => {
+            
+            this.setState({ loading: false });
+            console.log(err)
+        
+        });
 
     }
 
@@ -160,7 +156,7 @@ class Signup extends Component {
            
             {this.state.message ? <MessageStyles><p>{this.state.message}</p></MessageStyles> : <FormErrors formErrors={this.state.formErrors} />}
         
-            <Form className="signUp-form-test" method="POST" onSubmit={this.signupHandler}>
+            <Form className="signUp-form-test" onSubmit={this.signupHandler}>
                 
                 <fieldset aria-busy={this.state.loading} disabled={this.state.loading}>
                     
@@ -240,7 +236,7 @@ class Signup extends Component {
                         </label>
 
                         {/* this line will show signing up while waiting */}
-                        <button id="button-test">Sign{this.state.loading ? 'ing' : ''} Up!</button>
+                        <button>Sign{this.state.loading ? 'ing' : ''} Up!</button>
 
                     </fieldset>
 
