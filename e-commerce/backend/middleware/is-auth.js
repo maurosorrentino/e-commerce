@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
 
         }
 
-        // getting the token from the client side
+        // getting the token from the header
         const token = authHeader.split(' ')[1];
         let decodedToken;
 

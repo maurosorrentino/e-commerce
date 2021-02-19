@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import Link from 'next/link';
+
 import Form from './styles/Form';
 import FormErrors from './FormErrors';
 import MessageStyles from '../components/styles/MessageStyles';
+import Logo from '../components/styles/Logo';
 
 class Signup extends Component {
 
@@ -152,6 +155,13 @@ class Signup extends Component {
         return (
 
         <>
+
+            <Logo>
+
+                <Link href="/">My Shop</Link>
+
+            </Logo>
+
             {/* showing error/messages */}
            
             {this.state.message ? <MessageStyles><p>{this.state.message}</p></MessageStyles> : <FormErrors formErrors={this.state.formErrors} />}
@@ -236,7 +246,7 @@ class Signup extends Component {
                         </label>
 
                         {/* this line will show signing up while waiting */}
-                        <button>Sign{this.state.loading ? 'ing' : ''} Up!</button>
+                        <button id="button-test">Sign{this.state.loading ? 'ing' : ''} Up!</button>
 
                     </fieldset>
 

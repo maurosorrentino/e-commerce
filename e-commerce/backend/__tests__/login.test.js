@@ -47,7 +47,7 @@ describe('Login', () => {
 
     it("shows an error and status code of 401 if the password chosen doesn't match the one into the db", async (done) => {
 
-        // there is an account into the db email: { 'test@test.com' password: '123456' } for testing purposes
+        // there is an account into the db { email: 'test@test.com' password: '123456' } for testing purposes
         const req = {
 
             body: {

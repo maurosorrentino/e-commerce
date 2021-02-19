@@ -4,14 +4,15 @@ const mongoose = require('mongoose');
 const http = require('http')
 
 const User = require('./models/user');
-const auth = require('./middleware/auth');
+const isAuth = require('./middleware/is-auth');
 const authRoutes = require('./routes/auth');
 
 const MONGODB_URL = 'mongodb+srv://mauro:Gliuccellivolano95!@cluster0.kyrqs.mongodb.net/shop';
 
 const app = express();
 
-// I am declaring the server like this instead of app.listen because otherwise the tests won't work
+// I am declaring the server like this instead of app.listen because otherwise the tests won't work (also exporting the app into another file didn't work so 
+// I came up with this solution)
 const server = http.createServer(app);
 
 // able to parse json data application/json into headers
@@ -32,7 +33,7 @@ app.use((req, res, next) => {
 app.use('/auth', authRoutes);
 
 // authorization middleware
-app.use(auth);
+app.use(isAuth);
 
 // error middleware
 app.use((error, req, res, next) => {

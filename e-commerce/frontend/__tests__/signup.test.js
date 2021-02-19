@@ -109,7 +109,7 @@ describe('<Signup /> Component', () => {
         // checking if it shows an error message for the email
         wrapper.find('#email-test').props().onChange({ target: { name: 'email', value: 'test' }});
         wrapper.update();
-        const errorEmail = wrapper.children(0).find('#error-test').text();
+        const errorEmail = wrapper.children().find('#error-test').text();
         
         expect(errorEmail).toBe('Invalid email: please enter a valid email');
 
@@ -120,7 +120,7 @@ describe('<Signup /> Component', () => {
         // checking if it shows an error message for the password (password needs to be at least 5 characters)
         wrapper.find('#password-test').props().onChange({ target: { name: 'password', value: '123' }});
         wrapper.update();
-        const errorPassword = wrapper.children(0).find('#error-test').text();
+        const errorPassword = wrapper.children().find('#error-test').text();
 
         expect(errorPassword).toEqual('Invalid password: password is too short');
 
@@ -131,7 +131,7 @@ describe('<Signup /> Component', () => {
         // confirmPassword needs to be like password that right now is '12345'
         wrapper.find('#confirmPassword-test').props().onChange({ target: { name: 'confirmPassword', value: '123456'}});
         wrapper.update();
-        const errorConfirmPassword = wrapper.children(0).find('#error-test').text();
+        const errorConfirmPassword = wrapper.children().find('#error-test').text();
 
         expect(errorConfirmPassword).toEqual('Invalid Input: passwords do not match!');
 
@@ -142,7 +142,7 @@ describe('<Signup /> Component', () => {
         // last check with name input (name should NOT be empty)
         wrapper.find('#name-test').props().onChange({ target: { name: 'name', value: '' }});
         wrapper.update();
-        const errorName = wrapper.children(0).find('#error-test').text();
+        const errorName = wrapper.children().find('#error-test').text();
 
         expect(errorName).toEqual('Invalid name: please enter your name')
 

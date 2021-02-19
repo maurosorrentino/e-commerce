@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import Link from 'next/link';
+
 import Form from './styles/Form';
 import MessageStyles from './styles/MessageStyles';
+import Logo from '../components/styles/Logo';
 
 class Login extends Component {
 
@@ -10,6 +13,7 @@ class Login extends Component {
         password: '',
         message: null,
         loading: false,
+        token: null,
 
     }
 
@@ -32,6 +36,7 @@ class Login extends Component {
             headers: {
 
                 'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + this.state.token,
 
             },
 
@@ -44,7 +49,7 @@ class Login extends Component {
 
         })
 
-        .then(res => {
+        .then(res => { 
 
             return res.json();
 
@@ -52,7 +57,7 @@ class Login extends Component {
 
         .then(resData => {
 
-            this.setState({ message: resData.message, loading: false });
+            this.setState({ message: resData.message, token: resData.token });
 
         })
 
@@ -69,9 +74,16 @@ class Login extends Component {
 
         return (
 <>
-            <MessageStyles><p>{this.state.message}</p></MessageStyles>
+            
+            <Logo>
 
-            <Form onSubmit={this.loginHandler}>
+                <Link href="/">My Shop</Link>
+
+            </Logo>
+
+            <MessageStyles><p id="message-test">{this.state.message}</p></MessageStyles>
+
+            <Form id="login-form-test" onSubmit={this.loginHandler}>
 
                 <fieldset aria-busy={this.state.loading} disabled={this.state.loading}>
 
@@ -111,7 +123,7 @@ class Login extends Component {
 
                     </label>
 
-                    <button>Log{this.state.loading ? 'ing' : ''} in!</button>
+                    <button id="button-test">Log{this.state.loading ? 'ing' : ''} in!</button>
 
                 </fieldset>
 

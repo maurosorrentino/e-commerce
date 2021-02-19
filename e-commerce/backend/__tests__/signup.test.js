@@ -131,7 +131,7 @@ describe('Signup success', () => {
 
     })
     
-    it("shows a confirm message and status code 201 if all the inputs are fine", async (done) => {
+    it("shows a confirm message that user was created and status code 201 if all the inputs are fine", async (done) => {
 
         const req = {
 
