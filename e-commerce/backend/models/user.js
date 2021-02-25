@@ -37,10 +37,10 @@ const userSchema = new Schema({
 
             {
             
-            productId: {
+            itemId: {
                 
                 type: Schema.Types.ObjectId,
-                ref: 'Product',
+                ref: 'Item',
                 required: true
             
             },

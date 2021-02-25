@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import Form from './styles/Form';
 import MessageStyles from './styles/MessageStyles';
-import Logo from '../components/styles/Logo';
+import Logo from './styles/Logo';
 
 class Login extends Component {
 
@@ -13,8 +13,7 @@ class Login extends Component {
         password: '',
         message: null,
         loading: false,
-        token: null,
-
+        
     }
 
     handleInputs = e => {
@@ -23,22 +22,23 @@ class Login extends Component {
 
     }
 
-    loginHandler = e => {
+    loginHandler = async e => {
 
         e.preventDefault();
 
         this.setState({ loading: true });
 
-        fetch(`http://localhost:8090/auth/login`, {
+        await fetch(`http://localhost:8090/auth/login`, {
 
             method: 'POST',
 
             headers: {
 
                 'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + this.state.token,
 
             },
+
+            credentials: "include",
 
             body: JSON.stringify({
 
@@ -55,9 +55,17 @@ class Login extends Component {
 
         })
 
-        .then(resData => {
+        .then(resData => { console.log(resData)
 
-            this.setState({ message: resData.message, token: resData.token });
+            this.setState({ message: resData.message, loading: false });
+
+            // we only want to show the user one of these 3 messages
+            if(resData.message !== 'invalid password, please try again' && resData.message !== `There is no account into our database with this email: ${this.state.email}` 
+            && resData.message !== 'successful login') {
+
+                this.setState({ message: '' });
+
+            };
 
         })
 
@@ -66,7 +74,7 @@ class Login extends Component {
             this.setState({ loading: false });
             console.log(err);
 
-        })
+        })   
 
     }
 
@@ -74,7 +82,6 @@ class Login extends Component {
 
         return (
 <>
-            
             <Logo>
 
                 <Link href="/">My Shop</Link>
@@ -87,7 +94,7 @@ class Login extends Component {
 
                 <fieldset aria-busy={this.state.loading} disabled={this.state.loading}>
 
-                    <h1 id="h1-test">Log{this.state.loading ? 'ing' : ''} In</h1>
+                    <h1 id="h1-test">Log{this.state.loading ? 'ging' : ''} In</h1>
 
                     <label htmlFor="email">
 
@@ -98,7 +105,7 @@ class Login extends Component {
                             id="email-test"
                             name="email"
                             type="email"
-                            placeholder="email"
+                            placeholder="enter your email"
                             value={this.state.email}
                             onChange={this.handleInputs}
 
@@ -115,7 +122,7 @@ class Login extends Component {
                             id="password-test"
                             name="password"
                             type="password"
-                            placeholder="password"
+                            placeholder="enter your password"
                             value={this.state.password}
                             onChange={this.handleInputs}
 
@@ -123,7 +130,7 @@ class Login extends Component {
 
                     </label>
 
-                    <button id="button-test">Log{this.state.loading ? 'ing' : ''} in!</button>
+                    <button id="button-test">Log{this.state.loading ? 'ging' : ''} in!</button>
 
                 </fieldset>
 

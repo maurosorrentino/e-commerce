@@ -2,10 +2,10 @@ const express = require('express');
 const { body } = require('express-validator');
 
 const authController = require('../controllers/auth');
-const User = require('../models/user')
 
 const router = express.Router();
 
+// signup route with validation
 router.put('/signup', [
 
     body('email').isEmail(),
@@ -16,6 +16,10 @@ router.put('/signup', [
 
 ], authController.signup);
 
+// login route
 router.post('/login', authController.login);
+
+// create item route
+router.post('/sell', authController.createItem);
 
 module.exports = router;

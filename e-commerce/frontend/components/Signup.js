@@ -101,13 +101,13 @@ class Signup extends Component {
     }
 
     // connecting react with node in order to have a connection between the client side and the database
-    signupHandler = e => {
+    signupHandler = async e => {
 
         e.preventDefault();
 
         this.setState({ loading: true })
 
-        fetch(`http://localhost:8090/auth/signup`, {
+        await fetch(`http://localhost:8090/auth/signup`, {
 
             method: 'PUT',
     
@@ -116,6 +116,8 @@ class Signup extends Component {
                 'Content-Type': 'application/json',
     
             },
+
+            credentials: "include",
 
             body: JSON.stringify({
 
@@ -143,8 +145,8 @@ class Signup extends Component {
 
         .catch(err => {
             
-            this.setState({ loading: false });
-            console.log(err)
+            this.setState({ loading: false, message: err });
+            console.log(err);
         
         });
 
@@ -183,7 +185,7 @@ class Signup extends Component {
                                 id="email-test"
                                 type="email"
                                 name="email"
-                                placeholder="email"
+                                placeholder="enter your email"
                                 value={this.state.email}
                                 onChange={this.handleInputs}
                                 
@@ -201,7 +203,7 @@ class Signup extends Component {
                                 id="name-test"
                                 type="text"
                                 name="name"
-                                placeholder="name"
+                                placeholder="enter your name"
                                 value={this.state.name}
                                 onChange={this.handleInputs}
 
@@ -219,7 +221,7 @@ class Signup extends Component {
                                 id="password-test"
                                 type="password"
                                 name="password"
-                                placeholder="password"
+                                placeholder="enter your password"
                                 value={this.state.password}
                                 onChange={this.handleInputs}
 

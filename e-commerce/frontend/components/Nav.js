@@ -16,6 +16,8 @@ export default function Nav() {
 
             <Link id="login-test" href="/auth/login">Login</Link>
 
+            <Link href="/auth/logout">Logout</Link>
+
         </NavStyle>
 
     )
