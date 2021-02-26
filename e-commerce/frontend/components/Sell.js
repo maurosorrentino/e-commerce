@@ -4,6 +4,7 @@ import cookie from 'react-cookies';
 
 import Form from './styles/Form';
 import Logo from '../components/styles/Logo';
+import MessageStyles from '../components/styles/MessageStyles';
 
 class Sell extends Component {
 
@@ -26,19 +27,20 @@ class Sell extends Component {
     }
 
     // connecting react with node in order to have a connection between the client side and the database
-    handleSubmit = e => {
+    handleSubmit = async e => {
 
         e.preventDefault();
 
         this.setState({ loading: true });
 
-        fetch(`http://localhost:8090/auth/sell`, {
+        await fetch(`http://localhost:8090/auth/sell`, {
 
             method: 'POST',
 
             headers: {
 
                 'Content-Type': 'application/json',
+                'Accept': 'application/json',
 
             },
 
@@ -85,6 +87,8 @@ class Sell extends Component {
                 <Link href="/">My Shop</Link>
 
             </Logo>
+
+            <MessageStyles><p>{this.state.message}</p></MessageStyles>
 
             <Form encType="multipart/form-data" onSubmit={this.handleSubmit}>
 

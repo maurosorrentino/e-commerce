@@ -139,19 +139,6 @@ app.use((req, res, next) => {
 
 });
 
-// error middleware
-app.use((error, req, res, next) => {
-
-    console.log('error middleware: ' + error);
-
-    const message = error.message;
-    const status = error.statusCode || 500;
-    const data = error.data;
-
-    res.status(status).json({ message, data });
-
-});
-
 // avoiding cors errors
 app.use((req, res, next) => {
 

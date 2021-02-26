@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { cloneElement, Component } from 'react';
 import Link from 'next/link';
 
 import Form from './styles/Form';
@@ -22,11 +22,16 @@ class Login extends Component {
 
     }
 
-    loginHandler = async e => {
+    loginHandler = e => {
 
         e.preventDefault();
 
         this.setState({ loading: true });
+        this.fetchData();
+
+    }
+
+    fetchData = async () => {
 
         await fetch(`http://localhost:8090/auth/login`, {
 
@@ -35,6 +40,7 @@ class Login extends Component {
             headers: {
 
                 'Content-Type': 'application/json',
+                'Accept': 'application/json',
 
             },
 
@@ -45,11 +51,11 @@ class Login extends Component {
                 email: this.state.email,
                 password: this.state.password,
 
-            })
+            }),
 
         })
 
-        .then(res => { 
+        .then(res => { console.log(res)
 
             return res.json();
 
@@ -63,7 +69,7 @@ class Login extends Component {
             if(resData.message !== 'invalid password, please try again' && resData.message !== `There is no account into our database with this email: ${this.state.email}` 
             && resData.message !== 'successful login') {
 
-                this.setState({ message: '' });
+                this.setState({ message: null });
 
             };
 
@@ -74,7 +80,13 @@ class Login extends Component {
             this.setState({ loading: false });
             console.log(err);
 
-        })   
+        })
+
+    }
+
+    componentDidMount() {
+
+        this.fetchData();
 
     }
 
