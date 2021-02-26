@@ -24,6 +24,12 @@ exports.signup = async (req, res, next) => {
 
         }
 
+        if(!email.isValid()) {
+
+            return res.status(422).json({ message: 'invalid email' });
+
+        }
+
         // checking if the user wrote the password requested (double check so that we do not need to send a "change password" email)
         if(password !== confirmPassword) {
 
@@ -31,12 +37,11 @@ exports.signup = async (req, res, next) => {
 
         }
 
-        // getting any other errors that we might occur (name and email)
-        if(!errors.isEmpty()) {
+        if(name.length === 0) {
 
-            return res.status(422).json({ message: 'validation failed, please check email and name' });
-    
-        };
+            return res.status(422).json({ message: 'please enter your name' });
+
+        }
 
         // hashing password
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -59,11 +64,11 @@ exports.signup = async (req, res, next) => {
 
         // saving user and sending a response
         const savedUser = await user.save();
+
         return res.status(201).json({ message: 'user created', userId: savedUser._id.toString() });
 
     } catch (err) {
 
-        // going to error middleware in case of errors
         console.log(err);
 
     }

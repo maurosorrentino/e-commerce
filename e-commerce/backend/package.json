@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "jest --testTimeout=10000 --detectOpenHandles"
+    "test": "jest --testTimeout=30000 --detectOpenHandles"
   },
   "author": "",
   "license": "ISC",
