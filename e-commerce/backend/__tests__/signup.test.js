@@ -90,7 +90,7 @@ describe('Signup errors', () => {
         const response = await put("/auth/signup", req.body);
 
         expect(response.status).toBe(422);
-        expect(response.body.message).toBe('validation failed, please check email and name');
+        expect(response.body.message).toBe('please enter your name');
         done();
 
     });
@@ -113,7 +113,7 @@ describe('Signup errors', () => {
         const response = await put('/auth/signup', req.body);
 
         expect(response.status).toBe(422);
-        expect(response.body.message).toEqual('validation failed, please check email and name');
+        expect(response.body.message).toEqual('Invalid email: please enter a valid email');
         done();
 
     });

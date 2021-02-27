@@ -14,6 +14,14 @@ exports.signup = async (req, res, next) => {
         const confirmPassword = req.body.confirmPassword;
         const name = req.body.name;
 
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        
+        if(!email.match(emailRegex)) {
+
+            res.status(422).json({ message: 'Invalid email: please enter a valid email' });
+
+        }
+
         // checking if there is already an user with the same email
         const userExists = await User.findOne({ email });
 
@@ -21,12 +29,6 @@ exports.signup = async (req, res, next) => {
         if(userExists) {
 
             return res.status(409).json({ message: `user ${email} already exists` });
-
-        }
-
-        if(!email.isValid()) {
-
-            return res.status(422).json({ message: 'invalid email' });
 
         }
 
