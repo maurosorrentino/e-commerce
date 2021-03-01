@@ -2,6 +2,8 @@ const User = require('../models/user');
 const Item = require('../models/item');
 
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const path = require('path');
 
 // signup controller
 exports.signup = async (req, res, next) => {
@@ -18,7 +20,7 @@ exports.signup = async (req, res, next) => {
         
         if(!email.match(emailRegex)) {
 
-            res.status(422).json({ message: 'Invalid email: please enter a valid email' });
+            res.status(422).json({ message: 'Invalid email' });
 
         }
 
@@ -106,15 +108,23 @@ exports.login = async (req, res, next) => {
 
         }
 
-        const userId = user._id;
+        const userId = user._id.toString();
+
+        const token = jwt.sign({
+
+            email,
+            userId,
+
+        }, 'someSuperSecretIntoNode', { expiresIn: '24h' }); // remember to change it!!!
 
         // if password and email matches we will authenticate
         await User.findById(userId)
 
             .then(() => {
-
+        
                 req.session.isAuth = true;
                 req.session.user = user;
+                res.cookie('XSRF-TOKEN', token, { maxAge: 3600000 * 24, httpOnly: true, path: '/' }); // remember to change it!!!!
                 
                 // saving the session
                 req.session.save(err => next(err));
@@ -123,7 +133,7 @@ exports.login = async (req, res, next) => {
 
             .catch(err => next(err));
 
-        res.status(200).json({ message: 'successful login' });
+        return res.status(200).json({ message: 'successful login' });
 
     } catch (err) {
 
@@ -137,9 +147,6 @@ exports.createItem = async (req, res, next) => {
 
     try {
 
-        // debugging
-        console.log(req.session);
-
         // if user is not logged in we throw an error
         if(!req.session.isAuth) {
 
@@ -151,7 +158,8 @@ exports.createItem = async (req, res, next) => {
         const title = req.body.title;
         const description = req.body.description;
         const price = req.body.price;
-        // const image = req.file.path.replace("\\", "/");
+        const image = req.body.image; //.path.replace("\\", "/");
+        // console.log(image)
 
         // getting the id of the user so that we can assign it to the item
         const userId = req.session.user._id;
@@ -176,13 +184,12 @@ exports.createItem = async (req, res, next) => {
             return res.status(422).json({ message: 'Price cannot be less or equal to 0' });
 
         };
-/* 
+ 
         if(!image) {
-            const error = new Error('An image needs to be uploaded');
-            error.data = errors.array();
-            error.statusCode = 422;
-            throw error;
-        }; */
+            
+            return res.status(404).json({ message: 'you need to upload an image' });
+
+        };  
 
         // if we pass all these steps (so there is no error) we create the item
         const item = new Item({
@@ -190,7 +197,7 @@ exports.createItem = async (req, res, next) => {
             title,
             description,
             price,
-            //image,
+            image,
             userId,
 
         });
@@ -198,7 +205,7 @@ exports.createItem = async (req, res, next) => {
         // saving the file
         const itemSave = await item.save();
 
-        res.status(200).json({ message: 'item was created', item: itemSave });
+        return res.status(200).json({ message: 'item was created', item: itemSave });
 
 
     } catch (err) {

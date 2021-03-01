@@ -58,7 +58,7 @@ class Signup extends Component {
         switch(fieldName) {
 
             case 'email':
-                emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+                emailValid = value.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
                 fieldValidationErrors.email = emailValid ? '' : 'please enter a valid email';
                 break;
 
@@ -100,12 +100,16 @@ class Signup extends Component {
 
     }
 
-    // connecting react with node in order to have a connection between the client side and the database
-    signupHandler = async e => {
+    signupHandler = e => {
 
         e.preventDefault();
+        this.setState({ loading: true });
+        this.fetchData();
 
-        this.setState({ loading: true })
+    }
+
+    // connecting react with node in order to have a connection between the client side and the database
+    fetchData = async () => {
 
         await fetch(`http://localhost:8090/auth/signup`, {
 
@@ -146,7 +150,7 @@ class Signup extends Component {
 
         .catch(err => {
             
-            this.setState({ loading: false, message: err });
+            this.setState({ loading: false });
             console.log(err);
         
         });

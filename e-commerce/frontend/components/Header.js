@@ -89,8 +89,6 @@ export default function Header() {
 
       </div>
 
-      <h1>Cart</h1>
-
     </StyledHeader>
 
 )

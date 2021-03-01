@@ -8,14 +8,21 @@ import MessageStyles from '../components/styles/MessageStyles';
 
 class Sell extends Component {
 
-    state = {
+    constructor(props) {
+        super(props)
 
-        title: '',
-        price: 0,
-        description: '',
-        image: '',
-        loading: false,
-        message: null,
+        this.state = {
+
+            title: 'aaaaaaaaaa',
+            price: 6666,
+            description: 'aaaaaaaa',
+            image: '',
+            loading: false,
+            message: null,
+    
+        } 
+
+        this.fetchData = this.fetchData.bind(this);
 
     }
 
@@ -26,12 +33,16 @@ class Sell extends Component {
 
     }
 
-    // connecting react with node in order to have a connection between the client side and the database
-    handleSubmit = async e => {
+    handleSumbit = e => {
 
         e.preventDefault();
-
         this.setState({ loading: true });
+        this.fetchData();
+
+    }
+
+    // connecting react with node in order to have a connection between the client side and the database
+    fetchData = async () => {
 
         await fetch(`http://localhost:8090/auth/sell`, {
 
@@ -63,7 +74,7 @@ class Sell extends Component {
 
         })
 
-        .then(resData => { console.log(resData);
+        .then(resData => { 
 
             this.setState({ loading: false, message: resData.message });
 
@@ -71,10 +82,16 @@ class Sell extends Component {
 
         .catch(err => {
 
-            this.setState({ loading: false, message: err });
+            this.setState({ loading: false });
             console.log(err);
 
         })
+
+    }
+
+    async componentDidMount() {
+
+        await this.fetchData();
 
     }
 
@@ -96,7 +113,9 @@ class Sell extends Component {
 
                     <h1>{this.state.loading ? 'Creating An Item' : 'Create An Item'}</h1>
 
-                    <input type="hidden" name="_csrf" value={cookie.load('connect.sid')} />
+                    {/* checking if cookies are present */}
+                    <input type="hidden" name="cookie" value={cookie.load('XSRF-TOKEN')} />
+                    <input type="hidden" name="cookie" value={cookie.load('connect.sid')} />
 
                     <label htmlFor="title">
 
@@ -137,7 +156,8 @@ class Sell extends Component {
 
                         <input
 
-                            name="file"
+                            type="file"
+                            name="image"
                             id="image-test"
                             placeholder="upload an image"
                             value={this.state.image}

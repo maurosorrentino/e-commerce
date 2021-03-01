@@ -113,7 +113,7 @@ describe('Signup errors', () => {
         const response = await put('/auth/signup', req.body);
 
         expect(response.status).toBe(422);
-        expect(response.body.message).toEqual('Invalid email: please enter a valid email');
+        expect(response.body.message).toEqual('Invalid email');
         done();
 
     });

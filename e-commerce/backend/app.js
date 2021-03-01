@@ -2,15 +2,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const http = require('http');
-const multer = require('multer');
-const { v4: uuidv4 } = require('uuid'); // with multer we need to install also this for the filename if we are using windows
-const path = require('path');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
+const formidable = require('formidable');
+const fs = require('fs');
+const path = require('path');
 
 const User = require('./models/user');
 const authRoutes = require('./routes/auth');
+const shopRoutes = require('./routes/shop');
 
 const MONGODB_URL = 'mongodb+srv://mauro:Gliuccellivolano95!@cluster0.kyrqs.mongodb.net/shop';
 
@@ -29,11 +30,11 @@ const store = new MongoDBStore({
 const server = http.createServer(app);
 
 // handling image uploads with multer (declaring storage folder and file name)
-const storage = multer.diskStorage({
+/* const storage = multer.diskStorage({
 
     destination: (req, file, cb) => {
 
-        cb(null, 'images');
+        cb(null, 'images/');
 
     },
 
@@ -59,10 +60,11 @@ const fileFilter = (req, file, cb) => {
 
     }
 
-};
+}; */
 
-// finishing handling images with multer
+/* // finishing handling images with multer
 app.use(multer({ storage, fileFilter }).single('image'));
+ */
 
 // without this line we are not able to store the cookie
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
@@ -81,7 +83,7 @@ app.use(
         cookie: {
 
             httpOnly: true,
-            maxAge: 3600000, // 1 hour
+            maxAge: 3600000 * 24, // remember to change it!!!
             secure: false,
 
         }
@@ -90,6 +92,37 @@ app.use(
 
 );
 
+// handling images upload
+http.createServer((req, res) => {
+
+    if(req.url === 'auth/sell') {
+
+        const form = new formidable.IncomingForm();
+        form.maxFieldsSize = 10 * 1024 * 1024; // 10 mb
+
+        form.parse(req, function (err, fields, files) {
+
+            const oldPath = files.image.path;
+            const newPath = 'C:/Users/sorre/OneDrive/Desktop/projects/e-commerce/backend/images/' + files.image.name;
+
+            fs.rename(oldPath, newPath, function (err) {
+
+                if(err) {
+
+                    res.status(404).json({ message: `image could not be upload. error: ${err}` });
+
+                };
+
+                res.status(200).json({ message: 'file uploaded' });
+
+            });
+
+        });
+
+    }
+
+});
+
 // able to parse json data application/json into headers
 app.use(bodyParser.json());
 
@@ -97,17 +130,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // any request that goes to /images so that we do not need to write the whole path when uploading the image
-app.use('/images', express.static(path.join(__dirname, 'images'))); 
+// app.use('/images', express.static(path.join(__dirname, 'images')));
 
-// debugging purposes
-app.use((req, res, next) => {
-
-    console.log(req.session);
-    next();
-
-});
-
-// authenticating the user
+// finding the user
 app.use((req, res, next) => {
 
     if(!req.session.user) {
@@ -150,6 +175,9 @@ app.use((req, res, next) => {
     next();
 
 });
+
+// shop routes
+app.use(shopRoutes);
 
 // auth routes
 app.use('/auth', authRoutes);

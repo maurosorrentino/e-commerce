@@ -8,7 +8,7 @@ export default function Nav() {
 
         <NavStyle>
 
-            <Link id="shop-test" href="/">Shop</Link>
+            <Link id="shop-test" href="/shop">Shop</Link>
 
             <Link id="sell-test" href="/auth/sell">Sell</Link>
 

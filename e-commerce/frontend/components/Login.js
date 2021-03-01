@@ -1,5 +1,6 @@
 import React, { cloneElement, Component } from 'react';
 import Link from 'next/link';
+import cookie from 'react-cookies';
 
 import Form from './styles/Form';
 import MessageStyles from './styles/MessageStyles';
@@ -7,13 +8,20 @@ import Logo from './styles/Logo';
 
 class Login extends Component {
 
-    state = {
+    constructor(props) {
+        super(props)
 
-        email: '',
-        password: '',
-        message: null,
-        loading: false,
-        
+        this.state = {
+
+            email: '',
+            password: '',
+            message: null,
+            loading: false,
+            
+        }
+
+        this.fetchData = this.fetchData.bind(this);
+
     }
 
     handleInputs = e => {
@@ -55,19 +63,25 @@ class Login extends Component {
 
         })
 
-        .then(res => { console.log(res)
+        .then(res => { 
 
             return res.json();
 
         })
 
-        .then(resData => { console.log(resData)
+        .then(resData => { 
 
             this.setState({ message: resData.message, loading: false });
 
             // we only want to show the user one of these 3 messages
             if(resData.message !== 'invalid password, please try again' && resData.message !== `There is no account into our database with this email: ${this.state.email}` 
             && resData.message !== 'successful login') {
+
+                this.setState({ message: null });
+
+            };
+
+            if(this.state.email === '') {
 
                 this.setState({ message: null });
 
@@ -84,9 +98,9 @@ class Login extends Component {
 
     }
 
-    componentDidMount() {
-
-        this.fetchData();
+    async componentDidMount() {
+        
+        await this.fetchData();
 
     }
 

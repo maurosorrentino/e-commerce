@@ -47,7 +47,7 @@ const Form = styled.form`
     width: 100%;
     padding: 0.5rem;
     font-size: 1rem;
-    text-align: center;
+    text-align-last: center;
     border: 1px solid black;
 
   }
