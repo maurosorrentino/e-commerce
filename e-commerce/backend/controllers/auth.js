@@ -3,7 +3,6 @@ const Item = require('../models/item');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const path = require('path');
 
 // signup controller
 exports.signup = async (req, res, next) => {
@@ -16,7 +15,7 @@ exports.signup = async (req, res, next) => {
         const confirmPassword = req.body.confirmPassword;
         const name = req.body.name;
 
-        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        const emailRegex = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
         
         if(!email.match(emailRegex)) {
 
@@ -30,20 +29,20 @@ exports.signup = async (req, res, next) => {
         // if user already exists we throw an error
         if(userExists) {
 
-            return res.status(409).json({ message: `user ${email} already exists` });
+            res.status(409).json({ message: `user ${email} already exists` });
 
         }
 
         // checking if the user wrote the password requested (double check so that we do not need to send a "change password" email)
         if(password !== confirmPassword) {
 
-            return res.status(403).json({ message: 'passwords do not match' });
+            res.status(403).json({ message: 'passwords do not match' });
 
         }
 
         if(name.length === 0) {
 
-            return res.status(422).json({ message: 'please enter your name' });
+            res.status(422).json({ message: 'please enter your name' });
 
         }
 
@@ -69,7 +68,7 @@ exports.signup = async (req, res, next) => {
         // saving user and sending a response
         const savedUser = await user.save();
 
-        return res.status(201).json({ message: 'user created', userId: savedUser._id.toString() });
+        res.status(201).json({ message: 'user created', userId: savedUser._id.toString() });
 
     } catch (err) {
 
@@ -94,7 +93,7 @@ exports.login = async (req, res, next) => {
         // if there is no account we throw an error
         if(!user) {
 
-            return res.status(404).json({ message: `There is no account into our database with this email: ${email}` });
+            res.status(404).json({ message: `There is no account into our database with this email: ${email}` });
 
         }
 
@@ -104,7 +103,7 @@ exports.login = async (req, res, next) => {
         // if passwords do not match we throw an error
         if(!isEqual) {
 
-            return res.status(401).json({ message: 'invalid password, please try again' });
+            res.status(401).json({ message: 'invalid password, please try again' });
 
         }
 
@@ -133,7 +132,7 @@ exports.login = async (req, res, next) => {
 
             .catch(err => next(err));
 
-        return res.status(200).json({ message: 'successful login' });
+        res.status(200).json({ message: 'successful login' });
 
     } catch (err) {
 
@@ -150,7 +149,7 @@ exports.createItem = async (req, res, next) => {
         // if user is not logged in we throw an error
         if(!req.session.isAuth) {
 
-            return res.status(401).json({ message: 'You cannot take this action, please login' });
+            res.status(401).json({ message: 'You cannot take this action, please login' });
 
         }
 
@@ -167,21 +166,21 @@ exports.createItem = async (req, res, next) => {
         // if title is less than 3 characters we throw an error
         if(title.length < 3) {
 
-            return res.status(422).json({ message: 'Title needs to be at least 3 characters' });
+            res.status(422).json({ message: 'Title needs to be at least 3 characters' });
 
         };
 
         // if description is less than 5 characters we throw an error
         if(description.length < 5) {
 
-            return res.status(422).json({ message: 'Description needs to be at least 5 characters' });
+            res.status(422).json({ message: 'Description needs to be at least 5 characters' });
 
         };
 
         // if price is equal or less than 0 we throw an error
         if(price <= 0) {
 
-            return res.status(422).json({ message: 'Price cannot be less or equal to 0' });
+            res.status(422).json({ message: 'Price cannot be less or equal to 0' });
 
         };
  
@@ -190,7 +189,7 @@ exports.createItem = async (req, res, next) => {
             return res.status(404).json({ message: 'you need to upload an image' });
 
         };  
-
+ 
         // if we pass all these steps (so there is no error) we create the item
         const item = new Item({
 
@@ -205,7 +204,7 @@ exports.createItem = async (req, res, next) => {
         // saving the file
         const itemSave = await item.save();
 
-        return res.status(200).json({ message: 'item was created', item: itemSave });
+        res.status(200).json({ message: 'item was created', item: itemSave });
 
 
     } catch (err) {

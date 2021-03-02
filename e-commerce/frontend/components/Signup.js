@@ -58,7 +58,7 @@ class Signup extends Component {
         switch(fieldName) {
 
             case 'email':
-                emailValid = value.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
+                emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
                 fieldValidationErrors.email = emailValid ? '' : 'please enter a valid email';
                 break;
 

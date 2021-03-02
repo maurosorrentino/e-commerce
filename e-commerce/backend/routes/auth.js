@@ -20,6 +20,6 @@ router.put('/signup', [
 router.post('/login', authController.login);
 
 // create item route
-router.post('/sell', authController.createItem);
+router.put('/sell', authController.createItem);
 
 module.exports = router;

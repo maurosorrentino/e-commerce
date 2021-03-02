@@ -121,7 +121,7 @@ http.createServer((req, res) => {
 
     }
 
-});
+}); 
 
 // able to parse json data application/json into headers
 app.use(bodyParser.json());
@@ -178,7 +178,7 @@ app.use((req, res, next) => {
 
 // shop routes
 app.use(shopRoutes);
-
+ 
 // auth routes
 app.use('/auth', authRoutes);
 

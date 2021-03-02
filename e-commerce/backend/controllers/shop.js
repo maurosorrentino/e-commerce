@@ -4,7 +4,7 @@ exports.getItems = async (req, res, next) => {
 
     // pagination
     const currentPage = req.query.page || 1;
-    const perPage = 2;
+    const perPage = 8;
     let totalItems;
 
     try {

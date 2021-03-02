@@ -8,21 +8,14 @@ import MessageStyles from '../components/styles/MessageStyles';
 
 class Sell extends Component {
 
-    constructor(props) {
-        super(props)
+    state = {
 
-        this.state = {
-
-            title: 'aaaaaaaaaa',
-            price: 6666,
-            description: 'aaaaaaaa',
-            image: '',
-            loading: false,
-            message: null,
-    
-        } 
-
-        this.fetchData = this.fetchData.bind(this);
+        title: '',
+        price: 0,
+        description: '',
+        image: '',
+        loading: false,
+        message: null,
 
     }
 
@@ -33,20 +26,16 @@ class Sell extends Component {
 
     }
 
-    handleSumbit = e => {
+    // connecting react with node in order to have a connection between the client side and the database
+    handleSubmit = async e => {
 
         e.preventDefault();
+
         this.setState({ loading: true });
-        this.fetchData();
-
-    }
-
-    // connecting react with node in order to have a connection between the client side and the database
-    fetchData = async () => {
 
         await fetch(`http://localhost:8090/auth/sell`, {
 
-            method: 'POST',
+            method: 'PUT',
 
             headers: {
 
@@ -74,7 +63,7 @@ class Sell extends Component {
 
         })
 
-        .then(resData => { 
+        .then(resData => { console.log(resData);
 
             this.setState({ loading: false, message: resData.message });
 
@@ -82,16 +71,10 @@ class Sell extends Component {
 
         .catch(err => {
 
-            this.setState({ loading: false });
+            this.setState({ loading: false, message: err });
             console.log(err);
 
         })
-
-    }
-
-    async componentDidMount() {
-
-        await this.fetchData();
 
     }
 
@@ -113,9 +96,7 @@ class Sell extends Component {
 
                     <h1>{this.state.loading ? 'Creating An Item' : 'Create An Item'}</h1>
 
-                    {/* checking if cookies are present */}
-                    <input type="hidden" name="cookie" value={cookie.load('XSRF-TOKEN')} />
-                    <input type="hidden" name="cookie" value={cookie.load('connect.sid')} />
+                    <input type="hidden" name="_csrf" value={cookie.load('connect.sid')} />
 
                     <label htmlFor="title">
 

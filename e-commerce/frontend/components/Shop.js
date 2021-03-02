@@ -11,7 +11,6 @@ class Shop extends Component {
 
         this.state = {
 
-            message: '',
             items: [],
     
         }    
@@ -43,7 +42,7 @@ class Shop extends Component {
 
         .then(resData => {
 
-            this.setState({ message: resData.message, items: resData.items.map(item => {
+            this.setState({ items: resData.items.map(item => {
 
                 return(
 <>
