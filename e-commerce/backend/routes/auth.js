@@ -16,10 +16,10 @@ router.put('/signup', [
 
 ], authController.signup);
 
-// login route
+// login route (validation is into the controller so that I don't need to write more code on the client side in order to show the user what's wrong)
 router.post('/login', authController.login);
 
-// create item route
+// create item route (validation is into the controller so that I don't need to write more code on the client side in order to show the user what's wrong)
 router.put('/sell', authController.createItem);
 
 module.exports = router;

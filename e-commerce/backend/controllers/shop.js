@@ -4,7 +4,7 @@ exports.getItems = async (req, res, next) => {
 
     // pagination
     const currentPage = req.query.page || 1;
-    const perPage = 8;
+    const perPage = 10;
     let totalItems;
 
     try {
@@ -15,12 +15,12 @@ exports.getItems = async (req, res, next) => {
         // finding the items
         const items = await Item.find()
  
-            // pagination
+            // pagination (controlling how many items are shown into the page)
             .skip((currentPage - 1) * perPage)
             .limit(perPage) 
 
             // sending res with the items so that we can fetch it on the client side
-            return res.status(200).json({
+            res.status(200).json({
 
                 message: 'fetched items',
                 items,

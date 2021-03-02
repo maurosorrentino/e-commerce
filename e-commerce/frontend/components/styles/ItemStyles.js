@@ -2,27 +2,27 @@ import styled from 'styled-components';
 
 const ItemStyle = styled.div`
 
-  margin: 1rem;
-  background: lightgreen;
-  opacity: 0.6;
-  border-radius: 10px;
-  border: 5px solid greenyellow;
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.02);
+  border: 5px solid white;
+  padding: 20px;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  font-weight: 600;
   text-align: center;
+  margin: 2rem;
 
   img {
 
     width: 100%;
-    height: 200px;
+    height: 400px;
     object-fit: cover;
 
   }
 
   p {
 
-    font-size: 12px;
+    font-size: 10px;
     line-height: .3;
     font-weight: 300;
     flex-grow: 1;
@@ -33,6 +33,7 @@ const ItemStyle = styled.div`
   h1 {
 
     text-transform: uppercase;
+    font-size: 2rem;
 
   }
 

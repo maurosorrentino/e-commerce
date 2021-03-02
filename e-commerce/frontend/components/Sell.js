@@ -71,7 +71,7 @@ class Sell extends Component {
 
         .catch(err => {
 
-            this.setState({ loading: false, message: err });
+            this.setState({ loading: false });
             console.log(err);
 
         })
@@ -97,6 +97,7 @@ class Sell extends Component {
                     <h1>{this.state.loading ? 'Creating An Item' : 'Create An Item'}</h1>
 
                     <input type="hidden" name="_csrf" value={cookie.load('connect.sid')} />
+                    <input type="hidden" name="_csrf" value={cookie.load('XSRF-TOKEN')} />
 
                     <label htmlFor="title">
 

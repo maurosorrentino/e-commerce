@@ -17,9 +17,10 @@ exports.signup = async (req, res, next) => {
 
         const emailRegex = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
         
+        // checking if email is valid with regex
         if(!email.match(emailRegex)) {
 
-            res.status(422).json({ message: 'Invalid email' });
+            return res.status(422).json({ message: 'Invalid email' });
 
         }
 
@@ -29,27 +30,28 @@ exports.signup = async (req, res, next) => {
         // if user already exists we throw an error
         if(userExists) {
 
-            res.status(409).json({ message: `user ${email} already exists` });
+            return res.status(409).json({ message: `user ${email} already exists` });
 
         }
 
         // checking if the user wrote the password requested (double check so that we do not need to send a "change password" email)
         if(password !== confirmPassword) {
 
-            res.status(403).json({ message: 'passwords do not match' });
+            return res.status(403).json({ message: 'passwords do not match' });
 
         }
 
+        // checking if the name is empty
         if(name.length === 0) {
 
-            res.status(422).json({ message: 'please enter your name' });
+            return res.status(422).json({ message: 'please enter your name' });
 
         }
 
         // hashing password
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        // creating user
+        // creating user with hashed password into the db
         const user = new User({
 
             name,
@@ -68,11 +70,17 @@ exports.signup = async (req, res, next) => {
         // saving user and sending a response
         const savedUser = await user.save();
 
-        res.status(201).json({ message: 'user created', userId: savedUser._id.toString() });
+        return res.status(201).json({ message: 'user created', userId: savedUser._id.toString() });
 
     } catch (err) {
-
+        
         console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
 
     }
 
@@ -93,22 +101,23 @@ exports.login = async (req, res, next) => {
         // if there is no account we throw an error
         if(!user) {
 
-            res.status(404).json({ message: `There is no account into our database with this email: ${email}` });
+            return res.status(404).json({ message: `There is no account into our database with this email: ${email}` });
 
         }
 
-        // checking if the password matchees the one that we have into our database
+        // checking if the password matches the one that we have into our database
         const isEqual = await bcrypt.compare(password, user.password);
 
         // if passwords do not match we throw an error
         if(!isEqual) {
 
-            res.status(401).json({ message: 'invalid password, please try again' });
+            return res.status(401).json({ message: 'invalid password, please try again' });
 
         }
 
         const userId = user._id.toString();
 
+        // signing a token
         const token = jwt.sign({
 
             email,
@@ -116,7 +125,7 @@ exports.login = async (req, res, next) => {
 
         }, 'someSuperSecretIntoNode', { expiresIn: '24h' }); // remember to change it!!!
 
-        // if password and email matches we will authenticate
+        // if password and email matches we will authenticate by creating a session and storing the token into the cookie
         await User.findById(userId)
 
             .then(() => {
@@ -132,11 +141,17 @@ exports.login = async (req, res, next) => {
 
             .catch(err => next(err));
 
-        res.status(200).json({ message: 'successful login' });
+        return res.status(200).json({ message: 'successful login' });
 
     } catch (err) {
 
         console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
 
     }
 
@@ -166,31 +181,32 @@ exports.createItem = async (req, res, next) => {
         // if title is less than 3 characters we throw an error
         if(title.length < 3) {
 
-            res.status(422).json({ message: 'Title needs to be at least 3 characters' });
+            return res.status(422).json({ message: 'Title needs to be at least 3 characters' });
 
         };
 
         // if description is less than 5 characters we throw an error
         if(description.length < 5) {
 
-            res.status(422).json({ message: 'Description needs to be at least 5 characters' });
+            return res.status(422).json({ message: 'Description needs to be at least 5 characters' });
 
         };
 
         // if price is equal or less than 0 we throw an error
         if(price <= 0) {
 
-            res.status(422).json({ message: 'Price cannot be less or equal to 0' });
+            return res.status(422).json({ message: 'Price cannot be less or equal to 0' });
 
         };
  
+        // if there is no image we throw an error
         if(!image) {
             
             return res.status(404).json({ message: 'you need to upload an image' });
 
         };  
  
-        // if we pass all these steps (so there is no error) we create the item
+        // if we pass all these steps (so there is no error) we create the item into the db
         const item = new Item({
 
             title,
@@ -201,15 +217,21 @@ exports.createItem = async (req, res, next) => {
 
         });
 
-        // saving the file
+        // saving the file and sending res
         const itemSave = await item.save();
 
-        res.status(200).json({ message: 'item was created', item: itemSave });
+        return res.status(200).json({ message: 'item was created', item: itemSave });
 
 
     } catch (err) {
 
         console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
 
     }
 

@@ -5,7 +5,7 @@ const http = require('http');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
-const formidable = require('formidable');
+const busboy = require('connect-busboy');
 const fs = require('fs');
 const path = require('path');
 
@@ -17,7 +17,7 @@ const MONGODB_URL = 'mongodb+srv://mauro:Gliuccellivolano95!@cluster0.kyrqs.mong
 
 const app = express();
 
-// setting up the sessions
+// setting up the sessions into the db
 const store = new MongoDBStore({
 
     uri: MONGODB_URL,
@@ -25,7 +25,7 @@ const store = new MongoDBStore({
 
 });
 
-// I am declaring the server like this instead of app.listen because otherwise the tests won't work (also exporting the app into another file didn't work so 
+// I am declaring the server like this instead of app.listen because otherwise the tests won't work (I'm using supertest and also exporting the app into another file didn't work so 
 // I came up with this solution (closing the port after each test))
 const server = http.createServer(app);
 
@@ -92,18 +92,21 @@ app.use(
 
 );
 
+// any request that goes to /images so that we do not need to write the whole path when uploading the image
+// app.use('/images', express.static(path.join(__dirname, 'images')));
+
 // handling images upload
-http.createServer((req, res) => {
+/* http.createServer((req, res) => {
 
     if(req.url === 'auth/sell') {
 
         const form = new formidable.IncomingForm();
-        form.maxFieldsSize = 10 * 1024 * 1024; // 10 mb
+        form.maxFieldsSize = 10 * 1024 * 1024; // maximum image size 10 mb
 
         form.parse(req, function (err, fields, files) {
 
             const oldPath = files.image.path;
-            const newPath = 'C:/Users/sorre/OneDrive/Desktop/projects/e-commerce/backend/images/' + files.image.name;
+            const newPath = 'C:/Users/sorre/OneDrive/Desktop/projects/e-commerce/backend/images' + files.image.name;
 
             fs.rename(oldPath, newPath, function (err) {
 
@@ -113,15 +116,18 @@ http.createServer((req, res) => {
 
                 };
 
-                res.status(200).json({ message: 'file uploaded' });
+                res.setHeader('Content-Type', 'application/json');
+                res.json({ fields, files, });
 
             });
 
         });
 
-    }
+        return;
 
-}); 
+    } 
+
+}); */
 
 // able to parse json data application/json into headers
 app.use(bodyParser.json());
@@ -129,10 +135,33 @@ app.use(bodyParser.json());
 // parsing the body (this line is needed for the sessions to work)
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// any request that goes to /images so that we do not need to write the whole path when uploading the image
-// app.use('/images', express.static(path.join(__dirname, 'images')));
+// handling images upload
+app.use(busboy());
 
-// finding the user
+app.put('/auth/sell', function (req, res) {
+
+    let fstream;
+
+    req.pipe(req.busboy);
+
+    req.busboy.on('image', function (fieldname, file, filename) {
+
+        console.log('Uploading' + filename);
+        fstream = fs.createWriteStream(__dirname + '/images/' + filename);
+
+        file.pipe(fstream);
+
+        fstream.on('close', function () {
+
+            console.log('file uploaded');
+
+        });
+
+    });
+
+});
+
+// finding the user and if we do not find it we go to the next middleware
 app.use((req, res, next) => {
 
     if(!req.session.user) {

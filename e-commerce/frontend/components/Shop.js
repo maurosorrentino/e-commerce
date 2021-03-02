@@ -49,7 +49,7 @@ class Shop extends Component {
 
                     <ItemStyle>
 
-                        <h1>Title</h1>
+                        <h1>title</h1>
                         <p>{item.title}</p>
 
                         <img alt={item.title} src={item.image}></img>
