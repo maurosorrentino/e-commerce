@@ -18,4 +18,4 @@ const MessageStyles = styled.div`
 
 `;
 
-module.exports = MessageStyles;
+export default MessageStyles;

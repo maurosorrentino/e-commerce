@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
 import cookie from 'react-cookies';
+import FormData from 'form-data';
 
 import Form from './styles/Form';
 import Logo from '../components/styles/Logo';
@@ -13,7 +14,7 @@ class Sell extends Component {
         title: '',
         price: 0,
         description: '',
-        image: '',
+        image: null,
         loading: false,
         message: null,
 
@@ -25,6 +26,37 @@ class Sell extends Component {
         this.setState({ [e.target.name] : e.target.value });
 
     }
+
+    handleImageUpload = async e => {
+
+        this.setState({ [e.target.name ]: e.target.value });
+
+        const imageFile = document.getElementById('image-test');
+        const files = imageFile.files;
+
+        // debugging purposes
+        console.log('Image file: ', files[0]);
+
+        const formData = new FormData();
+        formData.append('file', files[0]);
+        formData.append('upload_preset', 'qfhsqrkq');
+
+        return await fetch('https://api.Cloudinary.com/v1_1/dqhw3ma9u/image/upload', {
+
+            method: 'POST',
+            body: formData,
+
+        })
+
+            .then(res => res.json())
+            .then(res => {
+
+                this.setState({ image: res.secure_url });
+
+            })
+            .catch(err => console.log(err));
+
+    };
 
     // connecting react with node in order to have a connection between the client side and the database
     handleSubmit = async e => {
@@ -94,10 +126,10 @@ class Sell extends Component {
 
                 <fieldset aria-busy={this.state.loading} disabled={this.state.loading}>
 
-                    <h1>{this.state.loading ? 'Creating An Item' : 'Create An Item'}</h1>
+                    <h1>Creat{this.state.loading ? 'ing An Item' : 'e An Item'}</h1>
 
-                    <input type="hidden" name="_csrf" value={cookie.load('connect.sid')} />
-                    <input type="hidden" name="_csrf" value={cookie.load('XSRF-TOKEN')} />
+                    <input type="hidden" name="cookie" value={cookie.load('connect.sid')} />
+                    <input type="hidden" name="token" value={cookie.load('XSRF-TOKEN')} />
 
                     <label htmlFor="title">
 
@@ -142,12 +174,18 @@ class Sell extends Component {
                             name="image"
                             id="image-test"
                             placeholder="upload an image"
-                            value={this.state.image}
-                            onChange={this.handleInputs}
+                            onChange={this.handleImageUpload}
 
                         />
 
                     </label>
+
+                    {/* showing preview */}
+                    {this.state.image && (
+
+                        <img src={this.state.image} alt={this.state.title} width="300" />
+
+                    )}
 
                     <label htmlFor="description">
 

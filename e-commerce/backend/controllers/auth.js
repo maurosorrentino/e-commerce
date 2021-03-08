@@ -74,13 +74,14 @@ exports.signup = async (req, res, next) => {
 
     } catch (err) {
         
-        console.log(err);
-
         if(!err.statusCode) {
 
             err.statusCode = 500;
+            console.log(err);
 
         }
+
+        console.log(err);
 
     }
 
@@ -123,7 +124,7 @@ exports.login = async (req, res, next) => {
             email,
             userId,
 
-        }, 'someSuperSecretIntoNode', { expiresIn: '24h' }); // remember to change it!!!
+        }, 'someSuperSecretIntoNode', { expiresIn: '8760h' }); // remember to change it!!!
 
         // if password and email matches we will authenticate by creating a session and storing the token into the cookie
         await User.findById(userId)
@@ -132,7 +133,7 @@ exports.login = async (req, res, next) => {
         
                 req.session.isAuth = true;
                 req.session.user = user;
-                res.cookie('XSRF-TOKEN', token, { maxAge: 3600000 * 24, httpOnly: true, path: '/' }); // remember to change it!!!!
+                res.cookie('XSRF-TOKEN', token, { maxAge: 3600000 * 24 * 365, httpOnly: true, path: '/' }); // remember to change it!!!!
                 
                 // saving the session
                 req.session.save(err => next(err));
@@ -145,13 +146,14 @@ exports.login = async (req, res, next) => {
 
     } catch (err) {
 
-        console.log(err);
-
         if(!err.statusCode) {
 
             err.statusCode = 500;
+            console.log(err);
 
         }
+
+        console.log(err);
 
     }
 
@@ -164,7 +166,7 @@ exports.createItem = async (req, res, next) => {
         // if user is not logged in we throw an error
         if(!req.session.isAuth) {
 
-            res.status(401).json({ message: 'You cannot take this action, please login' });
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
 
         }
 
@@ -172,7 +174,7 @@ exports.createItem = async (req, res, next) => {
         const title = req.body.title;
         const description = req.body.description;
         const price = req.body.price;
-        const image = req.body.image; //.path.replace("\\", "/");
+        const image = req.body.image; // path.replace("\\", "/");
         // console.log(image)
 
         // getting the id of the user so that we can assign it to the item
@@ -225,13 +227,14 @@ exports.createItem = async (req, res, next) => {
 
     } catch (err) {
 
-        console.log(err);
-
         if(!err.statusCode) {
 
             err.statusCode = 500;
+            console.log(err);
 
         }
+
+        console.log(err);
 
     }
 

@@ -46,7 +46,6 @@ class Shop extends Component {
 
                 return(
 <>
-
                     <ItemStyle>
 
                         <h1>title</h1>
