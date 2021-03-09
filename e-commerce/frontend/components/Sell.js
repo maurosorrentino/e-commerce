@@ -27,10 +27,9 @@ class Sell extends Component {
 
     }
 
-    handleImageUpload = async e => {
+    handleImageUpload = async () => {
 
-        this.setState({ [e.target.name ]: e.target.value });
-
+        // destructuring
         const imageFile = document.getElementById('image-test');
         const files = imageFile.files;
 
@@ -38,7 +37,11 @@ class Sell extends Component {
         console.log('Image file: ', files[0]);
 
         const formData = new FormData();
+
+        // getting the 1st file that we find
         formData.append('file', files[0]);
+
+        // appending cloudinary preset (folder where it will be stored the file)
         formData.append('upload_preset', 'qfhsqrkq');
 
         return await fetch('https://api.Cloudinary.com/v1_1/dqhw3ma9u/image/upload', {
@@ -49,11 +52,14 @@ class Sell extends Component {
         })
 
             .then(res => res.json())
+
             .then(res => {
 
+                // changing the state so that we can assign an url to the image
                 this.setState({ image: res.secure_url });
 
             })
+
             .catch(err => console.log(err));
 
     };
@@ -142,6 +148,7 @@ class Sell extends Component {
                             placeholder="enter a title"
                             value={this.state.title}
                             onChange={this.handleInputs}
+                            className={this.state.message === 'Title needs to be at least 3 characters' ? 'invalid' : '' }
 
                         />
 
@@ -159,6 +166,7 @@ class Sell extends Component {
                             placeholder="enter a price"
                             value={this.state.price}
                             onChange={this.handleInputs}
+                            className={this.state.message === 'Price cannot be less or equal to 0' ? 'invalid' : '' }
 
                         />
 
@@ -175,6 +183,7 @@ class Sell extends Component {
                             id="image-test"
                             placeholder="upload an image"
                             onChange={this.handleImageUpload}
+                            className={this.state.message === 'you need to upload an image' ? 'invalid' : '' }
 
                         />
 
@@ -198,6 +207,7 @@ class Sell extends Component {
                             placeholder="enter a description"
                             value={this.state.description}
                             onChange={this.handleInputs}
+                            className={this.state.message === 'Description needs to be at least 5 characters' ? 'invalid' : '' }
 
                         />
 

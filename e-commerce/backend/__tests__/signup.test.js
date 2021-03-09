@@ -149,7 +149,7 @@ describe('Signup success', () => {
         const response = await put('/auth/signup', req.body);
 
         expect(response.status).toBe(201);
-        expect(response.body.message).toBe('user created');
+        expect(response.body.message).toBe('user created, please log in');
         done();
 
     });

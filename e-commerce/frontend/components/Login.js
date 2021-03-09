@@ -134,6 +134,7 @@ class Login extends Component {
                             placeholder="enter your email"
                             value={this.state.email}
                             onChange={this.handleInputs}
+                            className={this.state.message === `There is no account into our database with this email: ${this.state.email}` ? 'invalid' : '' }
 
                         />
 
@@ -151,6 +152,7 @@ class Login extends Component {
                             placeholder="enter your password"
                             value={this.state.password}
                             onChange={this.handleInputs}
+                            className={this.state.message === 'invalid password, please try again' ? 'invalid': '' }
 
                         />
 

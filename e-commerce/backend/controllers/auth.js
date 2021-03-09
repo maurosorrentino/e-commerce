@@ -70,7 +70,7 @@ exports.signup = async (req, res, next) => {
         // saving user and sending a response
         const savedUser = await user.save();
 
-        return res.status(201).json({ message: 'user created', userId: savedUser._id.toString() });
+        return res.status(201).json({ message: 'user created, please log in', userId: savedUser._id.toString() });
 
     } catch (err) {
         
@@ -126,6 +126,9 @@ exports.login = async (req, res, next) => {
 
         }, 'someSuperSecretIntoNode', { expiresIn: '8760h' }); // remember to change it!!!
 
+        // for navigation on the client side (I use the httpOnly false cookie for authentication)
+        const weakToken = jwt.sign({}, 'anotherSuperSecret', { expiresIn: '8760h' }); // change it!!!
+
         // if password and email matches we will authenticate by creating a session and storing the token into the cookie
         await User.findById(userId)
 
@@ -134,7 +137,10 @@ exports.login = async (req, res, next) => {
                 req.session.isAuth = true;
                 req.session.user = user;
                 res.cookie('XSRF-TOKEN', token, { maxAge: 3600000 * 24 * 365, httpOnly: true, path: '/' }); // remember to change it!!!!
-                
+
+                // navigation on the client side
+                res.cookie('authCookie', weakToken, {maxAge: 3600000 * 24 * 365, httpOnly: false, path: '/' }); // change it!!!
+
                 // saving the session
                 req.session.save(err => next(err));
 
@@ -187,13 +193,6 @@ exports.createItem = async (req, res, next) => {
 
         };
 
-        // if description is less than 5 characters we throw an error
-        if(description.length < 5) {
-
-            return res.status(422).json({ message: 'Description needs to be at least 5 characters' });
-
-        };
-
         // if price is equal or less than 0 we throw an error
         if(price <= 0) {
 
@@ -207,6 +206,14 @@ exports.createItem = async (req, res, next) => {
             return res.status(404).json({ message: 'you need to upload an image' });
 
         };  
+
+        // if description is less than 5 characters we throw an error
+        if(description.length < 5) {
+
+            return res.status(422).json({ message: 'Description needs to be at least 5 characters' });
+
+        };
+
  
         // if we pass all these steps (so there is no error) we create the item into the db
         const item = new Item({

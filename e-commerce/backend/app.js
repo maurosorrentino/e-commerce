@@ -6,7 +6,6 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
 
-const User = require('./models/user');
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
 
@@ -52,46 +51,11 @@ app.use(
 
 );
 
-// any request that goes to /images so that we do not need to write the whole path when uploading the image
-// app.use('/images', express.static(path.join(__dirname, 'images')));
-
 // able to parse json data application/json into headers
 app.use(bodyParser.json());
 
 // parsing the body 
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// finding the user and if we do not find it we go to the next middleware
-app.use((req, res, next) => {
-
-    if(!req.session.user) {
-
-        return next();
-
-    }
-
-    User.findById(req.session.user._id)
-
-        .then(user => {
-
-            if(!user) {
-
-                next();
-
-            }
-            
-            req.user = user;
-            next();
-
-        })
-
-        .catch(err => {
-
-            console.log(err);
-
-        })
-
-});
 
 // avoiding cors errors
 app.use((req, res, next) => {
