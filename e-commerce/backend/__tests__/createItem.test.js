@@ -16,10 +16,13 @@ function put(url, body) {
 
 describe('create item', () => {
 
-    afterEach((done) => {
+    afterEach( async () => {
 
-        await server.close();
-        done();
+        await server.close(function () {
+
+            process.exit(0);
+            
+        });
 
     })
 

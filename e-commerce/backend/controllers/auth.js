@@ -4,6 +4,8 @@ const Item = require('../models/item');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+require('dotenv').config();
+
 // signup controller
 exports.signup = async (req, res, next) => {
 
@@ -124,10 +126,10 @@ exports.login = async (req, res, next) => {
             email,
             userId,
 
-        }, 'someSuperSecretIntoNode', { expiresIn: '8760h' }); // remember to change it!!!
+        }, process.env.TOKEN_SECRET, { expiresIn: '8760h' }); // remember to change it!!!
 
         // for navigation on the client side (I use the httpOnly false cookie for authentication)
-        const weakToken = jwt.sign({}, 'anotherSuperSecret', { expiresIn: '8760h' }); // change it!!!
+        const weakToken = jwt.sign({}, process.env.WEAK_TOKEN_SECRET, { expiresIn: '8760h' }); // change it!!!
 
         // if password and email matches we will authenticate by creating a session and storing the token into the cookie
         await User.findById(userId)

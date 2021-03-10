@@ -19,10 +19,13 @@ function put(url, body) {
 describe('Signup errors', () => {
 
     // this is needed because otherwise we will get an error saying that we are already listening to that port
-    afterEach( async (done) => {
+    afterEach( async () => {
 
-        await server.close();
-        done();
+        await server.close(function () {
+
+            process.exit(0);
+
+        });
 
     });
 
@@ -125,11 +128,14 @@ describe('Signup success', () => {
 
     // 1st line is needed because if we do not cancel this user the 2nd time that we run the test it will fail (since I'm testing if a user is able to sign up)
     // 2nd line is needed because otherwise we will get an error saying that we are already listening to that port
-    afterEach( async (done) => {
+    afterEach( async () => {
 
         await User.findOneAndRemove({ email: 'test2@test.com' });
-        await server.close();
-        done();
+        await server.close(function () {
+
+            process.exit(0);
+            
+        });
 
     })
     

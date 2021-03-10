@@ -9,7 +9,9 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
 
-const MONGODB_URL = 'mongodb+srv://mauro:Gliuccellivolano95!@cluster0.kyrqs.mongodb.net/shop';
+require('dotenv').config();
+
+const MONGODB_URL = process.env.MONGODB;
 
 const app = express();
 
@@ -37,7 +39,7 @@ app.use(
         resave: false,
         saveUninitialized: false,
         store,
-        secret: 'SomeSuperSecretIntoNode',
+        secret: process.env.SESSION_SECRET,
 
         cookie: {
 

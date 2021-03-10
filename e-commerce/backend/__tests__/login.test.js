@@ -17,10 +17,13 @@ function post(url, body) {
 describe('Login', () => {
 
     // this is needed because otherwise we will get an error saying that we are already listening to that port
-    afterEach( async (done) => {
+    afterEach( async () => {
 
-        await server.close();
-        done();
+        await server.close(function () {
+
+            process.exit(0);
+
+        });
 
     });
 
@@ -41,7 +44,7 @@ describe('Login', () => {
         const response = await post('/auth/login', req.body);
 
         expect(response.status).toBe(404);
-        expect(response.body.message).toBe('There is no account into our database with this email: testing@testingSomeRandomWordsAAAALGTHBVDDHBC.com');
+        expect(response.body.message).toBe('There is no account into our database with this email: ' + req.body.email);
         done();
 
     });
