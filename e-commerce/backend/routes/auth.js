@@ -22,4 +22,6 @@ router.post('/login', authController.login);
 // create item route (validation is into the controller so that I don't need to write more code on the client side in order to show the user what's wrong)
 router.put('/sell', authController.createItem);
 
+router.post('/logout', authController.logout);
+
 module.exports = router;

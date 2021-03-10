@@ -17,9 +17,10 @@ function post(url, body) {
 describe('Login', () => {
 
     // this is needed because otherwise we will get an error saying that we are already listening to that port
-    afterEach(async() => {
+    afterEach( async (done) => {
 
         await server.close();
+        done();
 
     });
 

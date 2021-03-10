@@ -132,7 +132,7 @@ class Sell extends Component {
 
                 <fieldset aria-busy={this.state.loading} disabled={this.state.loading}>
 
-                    <h1>Creat{this.state.loading ? 'ing An Item' : 'e An Item'}</h1>
+                    <h1>Creat{this.state.loading ? 'ing ' : 'e '}An Item</h1>
 
                     <input type="hidden" name="cookie" value={cookie.load('connect.sid')} />
                     <input type="hidden" name="token" value={cookie.load('XSRF-TOKEN')} />

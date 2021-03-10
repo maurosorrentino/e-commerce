@@ -246,3 +246,19 @@ exports.createItem = async (req, res, next) => {
     }
 
 };
+
+exports.logout = (req, res, next) => {
+
+    req.session.destroy()
+
+        .then(() => {
+
+            res.clearCookie('XSRF-TOKEN');
+            res.clearCookie('authCookie');
+            // res.clearCookie('connect.sid');
+
+        })
+
+        .catch(err => console.log(err))
+
+};
