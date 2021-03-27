@@ -136,7 +136,9 @@ exports.login = async (req, res, next) => {
 
             .then(() => {
         
+                // assigning into the session isAuth for auth purposes and all the info of the user
                 req.session.isAuth = true;
+                req.session.user = user;
 
                 // token into cookie
                 res.cookie('token', token, { maxAge: 3600000 * 24 * 365, httpOnly: true, path: '/' }); // remember to change it!!!!
