@@ -5,6 +5,7 @@ const http = require('http');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
@@ -56,6 +57,9 @@ app.use(
 // able to parse json data application/json into headers
 app.use(bodyParser.json());
 
+// parsing cookies so that we can verify the value
+app.use(cookieParser());
+
 // parsing the body 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -84,6 +88,7 @@ mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true,
     .then(() => {
 
         server.listen(8090);
+        console.log('connected to db');
 
     })
 

@@ -1,4 +1,5 @@
 const Item = require('../models/item');
+const User = require('../models/user');
 
 exports.getItems = async (req, res, next) => {
 

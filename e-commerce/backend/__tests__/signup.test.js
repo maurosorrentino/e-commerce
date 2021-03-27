@@ -1,4 +1,7 @@
 const supertest = require('supertest');
+const mongoose = require('mongoose');
+const serverDestroy = require('server-destroy');
+
 const app = require('../app');
 const server = require('../app');
 
@@ -14,152 +17,223 @@ function put(url, body) {
     httpRequest.set('Origin', 'http://localhost:8090');
     return httpRequest;
 
-}
+};
 
 describe('Signup errors', () => {
 
+    // without the following lines we will get errors like this one and others similar 
+    // error: MongooseError: Operation `users.findOneAndDelete()` buffering timed out after 10000ms
+    beforeEach( async (done) => {
+
+        await mongoose.connect(process.env.MONGODB, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+        done();
+
+    });
+
     // this is needed because otherwise we will get an error saying that we are already listening to that port
-    afterEach( async () => {
+    afterEach( async (done) => {
 
-        await server.close(function () {
-
-            process.exit(0);
-
-        });
+        await server.close();
+        done();
 
     });
 
     // there is an account with email: 'test@test.com' into the db for testing purposes
     it("shows an error and status code 409 if user already exists", async (done) => {
 
-        const req = {
+        try {
 
-            body: {
+            const req = {
 
-                email: 'test@test.com',
-                name: 'test',
-                password: '123456',
-                confirmPassword: '123456',
+                body: {
+    
+                    email: 'test@test.com',
+                    name: 'test',
+                    password: '123456',
+                    confirmPassword: '123456',
+    
+                }
+    
+            };
+    
+            const response = await put('/auth/signup', req.body);
+    
+            expect(response.status).toBe(409);
+            expect(response.body.message).toBe('user test@test.com already exists');
+            done(); 
 
-            }
+        } catch (err) {
 
-        };
+            console.log(err);
+            done();
 
-        const response = await put('/auth/signup', req.body);
-
-        expect(response.status).toBe(409);
-        expect(response.body.message).toBe('user test@test.com already exists');
-        done(); 
+        }
 
     });
 
     it("shows an error message and status code of 403 if passwords do not match", async (done) => {
 
-        const req = {
+        try {
 
-            body: {
+            const req = {
 
-                email: 'test2@test.com',
-                name: 'test',
-                password: '123456',
-                confirmPassword: '12345',
+                body: {
+    
+                    email: 'test2@test.com',
+                    name: 'test',
+                    password: '123456',
+                    confirmPassword: '12345',
+    
+                }
+    
+            };
+    
+            const response = await put('/auth/signup', req.body);
+    
+            expect(response.status).toEqual(403);
+            expect(response.body.message).toEqual('passwords do not match');
+            done();
 
-            }
+        } catch (err) {
 
-        };
-
-        const response = await put('/auth/signup', req.body);
-
-        expect(response.status).toEqual(403);
-        expect(response.body.message).toEqual('passwords do not match');
-        done();
-
-    });
-
-    it("shows an error message and status code 422 for invalid name (it cannot be empty))", async (done) => {
-
-        const req = {
-
-            body: {
-
-                email: 'test2@test.com',
-                name: '',
-                password: '12345',
-                confirmPassword: '12345',
-
-            }
+            console.log(err);
+            done();
 
         }
 
-        const response = await put("/auth/signup", req.body);
+    });
 
-        expect(response.status).toBe(422);
-        expect(response.body.message).toBe('please enter your name');
-        done();
+    it("shows an error message and status code 422 for invalid name (it cannot be empty)", async (done) => {
+
+        try {
+
+            const req = {
+
+                body: {
+    
+                    email: 'test2@test.com',
+                    name: '',
+                    password: '12345',
+                    confirmPassword: '12345',
+    
+                }
+    
+            }
+    
+            const response = await put("/auth/signup", req.body);
+    
+            expect(response.status).toBe(422);
+            expect(response.body.message).toBe('please enter your name');
+            done();
+
+        } catch (err) {
+
+            console.log(err);
+            done();
+
+        }
 
     });
 
     it("shows an error message and status code 422 for invalid email", async (done) => {
 
-        const req = {
+        try {
 
-            body: {
+            const req = {
 
-                email: 'test',
-                name: 'test',
-                password: '12345',
-                confirmPassword: '12345',
+                body: {
+    
+                    email: 'test',
+                    name: 'test',
+                    password: '12345',
+                    confirmPassword: '12345',
+    
+                }
+    
+            };
+    
+            const response = await put('/auth/signup', req.body);
+    
+            expect(response.status).toBe(422);
+            expect(response.body.message).toEqual('Invalid email');
+            done();
 
-            }
+        } catch (err) {
 
-        };
+            console.log(err);
+            done();
 
-        const response = await put('/auth/signup', req.body);
-
-        expect(response.status).toBe(422);
-        expect(response.body.message).toEqual('Invalid email');
-        done();
+        }
 
     });
+
+    // without these lines we will get "You are trying to `import` a file after the Jest environment has been torn down"
+    afterAll( async () => {
+
+        await mongoose.connection.close();
+        
+    })
 
 });
 
 describe('Signup success', () => {
 
+    // without the following lines we will get errors like this one and others similar 
+    // error: MongooseError: Operation `users.findOneAndDelete()` buffering timed out after 10000ms
+    beforeEach( async (done) => {
+
+        await mongoose.connect(process.env.MONGODB, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+        done();
+
+    });
+
     // 1st line is needed because if we do not cancel this user the 2nd time that we run the test it will fail (since I'm testing if a user is able to sign up)
     // 2nd line is needed because otherwise we will get an error saying that we are already listening to that port
-    afterEach( async () => {
+    afterEach( async (done) => {
 
-        await User.findOneAndRemove({ email: 'test2@test.com' });
-        await server.close(function () {
-
-            process.exit(0);
-            
-        });
+        await User.findOneAndDelete({ email: 'test2@test.com' });
+        await server.close();
+        done();
 
     })
     
     it("shows a confirm message that user was created and status code 201 if all the inputs are fine", async (done) => {
 
-        const req = {
+        try {
 
-            body: {
+            const req = {
 
-                email: 'test2@test.com',
-                name: 'test',
-                password: '12345',
-                confirmPassword: '12345',
-
+                body: {
+    
+                    email: 'test2@test.com',
+                    name: 'test',
+                    password: '12345',
+                    confirmPassword: '12345',
+    
+                }
+    
             }
+    
+            const response = await put('/auth/signup', req.body);
+    
+            expect(response.status).toBe(201);
+            expect(response.body.message).toBe('user created, please log in');
+            done();
+
+        } catch (err) {
+
+            console.log(err);
+            done();
 
         }
 
-        const response = await put('/auth/signup', req.body);
-
-        expect(response.status).toBe(201);
-        expect(response.body.message).toBe('user created, please log in');
-        done();
-
     });
+
+    // without these lines we will get "You are trying to `import` a file after the Jest environment has been torn down"
+    afterAll( async () => {
+
+        await mongoose.connection.close();
+        
+    })
     
 });

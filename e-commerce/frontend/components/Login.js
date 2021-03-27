@@ -1,6 +1,5 @@
 import React, { cloneElement, Component } from 'react';
 import Link from 'next/link';
-import cookie from 'react-cookies';
 
 import Form from './styles/Form';
 import MessageStyles from './styles/MessageStyles';
@@ -49,6 +48,7 @@ class Login extends Component {
 
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
+                'Authorization': 'Bearer ' + this.state.token,
 
             },
 

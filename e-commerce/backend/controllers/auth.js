@@ -72,7 +72,7 @@ exports.signup = async (req, res, next) => {
         // saving user and sending a response
         const savedUser = await user.save();
 
-        return res.status(201).json({ message: 'user created, please log in', userId: savedUser._id.toString() });
+        return res.status(201).json({ message: 'user created, please log in' });
 
     } catch (err) {
         
@@ -131,20 +131,21 @@ exports.login = async (req, res, next) => {
         // for navigation on the client side (I use the httpOnly false cookie for authentication)
         const weakToken = jwt.sign({}, process.env.WEAK_TOKEN_SECRET, { expiresIn: '8760h' }); // change it!!!
 
-        // if password and email matches we will authenticate by creating a session and storing the token into the cookie
+        // if password and email matches we will authenticate by creating a session and storing the tokens into the cookies
         await User.findById(userId)
 
             .then(() => {
         
                 req.session.isAuth = true;
-                req.session.user = user;
-                res.cookie('XSRF-TOKEN', token, { maxAge: 3600000 * 24 * 365, httpOnly: true, path: '/' }); // remember to change it!!!!
 
+                // token into cookie
+                res.cookie('token', token, { maxAge: 3600000 * 24 * 365, httpOnly: true, path: '/' }); // remember to change it!!!!
+                
                 // navigation on the client side
                 res.cookie('authCookie', weakToken, {maxAge: 3600000 * 24 * 365, httpOnly: false, path: '/' }); // change it!!!
 
                 // saving the session
-                req.session.save(err => next(err));
+                req.session.save(err => console.log(err));
 
             })
 
@@ -171,7 +172,15 @@ exports.createItem = async (req, res, next) => {
 
     try {
 
-        // if user is not logged in we throw an error
+        // verifying token from httpOnly true cookie
+        const token = req.cookies.token;
+        jwt.verify(token, process.env.TOKEN_SECRET);
+
+        // verifying weak token (httpOnly: false)
+        const weakToken = req.cookies.authCookie;
+        jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
+
+        // if user has no session we throw an error
         if(!req.session.isAuth) {
 
             return res.status(401).json({ message: 'You cannot take this action, please login' });
@@ -182,8 +191,7 @@ exports.createItem = async (req, res, next) => {
         const title = req.body.title;
         const description = req.body.description;
         const price = req.body.price;
-        const image = req.body.image; // path.replace("\\", "/");
-        // console.log(image)
+        const image = req.body.image;
 
         // getting the id of the user so that we can assign it to the item
         const userId = req.session.user._id;
@@ -198,7 +206,7 @@ exports.createItem = async (req, res, next) => {
         // if price is equal or less than 0 we throw an error
         if(price <= 0) {
 
-            return res.status(422).json({ message: 'Price cannot be less or equal to 0' });
+            return res.status(422).json({ message: 'Price cannot be less or equal than 0' });
 
         };
  
@@ -228,7 +236,7 @@ exports.createItem = async (req, res, next) => {
 
         });
 
-        // saving the file and sending res
+        // saving the item and sending res
         const itemSave = await item.save();
 
         return res.status(200).json({ message: 'item was created', item: itemSave });
@@ -255,7 +263,7 @@ exports.logout = (req, res, next) => {
 
         .then(() => {
 
-            res.clearCookie('XSRF-TOKEN');
+            res.clearCookie('token');
             res.clearCookie('authCookie');
             // res.clearCookie('connect.sid');
 
@@ -264,3 +272,4 @@ exports.logout = (req, res, next) => {
         .catch(err => console.log(err))
 
 };
+

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import cookie from 'react-cookies';
 import FormData from 'form-data';
+import jwt from 'jsonwebtoken';
 
 import Form from './styles/Form';
 import Logo from '../components/styles/Logo';
@@ -53,7 +54,7 @@ class Sell extends Component {
 
             .then(res => res.json())
 
-            .then(res => {
+            .then(res => { 
 
                 // changing the state so that we can assign an url to the image
                 this.setState({ image: res.secure_url });
@@ -101,7 +102,7 @@ class Sell extends Component {
 
         })
 
-        .then(resData => { console.log(resData);
+        .then(resData => { console.log(resData)
 
             this.setState({ loading: false, message: resData.message });
 
@@ -126,16 +127,17 @@ class Sell extends Component {
 
             </Logo>
 
-            <MessageStyles><p>{this.state.message}</p></MessageStyles>
+            <MessageStyles><p id="message-test">{this.state.message}</p></MessageStyles>
 
-            <Form encType="multipart/form-data" onSubmit={this.handleSubmit}>
+            <Form id="form-test" encType="multipart/form-data" onSubmit={this.handleSubmit}>
 
                 <fieldset aria-busy={this.state.loading} disabled={this.state.loading}>
 
                     <h1>Creat{this.state.loading ? 'ing ' : 'e '}An Item</h1>
 
                     <input type="hidden" name="cookie" value={cookie.load('connect.sid')} />
-                    <input type="hidden" name="token" value={cookie.load('XSRF-TOKEN')} />
+                    <input type="hidden" name="XSRF-TOKEN" value={cookie.load('token')} />
+                    <input type="hidden" name="authCookie" value={cookie.load('authCookie')} />
 
                     <label htmlFor="title">
 

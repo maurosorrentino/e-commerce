@@ -58,6 +58,8 @@ class Shop extends Component {
 
                         <h1>price</h1>
                         <p>{item.price}</p>
+
+                        <button>Add To Cart</button>
                     
                     </ItemStyle>
 </>
