@@ -72,9 +72,11 @@ exports.signup = async (req, res, next) => {
         // saving user and sending a response
         const savedUser = await user.save();
 
-        return res.status(201).json({ message: 'user created, please log in' });
+        return res.status(201).json({ message: 'user created, please log in', user: savedUser });
 
     } catch (err) {
+
+        console.log(err);
         
         if(!err.statusCode) {
 
@@ -82,8 +84,6 @@ exports.signup = async (req, res, next) => {
             console.log(err);
 
         }
-
-        console.log(err);
 
     }
 
@@ -153,9 +153,11 @@ exports.login = async (req, res, next) => {
 
             .catch(err => next(err));
 
-        return res.status(200).json({ message: 'successful login' });
+        return res.status(200).json({ message: 'successful login, click on "my shop" button above in order to see our shop!' });
 
     } catch (err) {
+
+        console.log(err);
 
         if(!err.statusCode) {
 
@@ -163,8 +165,6 @@ exports.login = async (req, res, next) => {
             console.log(err);
 
         }
-
-        console.log(err);
 
     }
 
@@ -246,6 +246,8 @@ exports.createItem = async (req, res, next) => {
 
     } catch (err) {
 
+        console.log(err);
+
         if(!err.statusCode) {
 
             err.statusCode = 500;
@@ -253,25 +255,35 @@ exports.createItem = async (req, res, next) => {
 
         }
 
-        console.log(err);
-
     }
 
 };
 
 exports.logout = (req, res, next) => {
 
-    req.session.destroy()
+    try {
+        
+        // deleting session
+        req.session.destroy();
 
-        .then(() => {
+        // deleting cookies with tokens
+        res.status(200).clearCookie('connect.sid');
+        res.status(200).clearCookie('token');
+        res.status(200).clearCookie('authCookie');
 
-            res.clearCookie('token');
-            res.clearCookie('authCookie');
-            // res.clearCookie('connect.sid');
+        // redirecting to login page
+        return res.status(200).redirect('/auth/login');
 
-        })
+    } catch (err) {
 
-        .catch(err => console.log(err))
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+        
+    }
 
 };
-

@@ -1,4 +1,4 @@
-import React, { cloneElement, Component } from 'react';
+import React, { Component } from 'react';
 import Link from 'next/link';
 
 import Form from './styles/Form';
@@ -48,7 +48,6 @@ class Login extends Component {
 
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': 'Bearer ' + this.state.token,
 
             },
 

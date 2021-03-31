@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
 
+// secrets in .env file
 require('dotenv').config();
 
 const MONGODB_URL = process.env.MONGODB;
@@ -48,7 +49,7 @@ app.use(
             maxAge: 3600000 * 24 * 365, // remember to change it!!!
             secure: false,
 
-        }
+        },
 
     })
 

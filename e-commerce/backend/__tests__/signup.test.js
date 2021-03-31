@@ -168,9 +168,10 @@ describe('Signup errors', () => {
     });
 
     // without these lines we will get "You are trying to `import` a file after the Jest environment has been torn down"
-    afterAll( async () => {
+    afterAll( async (done) => {
 
         await mongoose.connection.close();
+        done();
         
     })
 
@@ -230,9 +231,10 @@ describe('Signup success', () => {
     });
 
     // without these lines we will get "You are trying to `import` a file after the Jest environment has been torn down"
-    afterAll( async () => {
+    afterAll( async (done) => {
 
         await mongoose.connection.close();
+        done();
         
     })
     

@@ -117,7 +117,7 @@ describe('Login', () => {
             const response = await post('/auth/login', req.body);
 
             expect(response.status).toBe(200);
-            expect(response.body.message).toEqual('successful login');
+            expect(response.body.message).toEqual('successful login, click on "my shop" button above in order to see our shop!');
             done();
             
         } catch (err) {
@@ -130,9 +130,10 @@ describe('Login', () => {
     });
 
     // without these lines we will get "You are trying to `import` a file after the Jest environment has been torn down"
-    afterAll( async () => {
+    afterAll( async (done) => {
 
         await mongoose.connection.close();
+        done();
         
     })
     

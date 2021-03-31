@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
+const jwt = require('jsonwebtoken');
 
 const app = require('../app');
 const server = require('../app');
@@ -43,12 +44,25 @@ describe('create item', () => {
         await server.close(); 
         done();
         
-    })
+    });
 
     // validation: { title.length >= 3, description.length >= 5, price > 0, image required }
     it('creates an item if all the inputs are correct', async (done) => {
 
         try {
+
+            const reqLogin = {
+
+                body: {
+
+                    email: 'test@test.com',
+                    password: '123456',
+
+                }
+
+            };
+
+            await post('/auth/login', reqLogin.body); 
 
             const req = {
 
@@ -61,12 +75,16 @@ describe('create item', () => {
                 
                 },
     
-            };
+            }; 
+
+            const jwtSpy = jest.spyOn(jwt, 'verify');
+
+            jwtSpy.mockReturnValue('some decoded token');
     
             const response = await put('/auth/sell', req.body);
     
             // expect(response.status).toBe(200);
-            expect(response.body.message).toBe('item was creatd');
+            expect(response.body.message).toBe('item was creatd'); 
             done();
 
         } catch (err) {
@@ -79,9 +97,10 @@ describe('create item', () => {
     });
 
     // without these lines we will get "You are trying to `import` a file after the Jest environment has been torn down"
-    afterAll( async () => {
+    afterAll( async (done) => {
 
         await mongoose.connection.close();
+        done();
         
     })
     

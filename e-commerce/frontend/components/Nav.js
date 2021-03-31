@@ -1,4 +1,5 @@
 import NavStyle from './styles/NavStyles';
+import Logout from '../components/Logout';
 
 import Link from 'next/link';
 import React from 'react';
@@ -18,7 +19,7 @@ export default function Nav() {
 
             { !cookie.load('authCookie') && <Link id="login-test" href="/auth/login">Login</Link> }
 
-            { cookie.load('authCookie') && <Link href="/auth/logout">Logout</Link> }
+            { cookie.load('authCookie') && <Logout /> }
 
         </NavStyle>
 
