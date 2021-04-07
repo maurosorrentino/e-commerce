@@ -25,6 +25,10 @@ router.put('/sell', authController.createItem);
 // logout route
 router.delete('/logout', authController.logout);
 
+// add to cart route
 router.patch('/add-to-cart/:itemId', authController.addToCart);
+
+// cart page
+router.get('/cart', authController.cartPage);
 
 module.exports = router;

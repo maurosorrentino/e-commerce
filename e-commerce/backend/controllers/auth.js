@@ -293,7 +293,7 @@ exports.addToCart = async (req, res, next) => {
     try {
 
         // getting the user id from the session so that we can find this user
-        const userId = req.session.user._id.toString();
+        const userId = req.session.user._id;
 
         // finding the user
         const user = await User.findById(userId);
@@ -303,6 +303,8 @@ exports.addToCart = async (req, res, next) => {
 
         // finding the item
         const item = await Item.findById(itemId);
+
+        console.log(item)
                 
         // just declaring the cart into a variable for readability
         const cart = user.cart.items;
@@ -322,7 +324,7 @@ exports.addToCart = async (req, res, next) => {
         if(itemIndex >= 0) {
 
             // adding 1 to the quantity of that item
-            let itemQuantity = cart[itemIndex].quantity + 1;
+            const itemQuantity = cart[itemIndex].quantity + 1;
 
             // declaring new quantity and saving the user data
             cart[itemIndex].quantity = itemQuantity;
@@ -334,6 +336,8 @@ exports.addToCart = async (req, res, next) => {
             await cart.push({
 
                 itemId,
+                title: item.title,
+                price: item.price,
                 quantity,
 
             });
@@ -342,6 +346,32 @@ exports.addToCart = async (req, res, next) => {
 
         } 
         
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+};
+
+exports.cartPage = async (req, res, next) => {
+
+    try {
+
+        // getting the id of the user from the session and finding the user
+        const userId = req.session.user._id;
+        const user = await User.findById(userId);
+
+        const items = await user.cart.items;
+
+        return res.status(200).json({ message: 'fetched items', items });
+
     } catch (err) {
 
         console.log(err);

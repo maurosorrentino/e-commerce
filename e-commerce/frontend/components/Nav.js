@@ -15,6 +15,8 @@ export default function Nav() {
 
             { cookie.load('authCookie') && <Link id="sell-test" href="/auth/sell">Sell</Link> }
 
+            { cookie.load('authCookie') && <Link id="cart-test" href="/auth/cart">My Cart</Link>}
+
             { !cookie.load('authCookie') && <Link id="signup-test" href="/auth/signup">Signup</Link> }
 
             { !cookie.load('authCookie') && <Link id="login-test" href="/auth/login">Login</Link> }

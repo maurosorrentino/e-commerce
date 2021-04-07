@@ -45,9 +45,14 @@ const userSchema = new Schema({
             
             },
             
-            quantity: { type: Number, required: true }
+            quantity: { type: Number, required: true },
+
+            title: { type: String, required: true },
+
+            price: { type: Number, required: true },
           
-            }
+            },
+
         ]
       }
 

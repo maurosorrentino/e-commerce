@@ -37,25 +37,18 @@ const ItemStyle = styled.div`
 
   }
 
-  .buttonList {
+  button {
 
-    display: grid;
-    width: 100%;
-    border-top: 1px solid lightgray;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    grid-gap: 1px;
-    background: lightgray;
-
-    & > * {
-
-      background: white;
-      border: 0;
-      font-family: 'radnika_next';
-      font-size: 1rem;
-      padding: 1rem;
-
-    }
+    width: auto;
+    background: green;
+    color: white;
+    border: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    padding: 0.5rem 1.2rem;
+    
   }
+
 `;
 
 export default ItemStyle;

@@ -78,9 +78,9 @@ class Shop extends Component {
 
     } 
 
-    async componentDidMount() {
+    componentDidMount() {
 
-        await this.fetchData();
+        this.fetchData();
 
     }
 
