@@ -109,9 +109,9 @@ class Signup extends Component {
     }
 
     // connecting react with node in order to have a connection between the client side and the database
-    fetchData = async () => {
+    fetchData = () => {
 
-        await fetch(`http://localhost:8090/auth/signup`, {
+        fetch(`http://localhost:8090/auth/signup`, {
 
             method: 'PUT',
     

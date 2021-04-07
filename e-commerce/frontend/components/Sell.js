@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import cookie from 'react-cookies';
 import FormData from 'form-data';
-import jwt from 'jsonwebtoken';
 
 import Form from './styles/Form';
 import Logo from '../components/styles/Logo';
@@ -66,13 +65,13 @@ class Sell extends Component {
     };
 
     // connecting react with node in order to have a connection between the client side and the database
-    handleSubmit = async e => {
+    handleSubmit = e => {
 
         e.preventDefault();
 
         this.setState({ loading: true });
 
-        await fetch(`http://localhost:8090/auth/sell`, {
+        fetch(`http://localhost:8090/auth/sell`, {
 
             method: 'PUT',
 
@@ -102,7 +101,7 @@ class Sell extends Component {
 
         })
 
-        .then(resData => { console.log(resData)
+        .then(resData => { console.log(resData);
 
             this.setState({ loading: false, message: resData.message });
 

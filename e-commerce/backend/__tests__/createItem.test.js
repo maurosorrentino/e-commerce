@@ -7,6 +7,8 @@ const server = require('../app');
 
 const request = supertest(app);
 
+require('dotenv').config();
+
 function put(url, body) {
 
     const httpRequest = request.put(url);

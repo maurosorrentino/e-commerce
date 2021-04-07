@@ -9,6 +9,8 @@ const User = require('../models/user');
 
 const request = supertest(app);
 
+require('dotenv').config();
+
 function put(url, body) {
     
     const httpRequest = request.put(url);

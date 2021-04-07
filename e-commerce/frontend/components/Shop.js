@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ItemStyle from '../components/styles/ItemStyles';
 import Header from '../components/Header';
 import ItemsList from '../components/styles/ItemList';
+import AddToCart from '../components/AddToCart';
 
 class Shop extends Component {
 
@@ -19,9 +20,9 @@ class Shop extends Component {
 
     }
  
-    fetchData = async () => {
+    fetchData = () => {
 
-        await fetch(`http://localhost:8090/shop`, {
+        fetch(`http://localhost:8090/shop`, {
 
             method: 'GET',
 
@@ -46,7 +47,7 @@ class Shop extends Component {
 
                 return(
 <>
-                    <ItemStyle>
+                    <ItemStyle key={item._id}>
 
                         <h1>title</h1>
                         <p>{item.title}</p>
@@ -59,7 +60,7 @@ class Shop extends Component {
                         <h1>price</h1>
                         <p>{item.price}</p>
 
-                        <button>Add To Cart</button>
+                        <AddToCart itemId={item._id} />
                     
                     </ItemStyle>
 </>

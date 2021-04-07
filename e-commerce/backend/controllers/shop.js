@@ -1,5 +1,4 @@
 const Item = require('../models/item');
-const User = require('../models/user');
 
 exports.getItems = async (req, res, next) => {
 
@@ -11,7 +10,7 @@ exports.getItems = async (req, res, next) => {
     try {
 
         // counting the items
-        const totalItems = await Item.find().countDocuments();
+        totalItems = await Item.find().countDocuments();
 
         // finding the items
         const items = await Item.find()

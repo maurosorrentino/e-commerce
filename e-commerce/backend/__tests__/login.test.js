@@ -1,11 +1,12 @@
 const supertest = require('supertest');
 const mongoose = require('mongoose');
-const serverDestroy = require('server-destroy');
 
 const app = require('../app');
 const server = require('../app');
 
 const request = supertest(app);
+
+require('dotenv').config();
 
 function post(url, body) {
 

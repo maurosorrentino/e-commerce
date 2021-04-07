@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 
 class Logout extends Component {
 
-    logout = async () => {
+    logout = () => {
 
-        await fetch(`http://localhost:8090/auth/logout`, {
+        fetch(`http://localhost:8090/auth/logout`, {
 
             method: 'DELETE',
 
@@ -38,7 +38,7 @@ class Logout extends Component {
 
         return (
 
-            <button onClick={this.logout} href="/auth/logout">Logout</button>
+            <button id="logout-test" onClick={this.logout} href="/auth/logout">Logout</button>
 
         )
 

@@ -266,7 +266,7 @@ exports.logout = (req, res, next) => {
         // deleting session
         req.session.destroy();
 
-        // deleting cookies with tokens
+        // deleting cookies with tokens and cookie session
         res.status(200).clearCookie('connect.sid');
         res.status(200).clearCookie('token');
         res.status(200).clearCookie('authCookie');
@@ -284,6 +284,74 @@ exports.logout = (req, res, next) => {
 
         }
         
+    }
+
+};
+
+exports.addToCart = async (req, res, next) => {
+
+    try {
+
+        // getting the user id from the session so that we can find this user
+        const userId = req.session.user._id.toString();
+
+        // finding the user
+        const user = await User.findById(userId);
+
+        // getting the product id so that we can use it in order to find it
+        const itemId = req.params.itemId;
+
+        // finding the item
+        const item = await Item.findById(itemId);
+                
+        // just declaring the cart into a variable for readability
+        const cart = user.cart.items;
+
+        // declaring the quantity to 1 as default
+        let quantity = 1;
+
+        // finding the index of the item present into the cart by comparing the ids of the items so that if we have -1 it means that the item is not into the cart
+        const itemIndex = cart.findIndex(i => {
+
+            // 1st id is the item id present into the cart and the 2nd the id of the item that is "clicked"
+            return i.itemId.toString() === item._id.toString();
+
+        });
+
+        // so if item is present into the cart
+        if(itemIndex >= 0) {
+
+            // adding 1 to the quantity of that item
+            let itemQuantity = cart[itemIndex].quantity + 1;
+
+            // declaring new quantity and saving the user data
+            cart[itemIndex].quantity = itemQuantity;
+            return await user.save();
+
+        } else {
+
+            // if item is not into the cart we push a new one
+            await cart.push({
+
+                itemId,
+                quantity,
+
+            });
+
+            return await user.save();
+
+        } 
+        
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
     }
 
 };

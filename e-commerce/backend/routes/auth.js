@@ -25,4 +25,6 @@ router.put('/sell', authController.createItem);
 // logout route
 router.delete('/logout', authController.logout);
 
+router.patch('/add-to-cart/:itemId', authController.addToCart);
+
 module.exports = router;

@@ -16,13 +16,12 @@ const NavStyle = styled.ul`
     align-items: center;
     position: relative;
     text-transform: uppercase;
-    font-weight: 900;
     font-size: 1em;
     background: none;
     border: 0;
     cursor: pointer;
     color: yellowgreen;
-    font-weight: 800;
+    font-weight: 700;
 
     @media (max-width: 700px) {
 

@@ -38,9 +38,9 @@ class Login extends Component {
 
     }
 
-    fetchData = async () => {
+    fetchData = () => {
 
-        await fetch(`http://localhost:8090/auth/login`, {
+        fetch(`http://localhost:8090/auth/login`, {
 
             method: 'POST',
 
@@ -74,7 +74,7 @@ class Login extends Component {
 
             // we only want to show the user one of these 3 messages
             if(resData.message !== 'invalid password, please try again' && resData.message !== `There is no account into our database with this email: ${this.state.email}` 
-            && resData.message !== 'successful login') {
+            && resData.message !== 'successful login, click on "my shop" button above in order to see our shop!') {
 
                 this.setState({ message: null });
 
@@ -97,9 +97,9 @@ class Login extends Component {
 
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         
-        await this.fetchData();
+        this.fetchData();
 
     }
 
