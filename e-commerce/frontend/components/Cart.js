@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import Header from '../components/Header';
+import CartStyle from '../components/styles/CartStyle';
 
 class Cart extends Component {
 
@@ -8,6 +12,7 @@ class Cart extends Component {
         this.state = {
 
             items: [],
+            total: undefined,
 
         }
 
@@ -40,21 +45,31 @@ class Cart extends Component {
 
         .then(resData => {
 
-            this.setState({ items: resData.items.map(item => {
+            this.setState({ total: resData.total, items: resData.items.map(item => {
 
                 return(
 <>
-                    <h1>title</h1>
+                    <ul>
 
-                    <p>{item.title}</p>
+                        <li>
 
-                    <h1>price</h1>
+                            <h1>Title:</h1>
 
-                    <p>{item.price}</p>
+                            <p>{item.title}</p>
 
-                    <h1>quantity</h1>
+                            <h1>Price:</h1>
 
-                    <p>{item.quantity}</p>
+                            <p>{item.price}</p>
+
+                            <h1>Quantity:</h1>
+
+                            <p>{item.quantity}</p>
+
+                            <button><FontAwesomeIcon icon="fas" /></button>
+
+                        </li>
+
+                    </ul>
 </>
                 )
                 
@@ -76,9 +91,34 @@ class Cart extends Component {
 
         return(
 <>
-            <h1>List Of The Items That You Have In Your Cart</h1>
+            <Header />
 
-            <div>{this.state.items}</div>
+            {this.state.items.length > 0 && (
+<>
+
+                <CartStyle>
+
+                    <h1>List Of The Items That You Have In Your Cart:</h1>
+                    
+                    {this.state.items}
+
+                    <h1>Total:</h1>
+                    
+                    <p>{this.state.total}</p>
+                    
+                </CartStyle>
+</>
+            )}
+
+            {this.state.items.length === 0 && (
+
+                <CartStyle>
+
+                    <h1>You Don't Have Any Items In Your Cart</h1>
+
+                </CartStyle>
+
+            )}
 </>
         )
 

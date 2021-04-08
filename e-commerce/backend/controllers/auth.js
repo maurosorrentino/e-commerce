@@ -3,6 +3,7 @@ const Item = require('../models/item');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const item = require('../models/item');
 
 require('dotenv').config();
 
@@ -72,7 +73,7 @@ exports.signup = async (req, res, next) => {
         // saving user and sending a response
         const savedUser = await user.save();
 
-        return res.status(201).json({ message: 'user created, please log in', user: savedUser });
+        return res.status(201).json({ message: 'user created, please click on "my shop" above and log in', user: savedUser });
 
     } catch (err) {
 
@@ -303,10 +304,8 @@ exports.addToCart = async (req, res, next) => {
 
         // finding the item
         const item = await Item.findById(itemId);
-
-        console.log(item)
                 
-        // just declaring the cart into a variable for readability
+        // just declaring the cart into a variable for better readability
         const cart = user.cart.items;
 
         // declaring the quantity to 1 as default
@@ -368,9 +367,27 @@ exports.cartPage = async (req, res, next) => {
         const userId = req.session.user._id;
         const user = await User.findById(userId);
 
-        const items = await user.cart.items;
+        // declaring the items into a variable for better readability
+        const items = user.cart.items;
 
-        return res.status(200).json({ message: 'fetched items', items });
+        // we will push all the prices (price * quantity) into this empty array
+        const amount = [];
+
+        // mapping the items so that we can push the prices (price * quantity) of every items into the empty array
+        items.map(item => {
+
+            const price = item.price * item.quantity;
+            amount.push(price);
+
+        });
+
+        // declaring the reducer so that we can use the reduce function
+        const reducer = (a, b) => a + b;
+
+        // declaring the total with the reduce function (so we add the total of every item)
+        const total = amount.reduce(reducer);
+
+        return res.status(200).json({ message: 'fetched items', items, total });
 
     } catch (err) {
 
