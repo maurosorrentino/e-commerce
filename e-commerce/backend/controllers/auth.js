@@ -293,6 +293,21 @@ exports.addToCart = async (req, res, next) => {
 
     try {
 
+        // verifying token from httpOnly true cookie
+        const token = req.cookies.token;
+        jwt.verify(token, process.env.TOKEN_SECRET);
+        
+        // verifying weak token (httpOnly: false)
+        const weakToken = req.cookies.authCookie;
+        jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
+
+        // no session no add to cart
+        if(!req.session.isAuth) {
+
+            res.status(401).json({ message: 'forbidden' });
+
+        }
+
         // getting the user id from the session so that we can find this user
         const userId = req.session.user._id;
 
@@ -407,6 +422,21 @@ exports.cartPage = async (req, res, next) => {
 exports.removeFromCart = async (req, res, next) => {
 
     try {
+
+        // verifying token from httpOnly true cookie
+        const token = req.cookies.token;
+        jwt.verify(token, process.env.TOKEN_SECRET);
+        
+        // verifying weak token (httpOnly: false)
+        const weakToken = req.cookies.authCookie;
+        jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
+
+        // no session no remove from cart
+        if(!req.session.isAuth) {
+
+            res.status(401).json({ message: 'forbidden' });
+
+        }
 
         // getting user id and finding the user
         const userId = req.session.user._id;

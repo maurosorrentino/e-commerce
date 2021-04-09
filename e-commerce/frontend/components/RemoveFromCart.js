@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import cookie from 'react-cookies';
 
 class RemoveFromCart extends Component {
 
@@ -36,7 +37,18 @@ class RemoveFromCart extends Component {
 
         return(
 
-            <button onClick={this.removeFromCart} aria-label="remove from cart">X</button>
+<>
+            <form encType="multipart/form-data">
+
+                {/* checking presents of cookies (we also check on the backend the values) */}
+                <input type="hidden" name="cookie" value={cookie.load('connect.sid')} />
+                <input type="hidden" name="XSRF-TOKEN" value={cookie.load('token')} />
+                <input type="hidden" name="authCookie" value={cookie.load('authCookie')} />
+
+                <button onClick={this.removeFromCart} aria-label="remove from cart">X</button>
+
+            </form>
+</>
 
         )
 

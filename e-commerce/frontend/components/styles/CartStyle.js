@@ -19,6 +19,40 @@ const CartStyle = styled.div`
         padding: 1rem;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
         margin-bottom: 1rem;
+        max-width: 95%;
+        flex-wrap: wrap;
+
+    }
+
+    @media only screen and (max-width: 420px) {
+
+        li {
+
+            max-width: 50%;
+            margin-left: 1rem;
+
+        }
+
+    }
+
+    @media only screen and (max-width: 300px) {
+
+        li {
+
+            max-width: 35%;
+
+        }
+
+    }
+
+    @media only screen and (min-width: 420px) and (max-width: 600px) {
+
+        li {
+
+            max-width: 70%;
+            margin-left: 1rem;
+
+        }
 
     }
 
