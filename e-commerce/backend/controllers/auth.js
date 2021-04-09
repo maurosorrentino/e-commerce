@@ -334,13 +334,14 @@ exports.addToCart = async (req, res, next) => {
             // if item is not into the cart we push a new one
             await cart.push({
 
-                itemId,
+                itemId: item._id,
                 title: item.title,
                 price: item.price,
                 quantity,
 
             });
 
+            res.status(200).redirect('/shop');
             return await user.save();
 
         } 
@@ -370,7 +371,7 @@ exports.cartPage = async (req, res, next) => {
         // declaring the items into a variable for better readability
         const items = user.cart.items;
 
-        // we will push all the prices (price * quantity) into this empty array
+        // we will push all the prices of all items (price * quantity) into this empty array and then add them into a single amount
         const amount = [];
 
         // mapping the items so that we can push the prices (price * quantity) of every items into the empty array
@@ -388,6 +389,74 @@ exports.cartPage = async (req, res, next) => {
         const total = amount.reduce(reducer);
 
         return res.status(200).json({ message: 'fetched items', items, total });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+};
+
+exports.removeFromCart = async (req, res, next) => {
+
+    try {
+
+        // getting user id and finding the user
+        const userId = req.session.user._id;
+        const user = await User.findById(userId);
+
+        // declaring items into cart into a variable for better readability
+        const cart = user.cart.items;
+
+        // getting item id and finding the item
+        const itemId = req.params.itemId;
+        const item = await Item.findById(itemId);
+
+        // getting the index of the item so that we can find it into the cart
+        const itemIndex = cart.findIndex(i => {
+
+            return i.itemId.toString() === item._id.toString();
+
+        });
+
+        // if item exists into cart we remove 1 from the quantity
+        if(itemIndex >= 0) {
+
+            const newQuantity = cart[itemIndex].quantity - 1;
+            cart[itemIndex].quantity = newQuantity;
+
+            // item quantity in a variable for better readability
+            const itemQuantity = cart[itemIndex].quantity;
+
+            // once the quantity goes down of 1 we redirect to the same page so that the user can actually see the changes
+            res.status(200).redirect('/auth/cart');
+
+            // if quantity goes to 0 we remove the item from the cart by filtering with the ids
+            if(itemQuantity === 0) {
+
+                // here we are telling the computer to return all the items apart of the one that we want to remove
+                const updatedCart = cart.filter(i => {
+
+                    return i.itemId.toString() !== item._id.toString();
+
+                });
+
+                // updating the cart with "new" items and saving the user data
+                user.cart.items = updatedCart;
+                return await user.save();
+
+            }
+
+            return await user.save();
+
+        }
 
     } catch (err) {
 

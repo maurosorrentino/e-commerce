@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 
-class AddToCart extends Component {
+class RemoveFromCart extends Component {
 
-    addToCart = () => {
+    removeFromCart = () => {
 
         const itemId = this.props.itemId;
 
-        fetch(`http://localhost:8090/auth/add-to-cart/${itemId}`, {
+        fetch(`http://localhost:8090/auth/remove-from-cart/${itemId}`, {
 
             method: 'PATCH',
 
             headers: {
 
-                'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Accept': 'application/json',
 
             },
 
@@ -21,12 +21,12 @@ class AddToCart extends Component {
 
         })
 
-        .then(() => { 
+        .then(() => {
 
             /* staying on the same page */
-            return window.location.replace('/shop');
+            return window.location.replace('/auth/cart')
 
-        }) 
+        })
 
         .catch(err => console.log(err));
 
@@ -36,7 +36,7 @@ class AddToCart extends Component {
 
         return(
 
-            <button onClick={this.addToCart}>Add To Cart</button>
+            <button onClick={this.removeFromCart} aria-label="remove from cart">X</button>
 
         )
 
@@ -44,4 +44,4 @@ class AddToCart extends Component {
 
 }
 
-export default AddToCart;
+export default RemoveFromCart;

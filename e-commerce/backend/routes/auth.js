@@ -31,4 +31,7 @@ router.patch('/add-to-cart/:itemId', authController.addToCart);
 // cart page
 router.get('/cart', authController.cartPage);
 
+// remove from cart path
+router.patch('/remove-from-cart/:itemId', authController.removeFromCart);
+
 module.exports = router;

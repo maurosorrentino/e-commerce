@@ -134,6 +134,7 @@ class Sell extends Component {
 
                     <h1>Creat{this.state.loading ? 'ing ' : 'e '}An Item</h1>
 
+                    {/* checking presents of cookies (we also check on the backend the values) */}
                     <input type="hidden" name="cookie" value={cookie.load('connect.sid')} />
                     <input type="hidden" name="XSRF-TOKEN" value={cookie.load('token')} />
                     <input type="hidden" name="authCookie" value={cookie.load('authCookie')} />

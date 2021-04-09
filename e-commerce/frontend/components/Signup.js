@@ -45,7 +45,7 @@ class Signup extends Component {
 
     }
 
-    // function that will be used in handleError function (here we validate the user input)
+    // function that will be used in handleError function (here we validate the user input with booleans false and true)
     validateField(fieldName, value) {
 
         let fieldValidationErrors = this.state.formErrors;
@@ -93,7 +93,7 @@ class Signup extends Component {
 
     }
 
-    // validating the form (it will be only true if all the inputs are correct)
+    // validating the form (it will be true only if all the inputs are correct)
     validateForm() {
 
         this.setState({ formValid: this.state.nameValid && this.state.passwordValid && this.state.emailValid && this.state.confirmPasswordValid })

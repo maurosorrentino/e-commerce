@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Header from '../components/Header';
 import CartStyle from '../components/styles/CartStyle';
+import RemoveFromCart from '../components/RemoveFromCart';
 
 class Cart extends Component {
 
@@ -45,13 +45,14 @@ class Cart extends Component {
 
         .then(resData => {
 
+            /* mapping the items that we are getting from the backend and setting them into state so that we can fetch them */
             this.setState({ total: resData.total, items: resData.items.map(item => {
 
                 return(
 <>
                     <ul>
 
-                        <li>
+                        <li key={item.itemId}>
 
                             <h1>Title:</h1>
 
@@ -65,7 +66,8 @@ class Cart extends Component {
 
                             <p>{item.quantity}</p>
 
-                            <button><FontAwesomeIcon icon="fas" /></button>
+                            {/* assigning the item id as props so that we can access it from RemoveFromCart component and make a call to the right API point */}
+                            <RemoveFromCart itemId={item.itemId} />
 
                         </li>
 

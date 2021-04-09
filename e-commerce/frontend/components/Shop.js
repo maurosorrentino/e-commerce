@@ -43,6 +43,7 @@ class Shop extends Component {
 
         .then(resData => {
 
+            /* mapping the items that we are getting from the backend and setting them into state so that we can fetch them */
             this.setState({ items: resData.items.map(item => {
 
                 return(
@@ -60,6 +61,7 @@ class Shop extends Component {
                         <h1>price</h1>
                         <p>{item.price}</p>
 
+                        {/* assigning the item id as props so that we can access it from AddToCart component and make a call to the right API point */}
                         <AddToCart itemId={item._id} />
                     
                     </ItemStyle>

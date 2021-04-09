@@ -28,12 +28,12 @@ const CartStyle = styled.div`
         text-align: center;
         font-weight: 600;
         color: green;
+        text-transform: uppercase;
 
     }
 
     button {
 
-        width: auto;
         background: red;
         color: white;
         border: 0;

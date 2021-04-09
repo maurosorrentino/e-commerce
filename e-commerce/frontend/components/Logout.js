@@ -19,14 +19,10 @@ class Logout extends Component {
 
         })
 
-        .then(res => {
+        .then(() => {
 
             // redirecting to login page once logged out
-            if(res.redirected) {
-
-                return window.location.replace('/auth/login')
-                
-            }
+            return window.location.replace('/auth/login');
 
         })
 
