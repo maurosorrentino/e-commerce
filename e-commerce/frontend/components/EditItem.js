@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import Link from 'next/link';
 import cookie from 'react-cookies';
 import FormData from 'form-data';
 
 import Form from './styles/Form';
-import Logo from '../components/styles/Logo';
 import MessageStyles from '../components/styles/MessageStyles';
+import RemoveItem from '../components/RemoveItem';
 
-class Sell extends Component {
+class EditItem extends Component {
 
     state = {
 
-        title: '',
-        price: 0,
-        description: '',
-        image: null,
+        title: this.props.title,
+        price: this.props.price,
+        description: this.props.description,
+        image: this.props.img,
         loading: false,
         message: null,
 
@@ -69,11 +68,12 @@ class Sell extends Component {
 
         e.preventDefault();
 
+        const itemId = this.props.itemId;
         this.setState({ loading: true });
 
-        fetch(`http://localhost:8090/auth/sell`, {
+        fetch(`http://localhost:8090/auth/edit-item/${itemId}`, {
 
-            method: 'PUT',
+            method: 'PATCH',
 
             headers: {
 
@@ -120,19 +120,13 @@ class Sell extends Component {
 
         return (
 <>
-            <Logo>
-
-                <Link href="/">My Shop</Link>
-
-            </Logo>
-
             <MessageStyles><p id="message-test">{this.state.message}</p></MessageStyles>
 
             <Form id="form-test" encType="multipart/form-data" onSubmit={this.handleSubmit}>
 
                 <fieldset aria-busy={this.state.loading} disabled={this.state.loading}>
 
-                    <h1>Creat{this.state.loading ? 'ing ' : 'e '}An Item</h1>
+                    <h1>Edit{this.state.loading ? 'ing ' : ''} Item</h1>
 
                     {/* checking presents of cookies (we also check on the backend the values) */}
                     <input type="hidden" name="cookie" value={cookie.load('connect.sid')} />
@@ -215,7 +209,9 @@ class Sell extends Component {
 
                     </label>
 
-                    <button>{this.state.loading ? 'Creating An Item!' : 'Create An Item!'}</button>
+                    <button>{this.state.loading ? 'Editing Item!' : 'Edit Item!'}</button>
+
+                    <RemoveItem itemId={this.props.itemId} />
 
                 </fieldset>
 
@@ -228,4 +224,4 @@ class Sell extends Component {
 
 }
 
-export default Sell;
+export default EditItem;

@@ -184,7 +184,7 @@ exports.createItem = async (req, res, next) => {
         jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
 
         // if user has no session we throw an error
-        if(!req.session.isAuth) {
+        if(!req.session.isAuth || req.session.user.isAdmin) {
 
             return res.status(401).json({ message: 'You cannot take this action, please login' });
 
@@ -226,7 +226,6 @@ exports.createItem = async (req, res, next) => {
             return res.status(422).json({ message: 'Description needs to be at least 5 characters' });
 
         };
-
  
         // if we pass all these steps (so there is no error) we create the item into the db
         const item = new Item({
@@ -432,7 +431,7 @@ exports.removeFromCart = async (req, res, next) => {
         jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
 
         // no session no remove from cart
-        if(!req.session.isAuth) {
+        if(!req.session.isAuth || req.session.user.isAdmin) {
 
             res.status(401).json({ message: 'forbidden' });
 
@@ -487,6 +486,148 @@ exports.removeFromCart = async (req, res, next) => {
             return await user.save();
 
         }
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+};
+
+exports.myItems = async (req, res, next) => {
+
+    try {
+
+        // getting the id of the user so that we can find all the items that were created by this user
+        const userId = req.session.user._id;
+        const items = await Item.find({ userId });
+
+        return res.status(200).json({ message: 'fetched items', items });
+        
+        
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+};
+
+exports.editItem = async (req, res, next) => {
+
+    try {
+
+        // verifying token from httpOnly true cookie
+        const token = req.cookies.token;
+        jwt.verify(token, process.env.TOKEN_SECRET);
+
+        // verifying weak token (httpOnly: false)
+        const weakToken = req.cookies.authCookie;
+        jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
+
+        // if user has no session we throw an error
+        if(!req.session.isAuth || req.session.user.isAdmin) {
+
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+
+        }
+
+        // getting inputs of the user
+        const title = req.body.title;
+        const description = req.body.description;
+        const price = req.body.price;
+        const image = req.body.image;
+
+        // getting item id and finding it
+        const itemId = req.params.itemId;
+        const item = await Item.findById(itemId);
+
+        // if title is less than 3 characters we throw an error
+        if(title.length < 3) {
+
+            return res.status(422).json({ message: 'Title needs to be at least 3 characters' });
+
+        };
+
+        // if price is equal or less than 0 we throw an error
+        if(price <= 0) {
+
+            return res.status(422).json({ message: 'Price cannot be less or equal than 0' });
+
+        };
+
+        // if description is less than 5 characters we throw an error
+        if(description.length < 5) {
+
+            return res.status(422).json({ message: 'Description needs to be at least 5 characters' });
+
+        };
+
+        // updating the item, saving it and sending a message
+        item.title = title;
+        item.description = description;
+        item.price = price;
+        item.image = image;
+
+        await item.save();
+
+        return res.status(200).json({ message: `Item ${item.title} Was Edited` });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+};
+
+exports.removeItem = async (req, res, next) => {
+
+    try {
+
+        // verifying token from httpOnly true cookie
+        const token = req.cookies.token;
+        jwt.verify(token, process.env.TOKEN_SECRET);
+
+        // verifying weak token (httpOnly: false)
+        const weakToken = req.cookies.authCookie;
+        jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
+
+        // if user has no session we throw an error
+        if(!req.session.isAuth || req.session.user.isAdmin) {
+
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+
+        }
+
+        // getting the id of the item and finding it (so that we can send a message to the user with the title)
+        const itemId = req.params.itemId;
+        const item = await Item.findById(itemId);
+        const title = item.title;
+
+        // removing item
+        await Item.findByIdAndDelete(itemId);
+
+        return res.status(200).json({ message: `Item ${title} Was Deleted` });
 
     } catch (err) {
 

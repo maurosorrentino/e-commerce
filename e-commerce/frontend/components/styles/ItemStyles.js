@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ItemStyle = styled.div`
+const StyleOfItem = styled.div`
 
   box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
   background: rgba(0, 0, 0, 0.02);
@@ -51,4 +51,4 @@ const ItemStyle = styled.div`
 
 `;
 
-export default ItemStyle;
+export default StyleOfItem;

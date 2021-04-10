@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ItemsList = styled.div`
+const ListOfItems = styled.div`
 
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -11,4 +11,4 @@ const ItemsList = styled.div`
 
 `;
 
-export default ItemsList;
+export default ListOfItems;

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import ItemStyle from '../components/styles/ItemStyles';
+import StyleOfItem from '../components/styles/ItemStyles';
 import Header from '../components/Header';
-import ItemsList from '../components/styles/ItemList';
+import ListOfItems from '../components/styles/ListOfItems';
 import AddToCart from '../components/AddToCart';
 
 class Shop extends Component {
@@ -48,7 +48,7 @@ class Shop extends Component {
 
                 return(
 <>
-                    <ItemStyle key={item._id}>
+                    <StyleOfItem key={item._id}>
 
                         <h1>title</h1>
                         <p>{item.title}</p>
@@ -64,7 +64,7 @@ class Shop extends Component {
                         {/* assigning the item id as props so that we can access it from AddToCart component and make a call to the right API point */}
                         <AddToCart itemId={item._id} />
                     
-                    </ItemStyle>
+                    </StyleOfItem>
 </>
                 )
 
@@ -92,7 +92,7 @@ class Shop extends Component {
 <>
             <Header />
 
-            <ItemsList>{this.state.items}</ItemsList>
+            <ListOfItems>{this.state.items}</ListOfItems>
 </>
         )
 

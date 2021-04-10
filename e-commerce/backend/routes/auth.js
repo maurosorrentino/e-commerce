@@ -34,4 +34,13 @@ router.get('/cart', authController.cartPage);
 // remove from cart path
 router.patch('/remove-from-cart/:itemId', authController.removeFromCart);
 
+// list of items that user created path
+router.get('/my-items', authController.myItems);
+
+// edit item path
+router.patch('/edit-item/:itemId', authController.editItem);
+
+// remove item from db path
+router.delete('/remove-item/:itemId', authController.removeItem);
+
 module.exports = router;
