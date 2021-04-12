@@ -4,6 +4,7 @@ import StyleOfItem from '../components/styles/ItemStyles';
 import Header from '../components/Header';
 import ListOfItems from '../components/styles/ListOfItems';
 import AddToCart from '../components/AddToCart';
+import Pagination from '../components/styles/Pagination';
 
 class Shop extends Component {
 
@@ -16,7 +17,8 @@ class Shop extends Component {
             totalItems: null,
             perPage: 4,
             currentPage: 1,
-    
+            lastPage: null,
+
         }    
 
         this.fetchData = this.fetchData.bind(this);
@@ -90,8 +92,50 @@ class Shop extends Component {
         // here we change the state of currentPage based on the page that the user clicks so that the index of the items that we want to show will change
         this.setState({ currentPage: Number(e.target.id) });
 
+        const lastPage = Math.ceil(this.state.totalItems / this.state.perPage);
+
+        /* disabling next button */
+        if(this.state.currentPage = lastPage) {
+
+            this.setState({ lastPage: lastPage });
+
+        }
+
         // scrolling to the top
         window.scrollTo(0, 0)
+
+    }
+
+    // handling the prev button
+    handlePrev = () => {
+
+        this.setState({ currentPage: this.state.currentPage - 1 });
+        window.scrollTo(0, 0);
+
+        // disabled prev button
+        if(this.state.currentPage === 1) {
+
+            this.setState({ currentPage: 1 });
+
+        }
+
+    }
+
+    // handling next button
+    handleNext = () => {
+
+        this.setState({ currentPage: this.state.currentPage + 1 });
+
+        const lastPage = Math.ceil(this.state.totalItems / this.state.perPage);
+
+        /* disabling next button */
+        if(this.state.currentPage = lastPage) {
+
+            this.setState({ lastPage: lastPage });
+
+        }
+        
+        window.scrollTo(0, 0);
 
     }
 
@@ -142,7 +186,19 @@ class Shop extends Component {
 
             <ListOfItems>{currentItems}</ListOfItems>
 
-            <ul>{renderPageNumbers}</ul>
+            <Pagination>
+
+                <ul>
+                    
+                    <button disabled={this.state.currentPage === 1 ? true : false} onClick={this.handlePrev}>Prev</button>
+                    
+                        {renderPageNumbers}
+
+                    <button disabled={this.state.currentPage === this.state.lastPage ? true : false} onClick={this.handleNext}>Next</button>
+                    
+                </ul>
+
+            </Pagination>
 
 </>
         )

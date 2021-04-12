@@ -11,7 +11,6 @@ class MyItems extends Component {
         this.state = {
 
             items: [],
-            showComponent: false,
 
         }
 
