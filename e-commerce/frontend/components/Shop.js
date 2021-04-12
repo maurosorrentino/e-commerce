@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 
 import StyleOfItem from '../components/styles/ItemStyles';
 import Header from '../components/Header';
@@ -13,6 +13,9 @@ class Shop extends Component {
         this.state = {
 
             items: [],
+            totalItems: null,
+            perPage: 4,
+            currentPage: 1,
     
         }    
 
@@ -42,6 +45,8 @@ class Shop extends Component {
         })
 
         .then(resData => {
+
+            this.setState({ totalItems: resData.totalItems });
 
             /* mapping the items that we are getting from the backend and setting them into state so that we can fetch them */
             this.setState({ items: resData.items.map(item => {
@@ -80,6 +85,16 @@ class Shop extends Component {
 
     } 
 
+    handleClick = e => {
+
+        // here we change the state of currentPage based on the page that the user clicks so that the index of the items that we want to show will change
+        this.setState({ currentPage: Number(e.target.id) });
+
+        // scrolling to the top
+        window.scrollTo(0, 0)
+
+    }
+
     componentDidMount() {
 
         this.fetchData();
@@ -88,11 +103,47 @@ class Shop extends Component {
 
     render() {
 
+        /* logic for displaying items */
+
+        // so we first get the index of the items that we want to display like this so that when the user clicks on a different page a new index will render 
+        // and so the items that are shown will change
+        const indexLastItem = this.state.currentPage * this.state.perPage;
+        const indexFirstItem = indexLastItem - this.state.perPage;
+
+        // with the slice function we only show 4 items per page by specifing the index of the items
+        const currentItems = this.state.items.slice(indexFirstItem, indexLastItem);
+
+        /* logic for displaying page numbers */
+
+        // empty array where we will push every page numbers
+        const pageNumbers = [];
+
+        // loop so that we can calculate how many pages we need
+        for(let i = 1; i <= Math.ceil(this.state.totalItems / this.state.perPage); i++) {
+
+            pageNumbers.push(i);
+
+        };
+
+        // mapping the page numbers so that we can show it to the users
+        const renderPageNumbers = pageNumbers.map(pageNumber => {
+
+            return (
+
+                <li key={pageNumber} id={pageNumber} onClick={this.handleClick}>{pageNumber}</li>
+
+            );
+
+        });
+
         return(
 <>
             <Header />
 
-            <ListOfItems>{this.state.items}</ListOfItems>
+            <ListOfItems>{currentItems}</ListOfItems>
+
+            <ul>{renderPageNumbers}</ul>
+
 </>
         )
 

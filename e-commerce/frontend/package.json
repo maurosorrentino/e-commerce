@@ -23,9 +23,11 @@
     "mongoose": "^5.11.15",
     "next": "10.0.6",
     "react": "^16.14.0",
+    "react-alert": "^7.0.2",
     "react-dom": "^16.14.0",
     "react-formdata": "^3.0.0",
     "react-hot-loader": "^4.13.0",
+    "react-paginate": "^7.1.2",
     "styled-components": "^5.2.1",
     "waait": "^1.0.5"
   },

@@ -241,7 +241,7 @@ exports.createItem = async (req, res, next) => {
         // saving the item and sending res
         const itemSave = await item.save();
 
-        return res.status(200).json({ message: 'item was created', item: itemSave });
+        return res.status(200).json({ message: `item ${title} was created`, item: itemSave });
 
 
     } catch (err) {
@@ -576,7 +576,7 @@ exports.editItem = async (req, res, next) => {
 
         };
 
-        // updating the item, saving it and sending a message
+        // updating the item, saving it and sending a response 
         item.title = title;
         item.description = description;
         item.price = price;
@@ -627,6 +627,7 @@ exports.removeItem = async (req, res, next) => {
         // removing item
         await Item.findByIdAndDelete(itemId);
 
+        // sending res with message into the console
         return res.status(200).json({ message: `Item ${title} Was Deleted` });
 
     } catch (err) {

@@ -26,7 +26,7 @@ class EditItem extends Component {
 
     }
 
-    handleImageUpload = async () => {
+    handleImageUpload = () => {
 
         // destructuring
         const imageFile = document.getElementById('image-test');
@@ -43,7 +43,7 @@ class EditItem extends Component {
         // appending cloudinary preset (folder where it will be stored the file)
         formData.append('upload_preset', 'qfhsqrkq');
 
-        return await fetch('https://api.Cloudinary.com/v1_1/dqhw3ma9u/image/upload', {
+        return fetch('https://api.Cloudinary.com/v1_1/dqhw3ma9u/image/upload', {
 
             method: 'POST',
             body: formData,
@@ -163,6 +163,8 @@ class EditItem extends Component {
                             value={this.state.price}
                             onChange={this.handleInputs}
                             className={this.state.message === 'Price cannot be less or equal than 0' ? 'invalid' : '' }
+                            min="0.01"
+                            step="0.01"
 
                         />
 
@@ -179,7 +181,6 @@ class EditItem extends Component {
                             id="image-test"
                             placeholder="upload an image"
                             onChange={this.handleImageUpload}
-                            className={this.state.message === 'you need to upload an image' ? 'invalid' : '' }
 
                         />
 
@@ -188,7 +189,11 @@ class EditItem extends Component {
                     {/* showing preview */}
                     {this.state.image && (
 
-                        <img src={this.state.image} alt={this.state.title} width="300" />
+                        <figure>
+
+                            <img src={this.state.image} alt={this.state.title} width="300" />
+                            
+                        </figure>
 
                     )}
 

@@ -48,6 +48,7 @@ class MyItems extends Component {
 
                 return (
 
+                    /* we will use these props into the value of each inputs */
                     <EditItem title={item.title} description={item.description} img={item.image} price={item.price} key={item._id} itemId={item._id} />
 
                 )
