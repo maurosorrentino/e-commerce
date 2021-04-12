@@ -1,6 +1,7 @@
 import Head from 'next/head'
-import Header from '../components/Header';
 import React from 'react';
+
+import Shop from '../components/Shop';
 
 export default function Home() {
   
@@ -16,7 +17,7 @@ export default function Home() {
         
       </Head>
 
-      <Header />
+      <Shop />
 
     </>
   )

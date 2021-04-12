@@ -619,16 +619,10 @@ exports.removeItem = async (req, res, next) => {
 
         }
 
-        // getting the id of the item and finding it (so that we can send a message to the user with the title)
+        // getting the id of the item, finding it, deleting it and sending a res with 200 status code
         const itemId = req.params.itemId;
-        const item = await Item.findById(itemId);
-        const title = item.title;
-
-        // removing item
         await Item.findByIdAndDelete(itemId);
-
-        // sending res with message into the console
-        return res.status(200).json({ message: `Item ${title} Was Deleted` });
+        return res.status(200).json();
 
     } catch (err) {
 

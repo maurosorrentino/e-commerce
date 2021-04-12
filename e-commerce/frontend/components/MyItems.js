@@ -73,7 +73,8 @@ class MyItems extends Component {
 <>
             <Header />
 
-            <h1 style={{ textAlign: 'center', color: 'green' }}>{this.state.items.length > 0 ? 'List Of Items That You Have Created:' : 'You Did Not Create Any Item Yet'}</h1>
+            <h1 style={{ textAlign: 'center', color: 'green' }}>{this.state.items.length > 0 ? `You Have Created ${this.state.items.length} 
+            Item${this.state.items.length > 1 ? 's' : ''}:` : 'You Did Not Create Any Item Yet'}</h1>
 
             <div>{this.state.items}</div>
 </>

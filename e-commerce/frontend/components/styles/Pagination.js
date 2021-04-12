@@ -33,7 +33,7 @@ const Pagination = styled.div`
     border: 0;
     font-size: 1rem;
     font-weight: 600;
-    padding: 0.5rem 1.2rem;
+    padding: 0.5rem 1rem;
 
   }
 

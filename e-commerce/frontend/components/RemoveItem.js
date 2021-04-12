@@ -34,7 +34,7 @@ class RemoveItem extends Component {
 
             /* staying on the same page */
             return window.location.replace('/auth/my-items');
-
+                
         })
 
         .catch(err => console.log(err));
