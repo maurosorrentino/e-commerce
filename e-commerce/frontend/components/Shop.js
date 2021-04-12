@@ -134,7 +134,7 @@ class Shop extends Component {
             this.setState({ lastPage: lastPage });
 
         }
-        
+
         window.scrollTo(0, 0);
 
     }
@@ -174,7 +174,7 @@ class Shop extends Component {
 
             return (
 
-                <li key={pageNumber} id={pageNumber} onClick={this.handleClick}>{pageNumber}</li>
+                <li key={pageNumber} id={pageNumber} className={this.state.currentPage === pageNumber ? 'current-page' : ''} onClick={this.handleClick}>{pageNumber}</li>
 
             );
 

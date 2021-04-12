@@ -15,6 +15,7 @@ const Pagination = styled.div`
     margin: 1rem;
     border: 1px solid green;
     border-radius: 5px;
+    width: 2rem;
 
   }
 
@@ -39,6 +40,12 @@ const Pagination = styled.div`
   button:disabled {
 
     opacity: 0.5;
+
+  }
+
+  .current-page {
+
+      background-color: green;
 
   }
 
