@@ -52,7 +52,7 @@ class RemoveItem extends Component {
                 <input type="hidden" name="XSRF-TOKEN" value={cookie.load('token')} />
                 <input type="hidden" name="authCookie" value={cookie.load('authCookie')} />
 
-                <button onClick={this.removeItem} style={{ marginTop: '1rem' }}>Remov{this.state.loading ? 'ing' : 'e'}</button>
+                <button onClick={this.removeItem}>Remov{this.state.loading ? 'ing' : 'e'}</button>
 
             </form>
 

@@ -159,7 +159,7 @@ class Login extends Component {
 
                     <button id="button-test">Log{this.state.loading ? 'ging' : ''} in!</button>
 
-                    <button style={{marginLeft: '10px'}}>Reset Password</button>
+                    <Link href="/reset-password"><button>Reset Password</button></Link>
 
                 </fieldset>
 

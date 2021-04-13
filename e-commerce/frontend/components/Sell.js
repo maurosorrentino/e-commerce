@@ -198,7 +198,7 @@ class Sell extends Component {
 
                         <figure>
 
-                            <img src={this.state.image} alt={this.state.title} width="300" />
+                            <img src={this.state.image} alt={this.state.title} width="100" />
 
                         </figure>
 
@@ -226,7 +226,6 @@ class Sell extends Component {
                 </fieldset>
 
             </Form>
-
 </>
         )
 

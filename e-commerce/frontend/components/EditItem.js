@@ -191,7 +191,7 @@ class EditItem extends Component {
 
                         <figure>
 
-                            <img src={this.state.image} alt={this.state.title} width="300" />
+                            <img src={this.state.image} alt={this.state.title} width="200" />
                             
                         </figure>
 
@@ -221,7 +221,6 @@ class EditItem extends Component {
                 </fieldset>
 
             </Form>
-
 </>
         )
 
