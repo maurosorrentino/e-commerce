@@ -175,6 +175,13 @@ exports.createItem = async (req, res, next) => {
 
     try {
 
+        // if user has no session we throw an error
+        if(!req.session.isAuth || !req.session.user.isAdmin) {
+
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+
+        }
+
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);
@@ -182,13 +189,6 @@ exports.createItem = async (req, res, next) => {
         // verifying weak token (httpOnly: false)
         const weakToken = req.cookies.authCookie;
         jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
-
-        // if user has no session we throw an error
-        if(!req.session.isAuth || req.session.user.isAdmin) {
-
-            return res.status(401).json({ message: 'You cannot take this action, please login' });
-
-        }
 
         // getting inputs of user
         const title = req.body.title;
@@ -422,6 +422,13 @@ exports.removeFromCart = async (req, res, next) => {
 
     try {
 
+        // no session no remove from cart
+        if(!req.session.isAuth || !req.session.user.isAdmin) {
+
+            res.status(401).json({ message: 'forbidden' });
+
+        }
+
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);
@@ -429,13 +436,6 @@ exports.removeFromCart = async (req, res, next) => {
         // verifying weak token (httpOnly: false)
         const weakToken = req.cookies.authCookie;
         jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
-
-        // no session no remove from cart
-        if(!req.session.isAuth || req.session.user.isAdmin) {
-
-            res.status(401).json({ message: 'forbidden' });
-
-        }
 
         // getting user id and finding the user
         const userId = req.session.user._id;
@@ -530,6 +530,13 @@ exports.editItem = async (req, res, next) => {
 
     try {
 
+        // if user has no session we throw an error
+        if(!req.session.isAuth || !req.session.user.isAdmin) {
+
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+
+        }
+
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);
@@ -537,13 +544,6 @@ exports.editItem = async (req, res, next) => {
         // verifying weak token (httpOnly: false)
         const weakToken = req.cookies.authCookie;
         jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
-
-        // if user has no session we throw an error
-        if(!req.session.isAuth || req.session.user.isAdmin) {
-
-            return res.status(401).json({ message: 'You cannot take this action, please login' });
-
-        }
 
         // getting inputs of the user
         const title = req.body.title;
@@ -604,6 +604,13 @@ exports.removeItem = async (req, res, next) => {
 
     try {
 
+        // if user has no session we throw an error
+        if(!req.session.isAuth || !req.session.user.isAdmin) {
+
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+
+        }
+
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);
@@ -611,13 +618,6 @@ exports.removeItem = async (req, res, next) => {
         // verifying weak token (httpOnly: false)
         const weakToken = req.cookies.authCookie;
         jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
-
-        // if user has no session we throw an error
-        if(!req.session.isAuth || req.session.user.isAdmin) {
-
-            return res.status(401).json({ message: 'You cannot take this action, please login' });
-
-        }
 
         // getting the id of the item, finding it, deleting it and sending a res with 200 status code
         const itemId = req.params.itemId;

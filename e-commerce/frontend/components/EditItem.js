@@ -191,7 +191,7 @@ class EditItem extends Component {
 
                         <figure>
 
-                            <img src={this.state.image} alt={this.state.title} width="200" />
+                            <img src={this.state.image} alt={this.state.title} />
                             
                         </figure>
 

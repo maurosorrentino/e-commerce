@@ -26,6 +26,22 @@ const Form = styled.form`
   font-weight: 600;
   text-align: center;
 
+  img {
+
+    width: 200px;
+
+  }
+
+  @media only screen and (max-width: 300px) {
+
+    img {
+
+      width: 150px;
+
+    }
+
+  }
+
   .invalid {
 
     border: 5px solid red;

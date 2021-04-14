@@ -198,7 +198,7 @@ class Sell extends Component {
 
                         <figure>
 
-                            <img src={this.state.image} alt={this.state.title} width="100" />
+                            <img src={this.state.image} alt={this.state.title} />
 
                         </figure>
 

@@ -55,7 +55,7 @@ exports.requestResetPassword = async (req, res, next) => {
 
         } 
 
-        // checking if user has valid tokens into the cookies, session cookie and also session, if so, we delete all of them
+        // checking if user has valid tokens into the cookies, session cookie and also session. if so, we delete all of them
         res.clearCookie('token');
         res.clearCookie('authCookie');
         res.clearCookie('connect.sid');
@@ -67,9 +67,9 @@ exports.requestResetPassword = async (req, res, next) => {
         const resetTokenExpires = Date.now() + 3600000; // 1 hour
         
         // assigning hashed token and expire date to the user into the db
-        user.resetToken = hashedResetToken;
+/*         user.resetToken = hashedResetToken;
         user.resetTokenExpires = resetTokenExpires;
-        await user.save();
+        await user.save(); */
 
         
 
