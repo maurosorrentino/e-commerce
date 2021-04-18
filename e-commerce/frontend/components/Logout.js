@@ -34,7 +34,7 @@ class Logout extends Component {
 
         return (
 
-            <button id="logout-test" onClick={this.logout} href="/auth/logout">Logout</button>
+            <button id="logout-test" onClick={this.logout}>Logout</button>
 
         )
 

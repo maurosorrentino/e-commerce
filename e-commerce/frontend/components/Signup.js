@@ -234,7 +234,7 @@ class Signup extends Component {
 
                         </label>
 
-                        <label htmlFor="confirmPassword">
+                        <label htmlFor="confirm password">
 
                             Confirm Password
 

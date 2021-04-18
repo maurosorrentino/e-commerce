@@ -3,7 +3,6 @@ const Item = require('../models/item');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const item = require('../models/item');
 
 require('dotenv').config();
 

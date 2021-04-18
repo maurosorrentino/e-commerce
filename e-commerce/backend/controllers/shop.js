@@ -1,8 +1,10 @@
 const Item = require('../models/item');
 const User = require('../models/user');
+const { transport } = require('../mail/mail');
 
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
+const { urlencoded } = require('body-parser');
 
 exports.getItems = async (req, res, next) => {
 
@@ -67,11 +69,36 @@ exports.requestResetPassword = async (req, res, next) => {
         const resetTokenExpires = Date.now() + 3600000; // 1 hour
         
         // assigning hashed token and expire date to the user into the db
-/*         user.resetToken = hashedResetToken;
+        user.resetToken = hashedResetToken;
         user.resetTokenExpires = resetTokenExpires;
-        await user.save(); */
+        await user.save(); 
 
-        
+        console.log('token', hashedResetToken);
+
+        const encodedToken = encodeURIComponent(user.resetToken);
+        console.log('token encoded', encodedToken);
+
+        const link = `http://localhost:3000/reset-password-form/${encodedToken}/${user._id}`;
+
+        await transport.sendMail({
+
+            from: 'sorrentino.mauro95@gmail.com',
+            to: user.email,
+            subject: 'Reset Password Requested',
+
+            html: 
+                
+                `<h1>Hi ${user.name},</h1>
+                <br>
+                
+                <p>Please Click On The Link Below In Order To Update Your Password</p>
+                <br>
+
+                <a href="${link}">Click Here To Reset Your Password</a>
+            
+                `,
+
+        });
 
         res.status(200).json({ message: 'Password Reset Requested, Please Check Your Email' });
         
@@ -86,5 +113,64 @@ exports.requestResetPassword = async (req, res, next) => {
         };
 
     };
+
+};
+
+exports.resetPasswordPage = async (req, res, next) => {
+
+    try {
+
+        const resetToken = decodeURIComponent(req.params.resetToken);
+        const userId = req.params.userId;
+    
+        const user = await User.findById(userId);
+    
+        console.log('reset token page decoded', resetToken);
+        console.log('reset token page', user.resetToken);
+        console.log(user.email);
+        
+        const isValid = await bcrypt.compare(resetToken, user.resetToken);
+        console.log('is valid ', isValid);
+    
+        if(!isValid || Date.now() > user.resetTokenExpires) {
+    
+            return res.status(401).json({ message: 'forbidden' });
+    
+        }
+    
+        const password = req.body.password;
+        const confirmPassword = req.body.confirmPassword;
+    
+        if(password.length < 5) {
+    
+            return res.status(422).json({ message: 'Password Needs To Be At Least 5 characters'});
+    
+        }
+    
+        if(password !== confirmPassword) {
+    
+            return res.status(403).json({ message: 'Passwords Do Not Match!' });
+    
+        }
+    
+        const hashedPassword = await bcrypt.hash(password, 12);
+    
+        user.password = hashedPassword;
+    
+        await user.save();
+    
+        return res.status(200).json({ message: 'You Have Changed Your Password, You Are Being Readirected To The Login Page' });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
 
 };

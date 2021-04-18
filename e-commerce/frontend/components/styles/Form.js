@@ -17,28 +17,19 @@ const loading = keyframes`
 
 const Form = styled.form`
 
-  box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
-  background: rgba(0, 0, 0, 0.02);
   border: 5px solid white;
+  box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
   padding: 20px;
-  font-size: 1.5rem;
+  margin: 1rem;
+  text-align: center;
   line-height: 1.5;
   font-weight: 600;
-  text-align: center;
+  font-size: 1.5rem;
+  background: rgba(0, 0, 0, 0.02);
 
   img {
 
     width: 200px;
-
-  }
-
-  @media only screen and (max-width: 300px) {
-
-    img {
-
-      width: 150px;
-
-    }
 
   }
 
@@ -50,9 +41,9 @@ const Form = styled.form`
 
   label {
 
-    display: block;
-    margin-bottom: 1rem;
     text-align: center;
+    margin-bottom: 1rem;
+    display: block;
 
   }
 
@@ -61,31 +52,31 @@ const Form = styled.form`
   select {
 
     width: 100%;
-    padding: 0.5rem;
     font-size: 1rem;
-    text-align-last: center;
+    padding: 0.5rem;
     border: 1px solid black;
+    text-align-last: center;
 
   }
   
   button,
   input[type='submit'] {
 
+    font-size: 2rem;
     width: auto;
-    background: green;
     color: white;
     border: 0;
-    font-size: 2rem;
-    font-weight: 600;
     padding: 0.5rem 1.2rem;
+    font-weight: 600;
     margin: 10px;
+    background: green;
 
   }
 
   fieldset {
 
-    border: 0;
     padding: 0;
+    border: 0;
 
     &[disabled] {
 
@@ -95,20 +86,53 @@ const Form = styled.form`
 
     &::before {
 
-      height: 10px;
       content: '';
-      display: block;
       background-image: linear-gradient(to right, #7FFF00 0%, #20B2AA 50%, #32CD32 100%);
+      height: 10px;
+      display: block;
     
     }
     
     &[aria-busy='true']::before {
     
-      background-size: 50% auto;
       animation: ${loading} 0.5s linear infinite;
+      background-size: 50% auto;
      
     }
   }
+
+  @media only screen and (max-width: 330px) {
+
+    img {
+
+      width: 120px;
+
+    }
+
+    h1 {
+
+      font-size: 1rem;
+
+    }
+
+    label {
+
+      font-size: .8rem;
+
+    }
+
+    }
+
+    @media only screen and (min-width: 700px) {
+
+    img {
+
+      width: 400px;
+
+    }
+
+  }
+
 `;
 
 export default Form;

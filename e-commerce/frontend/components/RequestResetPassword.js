@@ -17,7 +17,7 @@ class RequestResetPassword extends Component {
 
     handleChange = e => {
 
-        this.setState({ [e.target.name ]: e.target.value });
+        this.setState({ email: e.target.value });
 
     }
 
