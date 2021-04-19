@@ -175,7 +175,7 @@ exports.createItem = async (req, res, next) => {
     try {
 
         // if user has no session we throw an error
-        if(!req.session.isAuth || !req.session.user.isAdmin) {
+        if(!req.session.isAuth && !req.session.isAuth) {
 
             return res.status(401).json({ message: 'You cannot take this action, please login' });
 
@@ -422,7 +422,7 @@ exports.removeFromCart = async (req, res, next) => {
     try {
 
         // no session no remove from cart
-        if(!req.session.isAuth || !req.session.user.isAdmin) {
+        if(!req.session.isAuth && !req.session.isAuth) {
 
             res.status(401).json({ message: 'forbidden' });
 
@@ -530,7 +530,7 @@ exports.editItem = async (req, res, next) => {
     try {
 
         // if user has no session we throw an error
-        if(!req.session.isAuth || !req.session.user.isAdmin) {
+        if(!req.session.isAuth && !req.session.isAuth) {
 
             return res.status(401).json({ message: 'You cannot take this action, please login' });
 
@@ -604,7 +604,7 @@ exports.removeItem = async (req, res, next) => {
     try {
 
         // if user has no session we throw an error
-        if(!req.session.isAuth || !req.session.user.isAdmin) {
+        if(!req.session.isAuth && !req.session.isAuth) {
 
             return res.status(401).json({ message: 'You cannot take this action, please login' });
 
