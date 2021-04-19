@@ -58,19 +58,36 @@ class ResetPasswordPage extends Component {
         .then(resData => {
 
             console.log(resData);
-            this.setState({ message: resData.message });
+            this.setState({ message: resData.message, loading: true });
 
         })
 
-/*         .then(() => {
+        .then(() => {
 
-            setTimeout(() => {
+            this.setState({ loading: false });
 
-                window.location.replace('/auth/login');
-                
-            }, 3000);
+            if(this.state.message === 'You Have Changed Your Password, You Are Being Readirected To The Login Page') {
 
-        }) */
+                setTimeout(() => {
+
+                    window.location.replace('/auth/login');
+                    
+                }, 2000);
+
+            }
+
+            if(this.state.message === 'Forbidden! Please Request Another Password Reset, You Are Being Redirected To Reset Password Page'
+            || this.state.message === 'Sorry, We Could Not Find An Account, Please Request Another Password Reset. You Are Being Redirected To The Page') {
+
+                setTimeout(() => {
+
+                    window.location.replace('/reset-password');
+                    
+                }, 2000);
+
+            }
+
+        }) 
 
         .catch(err => console.log(err))
 
@@ -97,7 +114,8 @@ class ResetPasswordPage extends Component {
                             type="password"
                             onChange={this.handleChange}
                             value={this.state.password}
-                            className={this.state.password.length < 5 ? 'invalid' : '' }
+                            className={this.state.message === 'Password Needs To Be At Least 5 characters' ? 'invalid' : '' }
+                            placeholder="enter your new password"
 
                         />
 
@@ -111,7 +129,8 @@ class ResetPasswordPage extends Component {
                             type="password"
                             onChange={this.handleChange}
                             value={this.state.confirmPassword}
-                            className={this.state.password !== this.state.confirmPassword ? 'invalid' : '' }
+                            className={this.state.message === 'Passwords Do Not Match!' ? 'invalid' : '' }
+                            placeholder="please confirm your new password"
 
                         />
 

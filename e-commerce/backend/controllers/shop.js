@@ -64,7 +64,9 @@ exports.requestResetPassword = async (req, res, next) => {
         req.session.destroy();
 
         // creating a new token for the user
-        let resetToken = crypto.randomBytes(32).toString('hex');
+        const resetToken = crypto.randomBytes(32).toString('hex');
+
+        // creating a hashed token with 1 hour expire date so that we can save it into the db for this user
         const hashedResetToken = await bcrypt.hash(resetToken, 12);
         const resetTokenExpires = Date.now() + 3600000; // 1 hour
         
@@ -73,11 +75,10 @@ exports.requestResetPassword = async (req, res, next) => {
         user.resetTokenExpires = resetTokenExpires;
         await user.save(); 
 
-        console.log('token', hashedResetToken);
+        // this line is in order to avoid a 404 page in case the token gets generated with a /
+        const encodedToken = encodeURIComponent(resetToken);
 
-        const encodedToken = encodeURIComponent(user.resetToken);
-        console.log('token encoded', encodedToken);
-
+        // sending plain token encoded to the user so that later we can verify it
         const link = `http://localhost:3000/reset-password-form/${encodedToken}/${user._id}`;
 
         await transport.sendMail({
@@ -120,27 +121,34 @@ exports.resetPasswordPage = async (req, res, next) => {
 
     try {
 
+        // decoding the token that we sent to the user and getting the id from url so that we can find this user
         const resetToken = decodeURIComponent(req.params.resetToken);
         const userId = req.params.userId;
     
+        // finding user
         const user = await User.findById(userId);
-    
-        console.log('reset token page decoded', resetToken);
-        console.log('reset token page', user.resetToken);
-        console.log(user.email);
+
+        if(!user) {
+
+            return res.status(404).json({ message: 'Sorry, We Could Not Find An Account, Please Request Another Password Reset. You Are Being Redirected To The Page'})
+
+        }
         
+        // this line makes sure that the token that we sent to the user is valid
         const isValid = await bcrypt.compare(resetToken, user.resetToken);
-        console.log('is valid ', isValid);
-    
+
+        // if token is not valid or it expired we throw an error message
         if(!isValid || Date.now() > user.resetTokenExpires) {
     
-            return res.status(401).json({ message: 'forbidden' });
+            return res.status(401).json({ message: 'Forbidden! Please Request Another Password Reset, You Are Being Redirected To Reset Password Page' });
     
         }
     
+        // getting input of the user
         const password = req.body.password;
         const confirmPassword = req.body.confirmPassword;
     
+        // validation password.length >= 5
         if(password.length < 5) {
     
             return res.status(422).json({ message: 'Password Needs To Be At Least 5 characters'});
@@ -153,10 +161,9 @@ exports.resetPasswordPage = async (req, res, next) => {
     
         }
     
+        // hashing the new password and saving it into the db for this user
         const hashedPassword = await bcrypt.hash(password, 12);
-    
         user.password = hashedPassword;
-    
         await user.save();
     
         return res.status(200).json({ message: 'You Have Changed Your Password, You Are Being Readirected To The Login Page' });
