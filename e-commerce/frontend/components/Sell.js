@@ -158,7 +158,7 @@ class Sell extends Component {
 
                     <label htmlFor="price">
 
-                        Price 
+                        Price €
 
                         <input
 

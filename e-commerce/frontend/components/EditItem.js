@@ -152,7 +152,7 @@ class EditItem extends Component {
 
                     <label htmlFor="price">
 
-                        Price 
+                        Price €
 
                         <input
 

@@ -76,7 +76,15 @@ const CartStyle = styled.div`
         padding: 0.5rem 1.2rem;
         border-radius: 4px;
         
-      }
+    }
+
+    #checkoutButton {
+
+        margin: 1rem auto;
+        display: block;
+        background: white;
+
+    }
 
 `;
 

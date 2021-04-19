@@ -175,7 +175,7 @@ exports.createItem = async (req, res, next) => {
     try {
 
         // if user has no session we throw an error
-        if(!req.session.isAuth && !req.session.isAuth) {
+        if(!req.session.isAuth && !req.session.isAdmin) {
 
             return res.status(401).json({ message: 'You cannot take this action, please login' });
 
@@ -377,9 +377,27 @@ exports.cartPage = async (req, res, next) => {
 
     try {
 
+        // if user has no session we throw an error (it will appear )
+        if(!req.session.isAuth) {
+
+            return res.status(401).json({ message: 'forbidden' });
+
+        }
+
+        // verifying token from httpOnly true cookie
+        const token = req.cookies.token;
+        jwt.verify(token, process.env.TOKEN_SECRET);
+
+        // verifying weak token (httpOnly: false)
+        const weakToken = req.cookies.authCookie;
+        jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
+
         // getting the id of the user from the session and finding the user
         const userId = req.session.user._id;
         const user = await User.findById(userId);
+
+        // getting the user email so that we can pass it on the stripe component on the client side
+        const email = user.email;
 
         // declaring the items into a variable for better readability
         const items = user.cart.items;
@@ -401,7 +419,7 @@ exports.cartPage = async (req, res, next) => {
         // declaring the total with the reduce function (so we add the total of every item)
         const total = amount.reduce(reducer);
 
-        return res.status(200).json({ message: 'fetched items', items, total });
+        return res.status(200).json({ message: 'fetched items', items, total, email });
 
     } catch (err) {
 
@@ -422,7 +440,7 @@ exports.removeFromCart = async (req, res, next) => {
     try {
 
         // no session no remove from cart
-        if(!req.session.isAuth && !req.session.isAuth) {
+        if(!req.session.isAuth && !req.session.isAdmin) {
 
             res.status(401).json({ message: 'forbidden' });
 
@@ -530,7 +548,7 @@ exports.editItem = async (req, res, next) => {
     try {
 
         // if user has no session we throw an error
-        if(!req.session.isAuth && !req.session.isAuth) {
+        if(!req.session.isAuth && !req.session.isAdmin) {
 
             return res.status(401).json({ message: 'You cannot take this action, please login' });
 
@@ -604,7 +622,7 @@ exports.removeItem = async (req, res, next) => {
     try {
 
         // if user has no session we throw an error
-        if(!req.session.isAuth && !req.session.isAuth) {
+        if(!req.session.isAuth && !req.session.isAdmin) {
 
             return res.status(401).json({ message: 'You cannot take this action, please login' });
 

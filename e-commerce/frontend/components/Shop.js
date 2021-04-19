@@ -66,7 +66,7 @@ class Shop extends Component {
                         <p>{item.description}</p>
 
                         <h1>price</h1>
-                        <p>{item.price}</p>
+                        <p>{item.price} €</p>
 
                         {/* assigning the item id as props so that we can access it from AddToCart component and make a call to the right API point */}
                         <AddToCart itemId={item._id} />

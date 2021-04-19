@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import StripeCheckout from 'react-stripe-checkout';
 
 import Header from '../components/Header';
 import CartStyle from '../components/styles/CartStyle';
@@ -13,12 +14,34 @@ class Cart extends Component {
 
             items: [],
             total: undefined,
+            email: '',
 
         }
 
         this.fetchData = this.fetchData.bind(this);
 
     }
+
+    onToken = (token) => {
+
+        fetch('/save-stripe-token', {
+
+          method: 'POST',
+          body: JSON.stringify(token),
+
+        })
+        
+        .then(response => {
+
+          response.json().then(data => {
+
+            alert(`We are in business, ${data.email}`);
+
+          });
+
+        });
+
+      }
 
     fetchData = () => {
 
@@ -46,7 +69,7 @@ class Cart extends Component {
         .then(resData => {
 
             /* mapping the items that we are getting from the backend and setting them into state so that we can fetch them */
-            this.setState({ total: resData.total, items: resData.items.map(item => {
+            this.setState({ email: resData.email, total: resData.total, items: resData.items.map(item => {
 
                 return(
 <>
@@ -60,7 +83,7 @@ class Cart extends Component {
 
                             <h1>Price:</h1>
 
-                            <p>{item.price}</p>
+                            <p>{item.price} €</p>
 
                             <h1>Quantity:</h1>
 
@@ -96,7 +119,6 @@ class Cart extends Component {
             <Header />
 
             {this.state.items.length > 0 && (
-<>
 
                 <CartStyle>
 
@@ -106,10 +128,29 @@ class Cart extends Component {
 
                     <h1>Total:</h1>
                     
-                    <p>{this.state.total}</p>
+                    <p>{this.state.total} €</p>
+
+                    <button onClick={this.checkToken} id="checkoutButton">
+                        
+                        <StripeCheckout
+
+                            name="My Shop"
+                            stripeKey="pk_test_51HeLa7AY2cupxdbxV4hWNp3doOx930yt7seJyMhNViFtFQokc5h93RaJN4NljgNlcRc1f4rVUWQFFwTSzyWJZBzf00EkidN4To"
+                            amount={this.state.total * 100}
+                            currency="EUR"
+                            email={this.state.email}
+                            description={`Order Of ${this.state.items.length} Item${this.state.items.length > 1 ? 's' : ''}`}
+                            billingAddress={true}
+                            shippingAddress={true}
+                            label="Checkout"
+                            token={this.onToken}
+
+                        />
+                    
+                    </button>
                     
                 </CartStyle>
-</>
+
             )}
 
             {this.state.items.length === 0 && (
