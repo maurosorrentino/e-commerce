@@ -82,7 +82,9 @@ const CartStyle = styled.div`
 
         margin: 1rem auto;
         display: block;
-        background: white;
+        background-color: green;
+        font-size: 1.5rem;
+        text-transform: uppercase;
 
     }
 

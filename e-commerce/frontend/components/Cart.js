@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import StripeCheckout from 'react-stripe-checkout';
+import Checkout from '../components/Checkout';
 
 import Header from '../components/Header';
 import CartStyle from '../components/styles/CartStyle';
@@ -21,27 +21,6 @@ class Cart extends Component {
         this.fetchData = this.fetchData.bind(this);
 
     }
-
-    onToken = (token) => {
-
-        fetch('/save-stripe-token', {
-
-          method: 'POST',
-          body: JSON.stringify(token),
-
-        })
-        
-        .then(response => {
-
-          response.json().then(data => {
-
-            alert(`We are in business, ${data.email}`);
-
-          });
-
-        });
-
-      }
 
     fetchData = () => {
 
@@ -128,26 +107,9 @@ class Cart extends Component {
 
                     <h1>Total:</h1>
                     
-                    <p>{this.state.total} €</p>
+                    <p>{this.state.total.toFixed(2)} €</p>
 
-                    <button onClick={this.checkToken} id="checkoutButton">
-                        
-                        <StripeCheckout
-
-                            name="My Shop"
-                            stripeKey="pk_test_51HeLa7AY2cupxdbxV4hWNp3doOx930yt7seJyMhNViFtFQokc5h93RaJN4NljgNlcRc1f4rVUWQFFwTSzyWJZBzf00EkidN4To"
-                            amount={this.state.total * 100}
-                            currency="EUR"
-                            email={this.state.email}
-                            description={`Order Of ${this.state.items.length} Item${this.state.items.length > 1 ? 's' : ''}`}
-                            billingAddress={true}
-                            shippingAddress={true}
-                            label="Checkout"
-                            token={this.onToken}
-
-                        />
-                    
-                    </button>
+                    <Checkout />
                     
                 </CartStyle>
 

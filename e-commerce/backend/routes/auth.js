@@ -43,4 +43,8 @@ router.patch('/edit-item/:itemId', authController.editItem);
 // remove item from db path
 router.delete('/remove-item/:itemId', authController.removeItem);
 
+router.post('/create-checkout-session', authController.checkout);
+
+router.post('/auth/success', authController.success);
+
 module.exports = router;

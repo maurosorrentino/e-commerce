@@ -190,11 +190,11 @@ class Shop extends Component {
 
                 <ul>
                     
-                    <button disabled={this.state.currentPage === 1 ? true : false} onClick={this.handlePrev}>Prev</button>
+                    <button disabled={this.state.currentPage === 1 ? true : false} onClick={this.handlePrev}>← Prev</button>
                     
                         {renderPageNumbers}
 
-                    <button disabled={this.state.currentPage === this.state.lastPage ? true : false} onClick={this.handleNext}>Next</button>
+                    <button disabled={this.state.currentPage === this.state.lastPage ? true : false} onClick={this.handleNext}>Next →</button>
                     
                 </ul>
 

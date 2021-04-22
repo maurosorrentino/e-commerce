@@ -1,10 +1,11 @@
 const User = require('../models/user');
 const Item = require('../models/item');
 
+require('dotenv').config();
+
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
-require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // signup controller
 exports.signup = async (req, res, next) => {
@@ -151,7 +152,7 @@ exports.login = async (req, res, next) => {
 
             })
 
-            .catch(err => next(err));
+            .catch(err => console.log(err));
 
         return res.status(200).json({ message: 'successful login, click on "my shop" button above in order to see our shop!' });
 
@@ -302,7 +303,7 @@ exports.addToCart = async (req, res, next) => {
         // no session no add to cart
         if(!req.session.isAuth) {
 
-            res.status(401).json({ message: 'forbidden' });
+            res.status(401).json();
 
         }
 
@@ -380,7 +381,7 @@ exports.cartPage = async (req, res, next) => {
         // if user has no session we throw an error (it will appear )
         if(!req.session.isAuth) {
 
-            return res.status(401).json({ message: 'forbidden' });
+            return res.status(401).json();
 
         }
 
@@ -417,9 +418,13 @@ exports.cartPage = async (req, res, next) => {
         const reducer = (a, b) => a + b;
 
         // declaring the total with the reduce function (so we add the total of every item)
-        const total = amount.reduce(reducer);
+        const total = amount.reduce(reducer, 0);
 
-        return res.status(200).json({ message: 'fetched items', items, total, email });
+        // saving the total into the db
+        user.cart.total = total;
+        await user.save();
+
+        return res.status(200).json({ message: 'fetched items', items, email, total });
 
     } catch (err) {
 
@@ -442,7 +447,7 @@ exports.removeFromCart = async (req, res, next) => {
         // no session no remove from cart
         if(!req.session.isAuth) {
 
-            res.status(401).json({ message: 'forbidden' });
+            res.status(401).json();
 
         }
 
@@ -654,3 +659,100 @@ exports.removeItem = async (req, res, next) => {
     }
 
 };
+
+exports.checkout = async (req, res, next) => {
+
+    try {
+
+        // finding userId so that we can find the user and get the items that there are into the cart
+        const userId = req.session.user._id;
+        const user = await User.findById(userId);
+        const email = user.email;
+        const cart = user.cart.items;
+
+        const session = await stripe.checkout.sessions.create({
+
+            customer_email: email,
+
+            payment_method_types: ['card'],
+
+            shipping_address_collection: {
+
+                allowed_countries: ['AC', 'AD', 'AE', 'AF', 'AG', 'AI', 'AL', 'AM', 'AO', 'AQ', 'AR', 'AT', 
+                    'AU', 'AW', 'AX', 'AZ', 'BA', 'BB', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BL', 'BM', 'BN', 'BO', 'BQ', 'BR', 'BS', 'BT', 'BV', 'BW', 'BY', 'BZ', 'CA', 'CD', 
+                    'CF', 'CG', 'CH', 'CI', 'CK', 'CL', 'CM', 'CN', 'CO', 'CR', 'CV', 'CW', 'CY', 'CZ', 'DE', 'DJ', 'DK', 'DM', 'DO', 'DZ', 'EC', 'EE', 'EG', 'EH', 'ER', 'ES', 'ET', 
+                    'FI', 'FJ', 'FK', 'FO', 'FR', 'GA', 'GB', 'GD', 'GE', 'GF', 'GG', 'GH', 'GI', 'GL', 'GM', 'GN', 'GP', 'GQ', 'GR', 'GS', 'GT', 'GU', 'GW', 'GY', 'HK', 'HN', 'HR', 
+                    'HT', 'HU', 'ID', 'IE', 'IL', 'IM', 'IN', 'IO', 'IQ', 'IS', 'IT', 'JE', 'JM', 'JO', 'JP', 'KE', 'KG', 'KH', 'KI', 'KM', 'KN', 'KR', 'KW', 'KY', 'KZ', 'LA', 'LB', 
+                    'LC', 'LI', 'LK', 'LR', 'LS', 'LT', 'LU', 'LV', 'LY', 'MA', 'MC', 'MD', 'ME', 'MF', 'MG', 'MK', 'ML', 'MM', 'MN', 'MO', 'MQ', 'MR', 'MS', 'MT', 'MU', 'MV', 'MW', 
+                    'MX', 'MY', 'MZ', 'NA', 'NC', 'NE', 'NG', 'NI', 'NL', 'NO', 'NP', 'NR', 'NU', 'NZ', 'OM', 'PA', 'PE', 'PF', 'PG', 'PH', 'PK', 'PL', 'PM', 'PN', 'PR', 'PS', 'PT', 
+                    'PY', 'QA', 'RE', 'RO', 'RS', 'RU', 'RW', 'SA', 'SB', 'SC', 'SE', 'SG', 'SH', 'SI', 'SJ', 'SK', 'SL', 'SM', 'SN', 'SO', 'SR', 'SS', 'ST', 'SV', 'SX', 'SZ', 'TA', 
+                    'TC', 'TD', 'TF', 'TG', 'TH', 'TJ', 'TK', 'TL', 'TM', 'TN', 'TO', 'TR', 'TT', 'TV', 'TW', 'TZ', 'UA', 'UG', 'US', 'UY', 'UZ', 'VA', 'VC', 'VE', 'VG', 'VN', 'VU', 
+                    'WF', 'WS', 'XK', 'YE', 'YT', 'ZA', 'ZM', 'ZW', 'ZZ'],
+
+            },
+
+            line_items: [
+
+                {
+
+                    price_data: {
+
+                        currency: 'eur',
+                        
+                        product_data: {
+
+                            name: `You Are Buying ${cart.map(item => {
+
+                                return item.title;
+
+                            })}`
+
+                        },
+
+                        unit_amount: user.cart.total.toFixed(2) * 100,
+
+                    },
+
+                    quantity: 1,
+
+                },
+
+            ],
+
+            mode: 'payment',
+            success_url: 'http://localhost:3000/auth/success',
+            cancel_url: 'http://localhost:3000/auth/cancel',
+
+        });
+
+        res.json({ id: session.id });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+};
+
+exports.success = async (req, res, next) => {
+
+    // finding the user
+    const userId = req.session.user._id;
+    const user = user.findById(userId);
+
+    const order = user.cart.items;
+
+    res.status(200).json({ message: 'order created', order });
+
+    // empty uer cart and set total to 0
+    user.cart.items = [];
+    await user.save();
+
+}

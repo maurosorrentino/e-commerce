@@ -47,6 +47,8 @@ const userSchema = new Schema({
 
     cart: {
 
+        total: { type: Number, required: false },
+
         items: [
 
             {
