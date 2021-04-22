@@ -720,6 +720,7 @@ exports.checkout = async (req, res, next) => {
             ],
 
             mode: 'payment',
+            allow_promotion_codes: true,
             success_url: 'http://localhost:3000/auth/success',
             cancel_url: 'http://localhost:3000/auth/cancel',
 
@@ -745,14 +746,19 @@ exports.success = async (req, res, next) => {
 
     // finding the user
     const userId = req.session.user._id;
-    const user = user.findById(userId);
+    const user = await User.findById(userId);
+    const userName = user.name;
 
-    const order = user.cart.items;
-
-    res.status(200).json({ message: 'order created', order });
-
-    // empty uer cart and set total to 0
+    // empty user cart and set total to 0
     user.cart.items = [];
     await user.save();
+
+    return res.status(200).json({ message: 'success', userName });
+
+}
+
+exports.orders = async (req, res, next) => {
+
+    const userId = req.session.user._id;
 
 }

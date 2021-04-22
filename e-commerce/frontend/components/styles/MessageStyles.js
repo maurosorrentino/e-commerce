@@ -8,11 +8,11 @@ const MessageStyles = styled.div`
     width: 80%;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 
-    p {
+    h1 {
 
-    margin: 0;
-    font-weight: 600;
-    text-align: center;
+        text-align: center;
+        font-weight: 600;
+        color: green;
 
     }
 

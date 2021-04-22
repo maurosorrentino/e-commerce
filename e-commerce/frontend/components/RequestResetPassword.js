@@ -79,7 +79,7 @@ class RequestResetPassword extends Component {
 
             </Logo>
 
-            <MessageStyles><p id="message-test">{this.state.message}</p></MessageStyles>
+            <MessageStyles><h1 id="message-test">{this.state.message}</h1></MessageStyles>
     
             <Form onSubmit={this.fetchData}>
 

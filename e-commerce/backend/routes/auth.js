@@ -43,8 +43,11 @@ router.patch('/edit-item/:itemId', authController.editItem);
 // remove item from db path
 router.delete('/remove-item/:itemId', authController.removeItem);
 
+// stripe routes
 router.post('/create-checkout-session', authController.checkout);
+router.post('/success', authController.success);
 
-router.post('/auth/success', authController.success);
+// order route
+router.get('/orders', authController.orders);
 
 module.exports = router;

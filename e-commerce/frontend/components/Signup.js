@@ -171,7 +171,7 @@ class Signup extends Component {
 
             {/* showing error/messages */}
            
-            {this.state.message ? <MessageStyles><p>{this.state.message}</p></MessageStyles> : <FormErrors formErrors={this.state.formErrors} />}
+            {this.state.message ? <MessageStyles><h1>{this.state.message}</h1></MessageStyles> : <FormErrors formErrors={this.state.formErrors} />}
         
             <Form className="signUp-form-test" onSubmit={this.signupHandler}>
                 
