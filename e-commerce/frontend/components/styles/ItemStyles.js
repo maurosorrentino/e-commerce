@@ -6,12 +6,17 @@ const StyleOfItem = styled.div`
   background: rgba(0, 0, 0, 0.02);
   border: 5px solid white;
   padding: 20px;
-  font-size: 1.5rem;
-  line-height: 1.5;
   font-weight: 600;
   text-align: center;
   margin: 2rem;
   word-wrap: break-word;
+  
+  @media only screen and (max-width: 300px) and (max-width: 420px) {
+
+    width: 95%;
+    margin: 1rem auto;
+
+  }
 
   img {
 
@@ -23,7 +28,6 @@ const StyleOfItem = styled.div`
 
   p {
 
-    font-size: 10px;
     line-height: 1;
     font-weight: 300;
     flex-grow: 1;

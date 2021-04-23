@@ -4,7 +4,7 @@ const ListOfItems = styled.div`
 
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-gap: 30px;
+    grid-gap: 20px;
     max-width: 80%;
     margin: 0 auto;
     height: 100%;
