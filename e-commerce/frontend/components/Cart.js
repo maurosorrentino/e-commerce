@@ -4,6 +4,7 @@ import Checkout from '../components/Checkout';
 import Header from '../components/Header';
 import CartStyle from '../components/styles/CartStyle';
 import RemoveFromCart from '../components/RemoveFromCart';
+import LoadingStyle from '../components/styles/LoadingStyle';
 
 class Cart extends Component {
 
@@ -15,6 +16,7 @@ class Cart extends Component {
             items: [],
             total: undefined,
             email: '',
+            loading: true,
 
         }
 
@@ -48,7 +50,7 @@ class Cart extends Component {
         .then(resData => {
 
             /* mapping the items that we are getting from the backend and setting them into state so that we can fetch them */
-            this.setState({ email: resData.email, total: resData.total, items: resData.items.map(item => {
+            this.setState({ email: resData.email, loading: false, total: resData.total, items: resData.items.map(item => {
 
                 return(
 <>
@@ -62,7 +64,7 @@ class Cart extends Component {
 
                             <h1>Price:</h1>
 
-                            <p>{item.price} €</p>
+                            <p>{item.price.toFixed(2)} €</p>
 
                             <h1>Quantity:</h1>
 
@@ -97,6 +99,8 @@ class Cart extends Component {
 <>
             <Header />
 
+            {this.state.loading && (<LoadingStyle>Loading...</LoadingStyle>)}
+
             {this.state.items.length > 0 && (
 
                 <CartStyle>
@@ -115,7 +119,7 @@ class Cart extends Component {
 
             )}
 
-            {this.state.items.length === 0 && (
+            {this.state.items.length === 0 && !this.state.loading && (
 
                 <CartStyle>
 

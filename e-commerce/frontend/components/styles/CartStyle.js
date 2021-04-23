@@ -45,6 +45,16 @@ const CartStyle = styled.div`
 
     }
 
+    @media only screen and (min-width: 300px) and (max-width: 350px) {
+
+        li {
+
+            max-width: 45%;
+
+        }
+
+    }
+
     @media only screen and (min-width: 420px) and (max-width: 600px) {
 
         li {

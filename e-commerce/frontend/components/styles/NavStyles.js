@@ -25,8 +25,14 @@ const NavStyle = styled.ul`
 
     @media (max-width: 700px) {
 
-      font-size: .7rem;
+      font-size: .5rem;
       padding: 0 10px;
+
+    }
+
+    @media only screen and (min-width: 700px) and (max-width: 1100px) {
+
+      font-size: .5rem;
 
     }
     

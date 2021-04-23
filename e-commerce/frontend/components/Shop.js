@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import ListOfItems from '../components/styles/ListOfItems';
 import AddToCart from '../components/AddToCart';
 import Pagination from '../components/styles/Pagination';
+import LoadingStyle from '../components/styles/LoadingStyle';
 
 class Shop extends Component {
 
@@ -18,6 +19,7 @@ class Shop extends Component {
             perPage: 4,
             currentPage: 1,
             lastPage: null,
+            loading: true,
 
         }    
 
@@ -48,7 +50,7 @@ class Shop extends Component {
 
         .then(resData => {
 
-            this.setState({ totalItems: resData.totalItems });
+            this.setState({ loading: false, totalItems: resData.totalItems });
 
             /* mapping the items that we are getting from the backend and setting them into state so that we can fetch them */
             this.setState({ items: resData.items.map(item => {
@@ -66,7 +68,7 @@ class Shop extends Component {
                         <p>{item.description}</p>
 
                         <h1>price</h1>
-                        <p>{item.price} €</p>
+                        <p>{item.price.toFixed(2)} €</p>
 
                         {/* assigning the item id as props so that we can access it from AddToCart component and make a call to the right API point */}
                         <AddToCart itemId={item._id} />
@@ -184,21 +186,27 @@ class Shop extends Component {
 <>
             <Header />
 
+            {this.state.loading && (<LoadingStyle>Loading...</LoadingStyle>)}
+
             <ListOfItems>{currentItems}</ListOfItems>
 
-            <Pagination>
+            {!this.state.loading && (
 
-                <ul>
-                    
-                    <button disabled={this.state.currentPage === 1 ? true : false} onClick={this.handlePrev}>← Prev</button>
-                    
-                        {renderPageNumbers}
+                <Pagination>
 
-                    <button disabled={this.state.currentPage === this.state.lastPage ? true : false} onClick={this.handleNext}>Next →</button>
-                    
-                </ul>
+                    <ul>
+                        
+                        <button disabled={this.state.currentPage === 1 ? true : false} onClick={this.handlePrev}>← Prev</button>
+                        
+                            {renderPageNumbers}
 
-            </Pagination>
+                        <button disabled={this.state.currentPage === this.state.lastPage ? true : false} onClick={this.handleNext}>Next →</button>
+                        
+                    </ul>
+
+                </Pagination>
+
+            )}
 
 </>
         )

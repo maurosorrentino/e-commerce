@@ -664,7 +664,7 @@ exports.checkout = async (req, res, next) => {
 
     try {
 
-        // finding userId so that we can find the user and get the items that there are into the cart
+        // finding userId so that we can find the user and get the items that there are into the cart + the email so that the user doesn't have to write it manually
         const userId = req.session.user._id;
         const user = await User.findById(userId);
         const email = user.email;
@@ -701,11 +701,11 @@ exports.checkout = async (req, res, next) => {
                         
                         product_data: {
 
-                            name: `You Are Buying ${cart.map(item => {
+                            name: `You Are Buying: ${cart.map(item => {
 
                                 return item.title;
 
-                            })}`
+                            })}`,
 
                         },
 
@@ -725,6 +725,10 @@ exports.checkout = async (req, res, next) => {
             cancel_url: 'http://localhost:3000/auth/cancel',
 
         });
+
+        // finding successful transaction id
+        const intent = await stripe.paymentIntents.retrieve(session.payment_intent);
+        console.log(session);
 
         res.json({ id: session.id });
 

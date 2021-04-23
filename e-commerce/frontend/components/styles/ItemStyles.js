@@ -11,6 +11,7 @@ const StyleOfItem = styled.div`
   font-weight: 600;
   text-align: center;
   margin: 2rem;
+  word-wrap: break-word;
 
   img {
 
@@ -23,7 +24,7 @@ const StyleOfItem = styled.div`
   p {
 
     font-size: 10px;
-    line-height: .3;
+    line-height: 1;
     font-weight: 300;
     flex-grow: 1;
     font-size: 1.5rem;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Header from '../components/Header';
 import EditItem from '../components/EditItem';
+import LoadingStyle from '../components/styles/LoadingStyle';
 
 class MyItems extends Component {
 
@@ -11,6 +12,7 @@ class MyItems extends Component {
         this.state = {
 
             items: [],
+            loading: true,
 
         }
 
@@ -43,7 +45,7 @@ class MyItems extends Component {
 
         .then(resData => { 
 
-            this.setState({ items: resData.items.map(item => { 
+            this.setState({ loading: false, items: resData.items.map(item => { 
 
                 return (
 
@@ -69,14 +71,19 @@ class MyItems extends Component {
     render() {
 
         return (
-
 <>
             <Header />
 
-            <h1 style={{ textAlign: 'center', color: 'green' }}>{this.state.items.length > 0 ? `You Have Created ${this.state.items.length} 
-            Item${this.state.items.length > 1 ? 's' : ''}:` : 'You Did Not Create Any Item Yet'}</h1>
+            {this.state.loading && (<LoadingStyle>Loading...</LoadingStyle>)}
 
-            <div>{this.state.items}</div>
+            {!this.state.loading && (
+<>
+                <h1 style={{ textAlign: 'center', color: 'green' }}>{this.state.items.length > 0 ? `You Have Created ${this.state.items.length} 
+                Item${this.state.items.length > 1 ? 's' : ''}:` : 'You Did Not Create Any Item Yet'}</h1>
+
+                <div>{this.state.items}</div>
+</>
+            )}
 </>
         )
 

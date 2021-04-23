@@ -3,7 +3,6 @@ import Link from 'next/link';
 
 import Logo from '../components/styles/Logo';
 import MessageStyles from '../components/styles/MessageStyles';
-import Order from '../components/Order';
 
 class Success extends Component {
 

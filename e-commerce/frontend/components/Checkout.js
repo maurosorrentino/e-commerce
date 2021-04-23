@@ -27,7 +27,7 @@ function Checkout() {
         });
 
         const session = await res.json();
-
+ 
         // when user clicks on the button we redirect to the checkout page
         const result = await stripe.redirectToCheckout({
 
@@ -37,9 +37,9 @@ function Checkout() {
 
         if(result.error) {
 
-            console.log(err); // remember to change it!!!
+            console.log(result.error);
 
-        }
+        } 
 
     };
 
