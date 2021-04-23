@@ -2,101 +2,26 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 
 import Form from './styles/Form';
-import FormErrors from './FormErrors';
 import MessageStyles from '../components/styles/MessageStyles';
 import Logo from '../components/styles/Logo';
 
 class Signup extends Component {
 
-    constructor(props) {
-        
-        super(props);
+    state = {
 
-        // loading is for animation while the user is waiting for the account to be created
-        // all the other "valid" states and formErrors are there for handling validation on the client side
-        this.state = {
-
-            email: '',
-            name: '',
-            password: '',
-            confirmPassword: '',
-            loading: false,
-            emailValid: false,
-            passwordValid: false,
-            confirmPasswordValid: false,
-            nameValid: false,
-            formValid: false,
-            message: null,
-            formErrors: { email: '', password: '', name: '', confirmPasswordValid: '' },
-
-        }
-
-        this.validateField = this.validateField.bind(this);
-        this.validateForm = this.validateForm.bind(this);
+        email: '',
+        name: '',
+        password: '',
+        confirmPassword: '',
+        loading: false,
+        message: null,
 
     }
 
     // handling errors and inputs
     handleInputs = e => {
 
-        const name = e.target.name;
-        const value = e.target.value;             // validateField is the next function
-        this.setState({ [name]: value }, () => {this.validateField(name, value)});
-
-    }
-
-    // function that will be used in handleError function (here we validate the user input with booleans false and true)
-    validateField(fieldName, value) {
-
-        let fieldValidationErrors = this.state.formErrors;
-        let emailValid = this.state.emailValid;
-        let passwordValid = this.state.passwordValid;
-        let nameValid = this.state.nameValid;
-        let confirmPasswordValid = this.state.confirmPasswordValid;
-
-        // validating user inputs
-        switch(fieldName) {
-
-            case 'email':
-                emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-                fieldValidationErrors.email = emailValid ? '' : 'please enter a valid email';
-                break;
-
-            case 'password':
-                passwordValid = this.state.password.length >= 5;
-                fieldValidationErrors.password = passwordValid ? '' : 'password is too short';
-                break;
-
-            case 'name':
-                nameValid = this.state.name.length > 0;
-                fieldValidationErrors.name = nameValid ? '' : 'please enter your name';
-                break;
-
-            case 'confirmPassword':
-                confirmPasswordValid = this.state.password === this.state.confirmPassword;
-                fieldValidationErrors.confirmPassword = confirmPasswordValid ? '' : 'passwords do not match!';
-                break;
-
-        }
-
-        // setting the stases based on validation
-        this.setState({ 
-            
-            formErrors: fieldValidationErrors, 
-            emailValid: emailValid,
-            passwordValid: passwordValid,
-            nameValid: nameValid,
-            confirmPasswordValid: confirmPasswordValid,
-
-                // validateForm is the next function
-        }, this.validateForm);
-
-    }
-
-    // validating the form (it will be true only if all the inputs are correct)
-    validateForm() {
-
-        this.setState({ formValid: this.state.nameValid && this.state.passwordValid && this.state.emailValid && this.state.confirmPasswordValid })
+        this.setState({ [e.target.name]: e.target.value });
 
     }
 
@@ -171,7 +96,7 @@ class Signup extends Component {
 
             {/* showing error/messages */}
            
-            {this.state.message ? <MessageStyles><h1>{this.state.message}</h1></MessageStyles> : <FormErrors formErrors={this.state.formErrors} />}
+            {this.state.message && ( <MessageStyles><h1>{this.state.message}</h1></MessageStyles> ) }
         
             <Form className="signUp-form-test" onSubmit={this.signupHandler}>
                 
@@ -186,7 +111,7 @@ class Signup extends Component {
                                 
                             <input
                                 
-                                className={this.state.emailValid ? '' : 'invalid'}
+                                className={this.state.message === 'Invalid email' ? 'invalid' : ''}
                                 id="email-test"
                                 type="email"
                                 name="email"
@@ -204,7 +129,7 @@ class Signup extends Component {
 
                             <input
 
-                                className={this.state.nameValid ? '' : 'invalid'}
+                                className={this.state.message === 'please enter your name' ? 'invalid' : ''}
                                 id="name-test"
                                 type="text"
                                 name="name"
@@ -222,7 +147,7 @@ class Signup extends Component {
 
                             <input
 
-                                className={this.state.passwordValid ? '' : 'invalid'}
+                                className={this.state.message === 'password needs to be at least 5 characters' ? 'invalid' : ''}
                                 id="password-test"
                                 type="password"
                                 name="password"
@@ -240,7 +165,7 @@ class Signup extends Component {
 
                             <input
 
-                                className={this.state.confirmPasswordValid ? '' : 'invalid'}
+                                className={this.state.message === 'passwords do not match' ? 'invalid' : ''}
                                 id="confirmPassword-test"
                                 type="password"
                                 name="confirmPassword"

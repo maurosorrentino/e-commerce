@@ -113,7 +113,7 @@ class Login extends Component {
 
             </Logo>
 
-            <MessageStyles><h1 id="message-test">{this.state.message}</h1></MessageStyles>
+            { this.state.message && (<MessageStyles><h1 id="message-test">{this.state.message}</h1></MessageStyles> ) }
 
             <Form id="login-form-test" onSubmit={this.loginHandler}>
 

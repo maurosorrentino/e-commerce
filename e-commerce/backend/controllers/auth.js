@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Item = require('../models/item');
+const Order = require('../models/order');
 
 require('dotenv').config();
 
@@ -8,7 +9,7 @@ const jwt = require('jsonwebtoken');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // signup controller
-exports.signup = async (req, res, next) => {
+exports.signup = async (req, res) => {
 
     try {
     
@@ -37,17 +38,24 @@ exports.signup = async (req, res, next) => {
 
         }
 
-        // checking if the user wrote the password requested (double check so that we do not need to send a "change password" email)
-        if(password !== confirmPassword) {
-
-            return res.status(403).json({ message: 'passwords do not match' });
-
-        }
-
         // checking if the name is empty
         if(name.length === 0) {
 
             return res.status(422).json({ message: 'please enter your name' });
+
+        }
+
+        // checking if password is too short
+        if(password.length < 5) {
+
+            return res.status(422).json({ message: 'password needs to be at least 5 characters' });
+
+        }
+
+        // checking if the user wrote the password requested (double check so that we do not need to send a "change password" email)
+        if(password !== confirmPassword) {
+
+            return res.status(403).json({ message: 'passwords do not match' });
 
         }
 
@@ -91,7 +99,7 @@ exports.signup = async (req, res, next) => {
 };
 
 // login controller
-exports.login = async (req, res, next) => {
+exports.login = async (req, res) => {
 
     try { 
 
@@ -171,7 +179,7 @@ exports.login = async (req, res, next) => {
 
 };
 
-exports.createItem = async (req, res, next) => {
+exports.createItem = async (req, res) => {
 
     try {
 
@@ -259,7 +267,7 @@ exports.createItem = async (req, res, next) => {
 
 };
 
-exports.logout = (req, res, next) => {
+exports.logout = (req, res) => {
 
     try {
         
@@ -288,7 +296,7 @@ exports.logout = (req, res, next) => {
 
 };
 
-exports.addToCart = async (req, res, next) => {
+exports.addToCart = async (req, res) => {
 
     try {
 
@@ -374,7 +382,7 @@ exports.addToCart = async (req, res, next) => {
 
 };
 
-exports.cartPage = async (req, res, next) => {
+exports.cartPage = async (req, res) => {
 
     try {
 
@@ -440,7 +448,7 @@ exports.cartPage = async (req, res, next) => {
 
 };
 
-exports.removeFromCart = async (req, res, next) => {
+exports.removeFromCart = async (req, res) => {
 
     try {
 
@@ -523,7 +531,7 @@ exports.removeFromCart = async (req, res, next) => {
 
 };
 
-exports.myItems = async (req, res, next) => {
+exports.myItems = async (req, res) => {
 
     try {
 
@@ -548,7 +556,7 @@ exports.myItems = async (req, res, next) => {
 
 };
 
-exports.editItem = async (req, res, next) => {
+exports.editItem = async (req, res) => {
 
     try {
 
@@ -622,7 +630,7 @@ exports.editItem = async (req, res, next) => {
 
 };
 
-exports.removeItem = async (req, res, next) => {
+exports.removeItem = async (req, res) => {
 
     try {
 
@@ -660,7 +668,7 @@ exports.removeItem = async (req, res, next) => {
 
 };
 
-exports.checkout = async (req, res, next) => {
+exports.checkout = async (req, res) => {
 
     try {
 
@@ -726,8 +734,6 @@ exports.checkout = async (req, res, next) => {
 
         });
 
-        // finding successful transaction id
-        const intent = await stripe.paymentIntents.retrieve(session.payment_intent);
         console.log(session);
 
         res.json({ id: session.id });
@@ -746,18 +752,54 @@ exports.checkout = async (req, res, next) => {
 
 };
 
-exports.success = async (req, res, next) => {
+exports.success = async (req, res) => {
 
-    // finding the user
-    const userId = req.session.user._id;
-    const user = await User.findById(userId);
-    const userName = user.name;
+    try {
 
-    // empty user cart and set total to 0
-    user.cart.items = [];
-    await user.save();
+        // finding the user and sending the name into the success page 
+        const userId = req.session.user._id;
+        const user = await User.findById(userId);
+        const userName = user.name;
 
-    return res.status(200).json({ message: 'success', userName });
+        // saving total into order model into db
+        const total = user.cart.total;
+
+        // creating order
+        const order = new Order({
+
+            items: {
+
+                title: user.cart.items.map(item => { return item.title }),
+                price: user.cart.items.map(item => { return item.price }),
+                quantity: user.cart.items.map(item => { return item.quantity }),
+                itemId: user.cart.items.map(item => { return item.itemId }),
+
+            },
+
+            total,
+            userId,
+
+        });
+
+        await order.save();
+
+        // empty user cart 
+        user.cart.items = [];
+        await user.save();
+
+        return res.status(200).json({ message: 'success', userName });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
 
 }
 

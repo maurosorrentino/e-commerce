@@ -73,6 +73,38 @@ describe('Signup errors', () => {
 
     });
 
+    it("shows an error message and status code of 422 if passwords.length < 5", async (done) => {
+
+        try {
+
+            const req = {
+
+                body: {
+    
+                    email: 'test2@test.com',
+                    name: 'test',
+                    password: '1234',
+                    confirmPassword: '1234',
+    
+                }
+    
+            };
+    
+            const response = await put('/auth/signup', req.body);
+    
+            expect(response.status).toEqual(422);
+            expect(response.body.message).toEqual('password needs to be at least 5 characters');
+            done();
+
+        } catch (err) {
+
+            console.log(err);
+            done();
+
+        }
+
+    });
+
     it("shows an error message and status code of 403 if passwords do not match", async (done) => {
 
         try {

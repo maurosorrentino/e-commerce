@@ -70,7 +70,7 @@ class Success extends Component {
 
             <MessageStyles>
 
-                <h1>Thank You {this.state.name} For Your Order! <br></br><br></br> If You Have Any Question Please Send Us An Email On: <br></br><br></br>
+                <h1>Thank You {this.state.name.toUpperCase()} For Your Order! <br></br><br></br> If You Have Any Question Please Send Us An Email On: <br></br><br></br>
                 <strong>myshop@customerservice.com</strong></h1>
 
             </MessageStyles>

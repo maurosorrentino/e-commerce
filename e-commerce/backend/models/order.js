@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
 
-    transactionId: {
+    userId: {
 
-        type: String,
+        type: Schema.Types.ObjectId,
         required: true,
 
     },
@@ -15,18 +15,18 @@ const orderSchema = new Schema({
 
         {
 
-            itemId: {
+            itemId: [{
 
                 type: Schema.Types.ObjectId,
                 required: true,
 
-            },
+            }],
 
-            quantity: { type: Number, required: true },
+            quantity: [{ type: Number, required: true }],
             
-            title: { type: String, required: true },
+            title: [{ type: String, required: true }],
 
-            price: { type: Number, required: true },
+            price: [{ type: Number, required: true }],
 
         }
 

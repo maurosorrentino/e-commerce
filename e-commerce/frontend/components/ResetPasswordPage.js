@@ -98,7 +98,7 @@ class ResetPasswordPage extends Component {
         return (
 <>
 
-            <MessageStyles><h1 id="message-test">{this.state.message}</h1></MessageStyles>
+            { this.state.message && (<MessageStyles><h1 id="message-test">{this.state.message}</h1></MessageStyles> ) }
 
             <Form onSubmit={this.fetchData}>
 
