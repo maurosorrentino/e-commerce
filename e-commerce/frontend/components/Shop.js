@@ -1,8 +1,8 @@
 import React, { Component, useEffect } from 'react';
 
-import StyleOfItem from '../components/styles/ItemStyles';
+import StyleOfItem from '../components/styles/StyleOfItem';
 import Header from '../components/Header';
-import ListOfItems from '../components/styles/ListOfItems';
+import ItemsContainerStyle from './styles/ItemsContainerStyle';
 import AddToCart from '../components/AddToCart';
 import Pagination from '../components/styles/Pagination';
 import LoadingStyle from '../components/styles/LoadingStyle';
@@ -188,7 +188,7 @@ class Shop extends Component {
 
             {this.state.loading && (<LoadingStyle>Loading...</LoadingStyle>)}
 
-            <ListOfItems>{currentItems}</ListOfItems>
+            <ItemsContainerStyle>{currentItems}</ItemsContainerStyle>
 
             {!this.state.loading && (
 

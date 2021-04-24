@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ListOfItems = styled.div`
+const ItemsContainerStyle = styled.div`
 
     display: grid;
     grid-template-columns: 50% 50%;
@@ -17,4 +17,4 @@ const ListOfItems = styled.div`
 
 `;
 
-export default ListOfItems;
+export default ItemsContainerStyle;

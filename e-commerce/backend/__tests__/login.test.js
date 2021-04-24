@@ -118,7 +118,7 @@ describe('Login', () => {
             const response = await post('/auth/login', req.body);
 
             expect(response.status).toBe(200);
-            expect(response.body.message).toEqual('successful login, click on "my shop" button above in order to see our shop!');
+            expect(response.body.message).toEqual('Successful Login, You Are Being Redirected To Our Shop');
             done();
             
         } catch (err) {

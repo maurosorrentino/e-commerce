@@ -74,7 +74,7 @@ class Login extends Component {
 
             // we only want to show the user one of these 3 messages
             if(resData.message !== 'invalid password, please try again' && resData.message !== `There is no account into our database with this email: ${this.state.email}` 
-            && resData.message !== 'successful login, click on "my shop" button above in order to see our shop!') {
+            && resData.message !== 'Successful Login, You Are Being Redirected To Our Shop') {
 
                 this.setState({ message: null });
 
@@ -85,6 +85,17 @@ class Login extends Component {
                 this.setState({ message: null });
 
             };
+
+            // redirecting to the shop page at successful login
+            if(resData.message === 'Successful Login, You Are Being Redirected To Our Shop') {
+
+                setTimeout(() => {
+
+                    window.location.replace('/shop');
+                    
+                }, 3000);
+
+            }
 
         })
 

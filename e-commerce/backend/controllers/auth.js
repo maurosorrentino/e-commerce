@@ -162,7 +162,7 @@ exports.login = async (req, res) => {
 
             .catch(err => console.log(err));
 
-        return res.status(200).json({ message: 'successful login, click on "my shop" button above in order to see our shop!' });
+        return res.status(200).json({ message: 'Successful Login, You Are Being Redirected To Our Shop' });
 
     } catch (err) {
 
@@ -733,8 +733,6 @@ exports.checkout = async (req, res) => {
             cancel_url: 'http://localhost:3000/auth/cancel',
 
         });
-
-        console.log(session);
 
         res.json({ id: session.id });
 
