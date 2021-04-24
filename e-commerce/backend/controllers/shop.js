@@ -4,7 +4,6 @@ const { transport } = require('../mail/mail');
 
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
-const { urlencoded } = require('body-parser');
 
 exports.getItems = async (req, res, next) => {
 
@@ -181,3 +180,32 @@ exports.resetPasswordPage = async (req, res, next) => {
     }
 
 };
+
+exports.viewItem = async (req, res) => {
+
+    try {
+
+        // finding the item to get and sending all the info that we need into res
+        const itemId = req.params.itemId;
+        const item = await Item.findById(itemId);
+
+        const title = item.title;
+        const description = item.description;
+        const image = item.image;
+        const price = item.price;
+
+        res.status(200).json({ message: 'item fetched', title, description, image, price });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+}

@@ -363,10 +363,11 @@ exports.addToCart = async (req, res) => {
 
             });
 
-            res.status(200).redirect('/shop');
-            return await user.save();
+            await user.save();
 
         } 
+
+        res.status(200).json();
         
     } catch (err) {
 

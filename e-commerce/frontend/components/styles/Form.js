@@ -73,6 +73,12 @@ const Form = styled.form`
 
   }
 
+  button:hover {
+
+    cursor: pointer;
+
+  }
+
   fieldset {
 
     padding: 0;

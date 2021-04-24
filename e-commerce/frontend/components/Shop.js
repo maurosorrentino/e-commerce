@@ -1,4 +1,5 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component } from 'react';
+import Link from 'next/link';
 
 import StyleOfItem from '../components/styles/StyleOfItem';
 import Header from '../components/Header';
@@ -69,6 +70,8 @@ class Shop extends Component {
 
                         <h1>price</h1>
                         <p>{item.price.toFixed(2)} €</p>
+
+                        <Link href={`/view-item/${item._id}`}>View Item</Link>
 
                         {/* assigning the item id as props so that we can access it from AddToCart component and make a call to the right API point */}
                         <AddToCart itemId={item._id} />

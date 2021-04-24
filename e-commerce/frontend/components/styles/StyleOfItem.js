@@ -42,7 +42,7 @@ const StyleOfItem = styled.div`
 
   }
 
-  button {
+  button, a {
 
     width: auto;
     background: green;
@@ -51,7 +51,14 @@ const StyleOfItem = styled.div`
     font-size: 2rem;
     font-weight: 600;
     padding: 0.5rem 1.2rem;
+    margin: 1rem;
     
+  }
+
+  button:hover {
+
+    cursor: pointer;
+
   }
 
 `;

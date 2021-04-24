@@ -16,6 +16,12 @@ const Logo = styled.h1`
 
   }
 
+  a:hover {
+
+    cursor: pointer;
+
+  }
+
   @media (max-width: 1300px) {
 
     margin: 3rem;
