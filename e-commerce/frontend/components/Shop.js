@@ -71,7 +71,7 @@ class Shop extends Component {
                         <h1>price</h1>
                         <p>{item.price.toFixed(2)} €</p>
 
-                        <Link href={`/view-item/${item._id}`}>View Item</Link>
+                        <button><Link href={`/view-item/${item._id}`}>View Item</Link></button>
 
                         {/* assigning the item id as props so that we can access it from AddToCart component and make a call to the right API point */}
                         <AddToCart itemId={item._id} />

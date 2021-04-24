@@ -42,7 +42,7 @@ const StyleOfItem = styled.div`
 
   }
 
-  button, a {
+  button {
 
     width: auto;
     background: green;
