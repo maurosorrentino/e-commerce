@@ -762,18 +762,23 @@ exports.success = async (req, res) => {
         // saving total into order model into db
         const total = user.cart.total;
 
+        const items = user.cart.items.map(item => {
+
+            return ({
+
+                title: item.title,
+                price: item.price,
+                quantity: item.quantity,
+                itemId: item.itemId,
+
+            })
+
+        })
+
         // creating order
         const order = new Order({
 
-            items: {
-
-                title: user.cart.items.map(item => { return item.title }),
-                price: user.cart.items.map(item => { return item.price }),
-                quantity: user.cart.items.map(item => { return item.quantity }),
-                itemId: user.cart.items.map(item => { return item.itemId }),
-
-            },
-
+            items,
             total,
             userId,
 
@@ -801,8 +806,26 @@ exports.success = async (req, res) => {
 
 }
 
-exports.orders = async (req, res, next) => {
+exports.orders = async (req, res) => {
 
-    const userId = req.session.user._id;
+    try {
+
+        // finding the user id so that we can fetch all the orders with the given id
+        const userId = req.session.user._id;
+        const orders = await Order.find({ userId });
+
+        return res.status(200).json({ message: 'fetched orders', orders });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
 
 }

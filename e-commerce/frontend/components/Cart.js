@@ -105,7 +105,7 @@ class Cart extends Component {
 
                 <CartStyle>
 
-                    <h1>List Of The Items That You Have In Your Cart:</h1>
+                    <h1>{this.state.items.length > 1 ? 'List Of The Items That You Have In Your Cart:' : 'You Have 1 Item In Your Cart'}</h1>
                     
                     {this.state.items}
 
