@@ -69,7 +69,7 @@ class Shop extends Component {
                         <p>{item.description}</p>
 
                         <h1>price</h1>
-                        <p>{item.price.toFixed(2)} €</p>
+                        <p>{Number(item.price).toFixed(2)} €</p>
 
                         <button><Link href={`/view-item/${item._id}`}>View Item</Link></button>
 

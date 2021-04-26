@@ -2,12 +2,14 @@ import styled from 'styled-components';
 
 const OrderStyle = styled.div`
 
-    margin-top: 1rem;
     word-wrap: break-word;
+    margin: 1rem;
+    margin-right: 3.5rem;
 
     ul {
 
         list-style: none;
+        margin-top: 3rem;
 
     }
 
@@ -16,9 +18,9 @@ const OrderStyle = styled.div`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+        box-shadow: 0 1px 15px rgba(0, 0, 0, 0.30);
         margin: 1rem;
-        max-width: 95%;
+        max-width: 100%;
         flex-wrap: wrap;
 
     }
@@ -56,10 +58,12 @@ const OrderStyle = styled.div`
 
         .order {
 
-            max-width: 65%;
+            max-width: 70%;
             margin: 0 auto;
 
         }
+
+        margin-right: 0;
 
     }
 
@@ -78,7 +82,7 @@ const OrderStyle = styled.div`
 
         .order {
 
-            max-width: 90%;
+            max-width: 95%;
 
         }
 
@@ -94,14 +98,14 @@ const OrderStyle = styled.div`
 
         .order {
 
-            max-width: 70%;
+            max-width: 65%;
             margin-left: 4.5rem;
 
         }
 
         .item {
 
-            margin-left: 4rem;
+            margin-left: 1.7rem;
 
         }
 
@@ -117,9 +121,10 @@ const OrderStyle = styled.div`
 
     }
 
-    .black {
+    #order-id-total {
 
         color: black;
+        box-shadow: 0 1px 10px rgba(0, 0, 0, 0.30);
         
     }
 

@@ -64,7 +64,7 @@ class Cart extends Component {
 
                             <h1>Price:</h1>
 
-                            <p>{item.price.toFixed(2)} €</p>
+                            <p>{Number(item.price).toFixed(2)} €</p>
 
                             <h1>Quantity:</h1>
 
@@ -105,13 +105,13 @@ class Cart extends Component {
 
                 <CartStyle>
 
-                    <h1>{this.state.items.length > 1 ? 'List Of The Items That You Have In Your Cart:' : 'You Have 1 Item In Your Cart'}</h1>
+                    <h1>List Of The Items That You Have In Your Cart:</h1>
                     
                     {this.state.items}
 
                     <h1>Total:</h1>
                     
-                    <p>{this.state.total.toFixed(2)} €</p>
+                    <p>{Number(this.state.total).toFixed(2)} €</p>
 
                     <Checkout />
                     

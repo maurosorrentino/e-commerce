@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import OrderStyle from '../components/styles/OrderStyle';
 import Header from '../components/Header';
-import StyleOfItem from '../components/styles/StyleOfItem';
+import LoadingStyle from '../components/styles/LoadingStyle';
 
 class Order extends Component {
 
@@ -53,7 +53,7 @@ class Order extends Component {
                     <>
                         <ul key={order._id}>
 
-                            <h1 className="black">Order id: {order._id}</h1>
+                            <h1 id="order-id-total">Order id: {order._id}</h1>
 
                             <li className="order">
                                 
@@ -73,7 +73,7 @@ class Order extends Component {
 
                                                     <h1>Price:</h1>
 
-                                                    <p>{item.price} €</p>
+                                                    <p>{Number(item.price).toFixed(2)} €</p>
 
                                                     <h1>Quantity:</h1>
 
@@ -88,10 +88,10 @@ class Order extends Component {
                                     )
 
                                 })}
-
-                                <h1>Total: {order.total} €</h1>
                                 
                             </li>
+
+                            <h1 id="order-id-total">Total: {Number(order.total).toFixed(2)} €</h1>
 
                         </ul>
 
@@ -120,7 +120,17 @@ class Order extends Component {
 
             <Header />
 
-            <OrderStyle>{this.state.orders}</OrderStyle>
+            {this.state.loading && (<LoadingStyle>Loading...</LoadingStyle>) }
+
+            {this.state.orders.length === 0 && !this.state.loading && (
+            
+                <OrderStyle>
+
+                    <h1>you did not order anything yet.</h1>
+
+                </OrderStyle>) }
+
+            {!this.state.loading && (<OrderStyle>{this.state.orders}</OrderStyle>) }
 </>
         )
 

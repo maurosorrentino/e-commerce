@@ -18,7 +18,6 @@ class ViewItem extends Component {
             description: '',
             image: '',
             price: undefined,
-            message: null,
 
         }
 
@@ -80,8 +79,6 @@ class ViewItem extends Component {
             <Header />
 
             {this.state.loading && ( <LoadingStyle>Loading...</LoadingStyle> )}
-
-            {this.state.message && ( <MessageStyles><h1>{this.state.message}</h1></MessageStyles> )}
 
             {!this.state.loading && (
 
