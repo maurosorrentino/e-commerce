@@ -17,7 +17,7 @@ const CartStyle = styled.div`
         align-items: center;
         justify-content: space-between;
         padding: 1rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.30);
         margin-bottom: 1rem;
         max-width: 95%;
         flex-wrap: wrap;

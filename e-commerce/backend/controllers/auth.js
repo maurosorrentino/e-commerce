@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Item = require('../models/item');
 const Order = require('../models/order');
+const Review = require('../models/review');
 
 require('dotenv').config();
 
@@ -74,7 +75,7 @@ exports.signup = async (req, res) => {
 
                 items: []
 
-            }
+            },
 
         });
 
@@ -830,3 +831,61 @@ exports.orders = async (req, res) => {
     }
 
 }
+
+exports.review = async (req, res) => {
+
+    try {
+
+        // getting the user id so that we can find all the orders made by the user
+        const userId = req.session.user._id;
+        const orders = await Order.find({ userId });
+
+        // getting the item that the user wants to review
+        const itemId = req.params.itemId;
+        const item = await Item.findById(itemId);
+
+        // empty array where we will push all the item ids bought by the user
+        const itemIds = [];
+
+        // mapping the orders so that we can push the ids into the empty array
+        orders.map(order => {
+
+            order.items.map(item => {
+
+                const ids = item.itemId;
+                itemIds.push(ids);
+
+            })
+            
+
+        })
+
+        // finding index of the item id
+        const itemIndex = itemIds.findIndex(i => {
+
+            return i.toString() === item._id.toString();
+
+        });
+
+        // if the item index is -1 we throw a error message to the user because it means that he did not buy it
+        if(itemIndex === -1) {
+
+            return res.status(401).json({ message: 'Only Users That Bought This Item Can Make A Review.' });
+            
+        } 
+
+        const review = req.body.review;
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+};

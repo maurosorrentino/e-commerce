@@ -1,26 +1,160 @@
 import styled from 'styled-components';
 
-const CartStyle = styled.div`
+const ReviewStyle = styled.div`
 
-    ul {
+    box-shadow: 0 2px 3rem rgba(0, 0, 0, 0.30);
+    margin: 2rem;
+    text-transform: uppercase;
 
-        list-style: none;
-        padding: 0;
-        margin: auto;
-        width: 45rem;
+    button {
+
+        width: auto;
+        background: green;
+        color: white;
+        border: 0;
+        font-size: 2rem;
+        font-weight: 600;
+        padding: 0.5rem 1.2rem;
+        margin: 1rem;
+        text-transform: uppercase;
 
     }
 
-    li {
+    button:hover {
 
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-        margin-bottom: 1rem;
-        max-width: 95%;
-        flex-wrap: wrap;
+        cursor: pointer;
+
+    }
+
+    #side-middle-margin-bottom {
+
+        margin-bottom: 2rem;
+
+    }
+
+    #write-review-container {
+
+        text-align: center;
+
+    }
+
+    textarea {
+
+        margin: 2rem auto;
+        display: block;
+
+    }
+
+    .heading {
+
+        font-size: 1.5rem;
+        margin-right: .5rem;
+
+    }
+
+    .checked {
+
+      color: orange;
+
+    }
+
+    #stars {
+
+        margin-left: 10px;
+
+    }
+
+    #total-reviews {
+
+        margin-right: 10px;
+
+    }
+
+    #user-rating {
+
+        text-align: center;
+        margin: 1rem;
+
+    }
+
+    /* 3 column layout */
+    .side {
+
+        float: left;
+        width: 15%;
+        margin-top: 10px;
+
+    }
+
+    .middle {
+
+        float: left;
+        width: 70%;
+        margin-top: 10px;
+        
+    }
+
+    /* Place text to the right */
+    .right {
+
+       text-align: right;
+
+    }
+
+    /* The bar container */
+    .bar-container {
+
+        width: 100%;
+        background-color: #f1f1f1;
+        text-align: center;
+        color: white;
+        
+    }
+
+    /* Individual bars */
+    .bar-5 {
+        
+        width: 60%; 
+        height: 18px; 
+        background-color: #4CAF50;
+        
+    }
+    
+    .bar-4 {
+        
+        width: 30%; 
+        height: 18px; 
+        background-color: #2196F3;
+        
+    }
+    
+    .bar-3 {
+        
+        width: 10%; 
+        height: 18px; 
+        background-color: #00bcd4;
+        
+    }
+    
+    .bar-2 {
+        
+        width: 4%; 
+        height: 18px; 
+        background-color: #ff9800;
+        
+    }
+    
+    .bar-1 {
+        
+        width: 15%; 
+        height: 18px; 
+        background-color: #f44336;
+        
+    }
+
+    hr {
+
+        border: 2px solid gray;
 
     }
 
@@ -66,44 +200,6 @@ const CartStyle = styled.div`
 
     }
 
-    h1, p {
-
-        margin: 1rem;
-        text-align: center;
-        font-weight: 600;
-        color: green;
-        text-transform: uppercase;
-
-    }
-
-    button {
-
-        background: red;
-        color: white;
-        border: 0;
-        font-size: .7rem;
-        font-weight: 600;
-        padding: 0.5rem 1.2rem;
-        border-radius: 4px;
-        
-    }
-
-    button:hover {
-
-        cursor: pointer;
-
-    }
-
-    #checkoutButton {
-
-        margin: 1rem auto;
-        display: block;
-        background-color: green;
-        font-size: 1.5rem;
-        text-transform: uppercase;
-
-    }
-
 `;
 
-export default CartStyle;
+export default ReviewStyle;

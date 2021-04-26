@@ -6,7 +6,7 @@ const MessageStyles = styled.div`
     background: white;
     margin: 2rem auto;
     width: 80%;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.30);
     word-wrap: break-word;
 
     h1 {

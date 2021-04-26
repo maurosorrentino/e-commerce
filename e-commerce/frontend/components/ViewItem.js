@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import StyleOfItem from '../components/styles/StyleOfItem';
 import LoadingStyle from '../components/styles/LoadingStyle';
-import MessageStyles from '../components/styles/MessageStyles';
 import AddToCart from '../components/AddToCart';
+import Review from '../components/Review';
 
 class ViewItem extends Component {
 
@@ -81,7 +81,7 @@ class ViewItem extends Component {
             {this.state.loading && ( <LoadingStyle>Loading...</LoadingStyle> )}
 
             {!this.state.loading && (
-
+<>
                 <StyleOfItem>
 
                     <h1>title</h1>
@@ -93,14 +93,14 @@ class ViewItem extends Component {
                     <p>{this.state.description}</p>
 
                     <h1>price</h1>
-                    <p>{this.state.price} €</p>
+                    <p>{Number(this.state.price).toFixed(2)} €</p>
 
                     <AddToCart itemId={this.props.itemId} />
 
                 </StyleOfItem>
 
-                
-
+                <Review itemId={this.props.itemId} />
+</>
             )}
 </>
         )

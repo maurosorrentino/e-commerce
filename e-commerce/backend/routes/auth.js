@@ -41,4 +41,7 @@ router.post('/success', authController.success);
 // order route
 router.get('/orders', authController.orders);
 
+// review route
+router.put('/write-review/:itemId', authController.review);
+
 module.exports = router;
