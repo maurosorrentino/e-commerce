@@ -99,6 +99,8 @@ class ViewItem extends Component {
 
                 </StyleOfItem>
 
+                
+
             )}
 </>
         )

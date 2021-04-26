@@ -48,9 +48,12 @@ const OrderStyle = styled.div`
         .item {
 
             max-width: 95%;
-            margin: .5rem 5px;
+            margin: .5rem 9px;
 
         }
+
+        margin: 1rem;
+        margin-right: 3.5rem;
 
     }
 
@@ -63,7 +66,13 @@ const OrderStyle = styled.div`
 
         }
 
-        margin-right: 0;
+        .item {
+
+            max-width: 90%;
+
+        }
+
+        margin-left: 1rem;
 
     }
 
@@ -71,8 +80,13 @@ const OrderStyle = styled.div`
 
         .order {
 
-            max-width: 90%;
-            margin: 0;
+            max-width: 100%;
+
+        }
+
+        #order-id-total {
+
+            margin-right: 1rem;
 
         }
 
@@ -82,15 +96,17 @@ const OrderStyle = styled.div`
 
         .order {
 
-            max-width: 95%;
+            max-width: 90%;
 
         }
 
         .item {
 
-            margin-left: .7rem;
+            margin-left: .6rem;
 
         }
+
+        margin-right: 3.5rem;
 
     }
 
