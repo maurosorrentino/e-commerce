@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { FaStar } from 'react-icons/fa';
 
 import MessageStyles from '../components/styles/MessageStyles';
+import ViewReview from '../components/ViewReview';
+import WriteReviewStyle from '../components/styles/WriteReviewStyle';
 
 class WriteReview extends Component {
 
@@ -118,7 +120,7 @@ class WriteReview extends Component {
             rating4.classList.remove("orange");
             rating3.classList.remove("orange");
             rating2.classList.remove("orange");
-            rating1.classList.remove("orange");
+            rating1.classList.remove("orange2");
 
         });
 
@@ -238,7 +240,7 @@ class WriteReview extends Component {
 
         return(
 <>
-            <div id="write-review-container">
+            <WriteReviewStyle>
 
                 <h1>write a review for this product!</h1>
 
@@ -260,7 +262,12 @@ class WriteReview extends Component {
 
                 <button onClick={this.fetchData}>send review</button>
 
-            </div>
+                <hr></hr>
+
+                <ViewReview itemId={this.props.itemId} />
+
+            </WriteReviewStyle>
+
 </>
         )
 

@@ -861,9 +861,9 @@ exports.review = async (req, res) => {
         })
 
         // finding index of the item id
-        const itemIndex = itemIds.findIndex(i => {
+        const itemIndex = itemIds.findIndex(id => {
 
-            return i.toString() === item._id.toString();
+            return id.toString() === item._id.toString();
 
         });
 
@@ -874,11 +874,21 @@ exports.review = async (req, res) => {
             
         };
 
+        // if user already made a review for the same product we send an error message
+        const duplicate = await Review.find({ userId, itemId });
+
+        if(duplicate) {
+
+            return res.status(401).json({ message: 'you can only make 1 review per product' });
+
+        }
+
         const text = req.body.review;
         const rating = req.body.star;
 
         const review = new Review({
 
+            itemId,
             userId,
             text,
             rating,

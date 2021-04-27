@@ -12,4 +12,6 @@ router.patch('/reset-password-form/:resetToken/:userId', shopController.resetPas
 
 router.get('/view-item/:itemId', shopController.viewItem);
 
+router.get('/view-review/:itemId', shopController.viewReview);
+
 module.exports = router;

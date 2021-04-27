@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
 import { FaStar } from 'react-icons/fa';
 
-import ReviewStyle from './styles/ReviewStyle';
+import ReviewStatsStyle from './styles/ReviewStatsStyle';
 import WriteReview from '../components/WriteReview';
 
 class ReviewStats extends Component {
+
+    state = {
+
+        totalReviews: 0,
+        averageReviews: 0,
+        total5stars: 0,
+        total4stars: 0,
+        total3stars: 0,
+        total2stars: 0,
+        total1star: 0,
+
+    }
 
     render() {
 
         return (
 <>
-            <ReviewStyle>
+            <ReviewStatsStyle>
 
                 <div id="user-rating">
 
@@ -26,7 +38,7 @@ class ReviewStats extends Component {
 
                     <span><FaStar /></span>
 
-                    <p>NUMBER average based on NUMBER reviews</p>
+                    <p>{this.state.averageReviews} average based on {this.state.totalReviews} reviews</p>
 
                 </div>
 
@@ -50,7 +62,7 @@ class ReviewStats extends Component {
                 
                 <div class="side right">
                         
-                    <div id="total-reviews">150</div>
+                    <div id="total-reviews">{this.state.total5stars}</div>
                 
                 </div>
                 
@@ -72,7 +84,7 @@ class ReviewStats extends Component {
                 
                 <div class="side right">
                         
-                    <div id="total-reviews">63</div>
+                    <div id="total-reviews">{this.state.total4stars}</div>
                 
                 </div>
                     
@@ -94,7 +106,7 @@ class ReviewStats extends Component {
                     
                 <div class="side right">
                         
-                    <div id="total-reviews">15</div>
+                    <div id="total-reviews">{this.state.total3stars}</div>
                 
                 </div>
                 
@@ -116,7 +128,7 @@ class ReviewStats extends Component {
                     
                 <div class="side right">
                     
-                    <div id="total-reviews">6</div>
+                    <div id="total-reviews">{this.state.total2stars}</div>
                 </div>
                 
                 <div id="side-middle-margin-bottom" class="side">
@@ -137,13 +149,13 @@ class ReviewStats extends Component {
                 
                 <div id="side-middle-margin-bottom" class="side right">
                         
-                    <div id="total-reviews">20</div>
+                    <div id="total-reviews">{this.state.total1star}</div>
                     
                 </div>
 
                 <WriteReview itemId={this.props.itemId} />
 
-        </ReviewStyle>
+        </ReviewStatsStyle>
 </>
         )
 

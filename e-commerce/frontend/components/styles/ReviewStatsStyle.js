@@ -1,53 +1,15 @@
 import styled from 'styled-components';
 
-const ReviewStyle = styled.div`
+const ReviewStatsStyle = styled.div`
 
     box-shadow: 0 2px 3rem rgba(0, 0, 0, 0.30);
     margin: 2rem;
+    padding: 1rem 0;
     text-transform: uppercase;
-
-    button {
-
-        width: auto;
-        background: green;
-        color: white;
-        border: 0;
-        font-size: 2rem;
-        font-weight: 600;
-        padding: 0.5rem 1.2rem;
-        margin: 1rem;
-        text-transform: uppercase;
-
-    }
-
-    button:hover {
-
-        cursor: pointer;
-
-    }
-
-    .orange, .orange2 {
-
-        color: orange;
-
-    }
 
     #side-middle-margin-bottom {
 
         margin-bottom: 2rem;
-
-    }
-
-    #write-review-container {
-
-        text-align: center;
-
-    }
-
-    textarea {
-
-        margin: 2rem auto;
-        display: block;
 
     }
 
@@ -208,4 +170,4 @@ const ReviewStyle = styled.div`
 
 `;
 
-export default ReviewStyle;
+export default ReviewStatsStyle;

@@ -4,6 +4,14 @@ const Schema = mongoose.Schema;
 
 const reviewSchema = new Schema({
 
+    itemId: {
+
+        type: Schema.Types.ObjectId,
+        ref:"Item",
+        required: true,
+
+    },
+
     userId: {
 
         type: Schema.Types.ObjectId,

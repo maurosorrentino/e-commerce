@@ -1,5 +1,6 @@
 const Item = require('../models/item');
 const User = require('../models/user');
+const Review = require('../models/review');
 const { transport } = require('../mail/mail');
 
 const crypto = require('crypto');
@@ -195,6 +196,29 @@ exports.viewItem = async (req, res) => {
         const price = item.price;
 
         res.status(200).json({ message: 'item fetched', title, description, image, price });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+}
+
+exports.viewReview = async (req, res) => {
+
+    try {
+
+        const itemId = req.params.itemId;
+        const reviews = await Review.find({ itemId });
+
+        res.status(200).json({ reviews, message: 'reviews fetched' });
 
     } catch (err) {
 
