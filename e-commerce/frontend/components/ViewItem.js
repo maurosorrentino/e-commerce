@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import StyleOfItem from '../components/styles/StyleOfItem';
 import LoadingStyle from '../components/styles/LoadingStyle';
 import AddToCart from '../components/AddToCart';
-import Review from '../components/Review';
+import ReviewStats from '../components/ReviewStats';
 
 class ViewItem extends Component {
 
@@ -99,7 +99,7 @@ class ViewItem extends Component {
 
                 </StyleOfItem>
 
-                <Review itemId={this.props.itemId} />
+                <ReviewStats itemId={this.props.itemId} />
 </>
             )}
 </>

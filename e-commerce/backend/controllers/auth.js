@@ -872,9 +872,26 @@ exports.review = async (req, res) => {
 
             return res.status(401).json({ message: 'Only Users That Bought This Item Can Make A Review.' });
             
-        } 
+        };
 
-        const review = req.body.review;
+        const text = req.body.review;
+        const rating = req.body.star;
+
+        const review = new Review({
+
+            userId,
+            text,
+            rating,
+
+        });
+
+        await review.save();
+
+        // getting the user name so that we can send a message to the user with the name in it
+        const user = await User.findById(userId);
+        const name = user.name;
+
+        res.status(200).json({ message: `Thank You ${name} For The Review` })
 
     } catch (err) {
 

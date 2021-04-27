@@ -2,72 +2,14 @@ import React, { Component } from 'react';
 import { FaStar } from 'react-icons/fa';
 
 import ReviewStyle from './styles/ReviewStyle';
-import MessageStyles from '../components/styles/MessageStyles';
+import WriteReview from '../components/WriteReview';
 
-class Review extends Component {
-
-    state = {
-
-        review: '',
-        message: null,
-
-    }
-
-    handleChange = e => {
-
-        this.setState({ review: e.target.value });
-
-    }
-
-    fetchData = e => {
-
-        e.preventDefault();
-
-        const itemId = this.props.itemId;
-
-        fetch(`http://localhost:8090/auth/write-review/${itemId}`, {
-
-            method: 'PUT',
-
-            headers: {
-
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-
-            },
-
-            credentials: 'include',
-
-            body: JSON.stringify({
-
-                review: this.state.review,
-
-            })
-
-        })
-
-        .then(res => {
-
-            return res.json();
-
-        })
-
-        .then(resData => {
-
-            this.setState({ message: resData.message });
-
-        })
-
-        .catch(err => console.log(err));
-
-    }
+class ReviewStats extends Component {
 
     render() {
 
         return (
 <>
-            {this.state.message && (<MessageStyles><h1>{this.state.message}</h1></MessageStyles>) }
-
             <ReviewStyle>
 
                 <div id="user-rating">
@@ -92,7 +34,7 @@ class Review extends Component {
 
                 <div class="side">
 
-                    <div id="stars">5 star</div>
+                    <div id="stars">5 stars</div>
                     
                 </div>
                 
@@ -114,7 +56,7 @@ class Review extends Component {
                 
                 <div class="side">
                         
-                    <div id="stars">4 star</div>
+                    <div id="stars">4 stars</div>
                 
                 </div>
                 
@@ -136,7 +78,7 @@ class Review extends Component {
                     
                 <div class="side">
                     
-                    <div id="stars">3 star</div>
+                    <div id="stars">3 stars</div>
                 
                 </div>
                 
@@ -158,7 +100,7 @@ class Review extends Component {
                 
                 <div class="side">
                         
-                    <div id="stars">2 star</div>
+                    <div id="stars">2 stars</div>
                 
                 </div>
                     
@@ -199,15 +141,7 @@ class Review extends Component {
                     
                 </div>
 
-                <div id="write-review-container">
-
-                    <h1>write a review for this product!</h1>
-
-                    <textarea onChange={this.handleChange} value={this.state.review} name="review" placeholder="write a review for this product" cols="100" rows="15"></textarea>
-
-                    <button onClick={this.fetchData}>send review</button>
-
-                </div>
+                <WriteReview itemId={this.props.itemId} />
 
         </ReviewStyle>
 </>
@@ -217,4 +151,4 @@ class Review extends Component {
 
 }
 
-export default Review;
+export default ReviewStats;

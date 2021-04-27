@@ -26,6 +26,12 @@ const ReviewStyle = styled.div`
 
     }
 
+    .orange, .orange2 {
+
+        color: orange;
+
+    }
+
     #side-middle-margin-bottom {
 
         margin-bottom: 2rem;
