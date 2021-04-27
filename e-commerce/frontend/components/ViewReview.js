@@ -109,7 +109,9 @@ class ViewReview extends Component {
 
             <div>
 
-                <h1>review{this.state.reviews.length > 1 ? 's' : ''} of this item:</h1>
+                {this.state.reviews.length === 0 && <h1>there are no reviews for this item</h1>}
+
+                {this.state.reviews.length >= 1 && <h1>review{this.state.reviews.length > 1 ? 's' : ''} of this item:</h1> }
                 
                 {this.state.reviews}
                 

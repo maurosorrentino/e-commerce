@@ -6,15 +6,63 @@ import WriteReview from '../components/WriteReview';
 
 class ReviewStats extends Component {
 
-    state = {
+    constructor(props) {
+        super(props)
 
-        totalReviews: 0,
-        averageReviews: 0,
-        total5stars: 0,
-        total4stars: 0,
-        total3stars: 0,
-        total2stars: 0,
-        total1star: 0,
+        this.state = {
+
+            totalReviews: 0,
+            averageReviews: 0,
+            total5stars: 0,
+            total4stars: 0,
+            total3stars: 0,
+            total2stars: 0,
+            total1star: 0,
+    
+        }
+
+        this.fetchData = this.fetchData.bind(this);
+
+    }
+
+    fetchData = () => {
+
+        const itemId = this.props.itemId;
+
+        fetch(`http://localhost:8090/review-stats/${itemId}`, {
+
+            method: 'GET',
+
+            headers: {
+
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+
+            },
+
+        })
+
+        .then(res => {
+
+            return res.json();
+
+        })
+
+        .then(resData => {
+
+            this.setState({ totalReviews: resData.totalReviews, averageReviews: resData.averageReviews.toFixed(2), total5stars: resData.total5starsLength, 
+                total4stars: resData.total4starsLength, total3stars: resData.total3starsLength, 
+                total2stars: resData.total2starsLength, total1star: resData.total1starLength })
+
+        })
+
+        .catch(err => console.log(err));
+
+    }
+
+    componentDidMount() {
+
+        this.fetchData();
 
     }
 
@@ -28,15 +76,15 @@ class ReviewStats extends Component {
 
                     <span className="heading">user rating</span>
 
-                    <span><FaStar /></span>
+                    <span className={this.state.averageReviews >= 1 ? 'checked' : ''}><FaStar /></span>
 
-                    <span><FaStar /></span>
+                    <span className={this.state.averageReviews >= 2 ? 'checked' : ''}><FaStar /></span>
 
-                    <span><FaStar /></span>
+                    <span className={this.state.averageReviews >= 3 ? 'checked' : ''}><FaStar /></span>
 
-                    <span><FaStar /></span>
+                    <span className={this.state.averageReviews >= 4 ? 'checked' : ''}><FaStar /></span>
 
-                    <span><FaStar /></span>
+                    <span className={this.state.averageReviews === 5 ? 'checked' : ''}><FaStar /></span>
 
                     <p>{this.state.averageReviews} average based on {this.state.totalReviews} reviews</p>
 

@@ -860,7 +860,7 @@ exports.review = async (req, res) => {
 
         })
 
-        // finding index of the item id
+        // finding index of the item id from the empty array
         const itemIndex = itemIds.findIndex(id => {
 
             return id.toString() === item._id.toString();
@@ -875,7 +875,7 @@ exports.review = async (req, res) => {
         };
 
         // if user already made a review for the same product we send an error message
-        const duplicate = await Review.find({ userId, itemId });
+        const duplicate = await Review.findOne({ userId, itemId });
 
         if(duplicate) {
 
@@ -883,9 +883,11 @@ exports.review = async (req, res) => {
 
         }
 
+        // getting the review stats from the client side
         const text = req.body.review;
         const rating = req.body.star;
 
+        // creating review into db
         const review = new Review({
 
             itemId,

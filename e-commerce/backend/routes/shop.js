@@ -12,6 +12,10 @@ router.patch('/reset-password-form/:resetToken/:userId', shopController.resetPas
 
 router.get('/view-item/:itemId', shopController.viewItem);
 
+// route that loops all the reviews of the item
 router.get('/view-review/:itemId', shopController.viewReview);
+
+// route that shows all the stats of the reviews for the item
+router.get('/review-stats/:itemId', shopController.getReviewStats);
 
 module.exports = router;

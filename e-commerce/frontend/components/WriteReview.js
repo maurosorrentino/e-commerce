@@ -63,7 +63,7 @@ class WriteReview extends Component {
 
     }
 
-    // handling the color of the start rating when the user put the mouse over
+    // handling the color of the start rating when the user put the mouse over, mouse leave and clicks on it
     handleRating = () => {
 
         const rating5 = document.getElementById("rating-5");
@@ -113,14 +113,14 @@ class WriteReview extends Component {
 
         });
 
-        // mouse down
+        // mouse leave
         rating5.addEventListener("mouseleave", e => {
 
             rating5.classList.remove("orange");
             rating4.classList.remove("orange");
             rating3.classList.remove("orange");
             rating2.classList.remove("orange");
-            rating1.classList.remove("orange2");
+            rating1.classList.remove("orange");
 
         });
 
@@ -206,6 +206,7 @@ class WriteReview extends Component {
 
     }
 
+    // setting a value into the state when the user clicks on the stars so that we can pass it into the input hidden and get it into the backend
     handleRatingValue5 = () => {
 
         this.setState({ handleRatingValue: 5});

@@ -233,3 +233,93 @@ exports.viewReview = async (req, res) => {
     }
 
 }
+
+exports.getReviewStats = async (req, res) => {
+
+    try {
+
+        // getting itemId so that we can find all the reviews of this item
+        const itemId = req.params.itemId;
+
+        // finding reviews of this item
+        const reviews = await Review.find({ itemId });
+
+        // counting all the reviews that we have on this item
+        const totalReviews = await Review.find({ itemId }).countDocuments();
+        
+        // empty arrays so that we can push all the ratings, count them and send them to the UI
+        const total5stars = [];
+        const total4stars = [];
+        const total3stars = [];
+        const total2stars = [];
+        const total1star = [];
+
+        // mapping the reviews of this item so that we can push the ratings into the right array and count them
+        reviews.map(review => {
+
+            if(review.rating === 1) {
+
+                total1star.push(review.rating);
+
+            };
+
+            if(review.rating === 2) {
+
+                total2stars.push(review.rating);
+
+            };
+
+            if(review.rating === 3) {
+
+                total3stars.push(review.rating);
+
+            };
+
+            if(review.rating === 4) {
+
+                total4stars.push(review.rating);
+
+            };
+
+            if(review.rating === 5) {
+
+                total5stars.push(review.rating);
+
+            };
+
+        });
+
+        // counting reviews so that we know how many are with how many stars
+        const total5starsLength = total5stars.length;
+        const total4starsLength = total4stars.length;
+        const total3starsLength = total3stars.length;
+        const total2starsLength = total2stars.length
+        const total1starLength = total1star.length;
+
+        // adding between them so that we can get an average
+        const reducer = (a, b) => a + b;
+
+        const stars5 = total5stars.reduce(reducer, 0);
+        const stars4 = total4stars.reduce(reducer, 0);
+        const stars3 = total3stars.reduce(reducer, 0);
+        const stars2 = total2stars.reduce(reducer, 0);
+        const star1 = total1star.reduce(reducer, 0);
+
+        // getting the average of the reviews
+        const averageReviews = (star1 + stars2 + stars3 + stars4 + stars5) / totalReviews;
+
+        res.status(200).json({ averageReviews, total5starsLength, total4starsLength, total3starsLength, total2starsLength, total1starLength, totalReviews });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+};
