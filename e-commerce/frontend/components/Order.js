@@ -44,8 +44,9 @@ class Order extends Component {
 
         })
 
-        .then(resData => { console.log(resData.orders)
+        .then(resData => { 
 
+            // mapping the orders so that we can show them
             this.setState({ loading: false, orders: resData.orders.map(order => {
 
                 return (

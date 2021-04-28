@@ -45,6 +45,7 @@ class MyItems extends Component {
 
         .then(resData => { 
 
+            // mapping the items so that we can show them
             this.setState({ loading: false, items: resData.items.map(item => { 
 
                 return (

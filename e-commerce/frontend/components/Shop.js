@@ -51,6 +51,7 @@ class Shop extends Component {
 
         .then(resData => {
 
+            // we need totalItems for pagination
             this.setState({ loading: false, totalItems: resData.totalItems });
 
             /* mapping the items that we are getting from the backend and setting them into state so that we can fetch them */
@@ -97,9 +98,9 @@ class Shop extends Component {
         // here we change the state of currentPage based on the page that the user clicks so that the index of the items that we want to show will change
         this.setState({ currentPage: Number(e.target.id) });
 
+        /* disabling next button for click event on <li> */
         const lastPage = Math.ceil(this.state.totalItems / this.state.perPage);
 
-        /* disabling next button */
         if(this.state.currentPage = lastPage) {
 
             this.setState({ lastPage: lastPage });
@@ -117,7 +118,7 @@ class Shop extends Component {
         this.setState({ currentPage: this.state.currentPage - 1 });
         window.scrollTo(0, 0);
 
-        // disabled prev button
+        // disabling prev button
         if(this.state.currentPage === 1) {
 
             this.setState({ currentPage: 1 });
@@ -131,9 +132,9 @@ class Shop extends Component {
 
         this.setState({ currentPage: this.state.currentPage + 1 });
 
+        /* disabling next button for click on next button */
         const lastPage = Math.ceil(this.state.totalItems / this.state.perPage);
 
-        /* disabling next button */
         if(this.state.currentPage = lastPage) {
 
             this.setState({ lastPage: lastPage });

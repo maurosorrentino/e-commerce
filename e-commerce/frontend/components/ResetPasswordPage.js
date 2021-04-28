@@ -27,6 +27,7 @@ class ResetPasswordPage extends Component {
         const resetToken = this.props.resetToken;
         const userId = this.props.userId;
 
+        // we need to encode the api point in order to connect to it
         fetch(`http://localhost:8090/reset-password-form/${encodeURIComponent(resetToken)}/${userId}`, {
 
             method: 'PATCH',
@@ -66,6 +67,7 @@ class ResetPasswordPage extends Component {
 
             this.setState({ loading: false });
 
+            // redirecting to login page in case of success
             if(this.state.message === 'You Have Changed Your Password, You Are Being Readirected To The Login Page') {
 
                 setTimeout(() => {
@@ -76,6 +78,7 @@ class ResetPasswordPage extends Component {
 
             }
 
+            // redirecting to reset password page in case of error in order to make the user request another reset password
             if(this.state.message === 'Forbidden! Please Request Another Password Reset, You Are Being Redirected To Reset Password Page'
             || this.state.message === 'Sorry, We Could Not Find An Account, Please Request Another Password Reset. You Are Being Redirected To The Page') {
 

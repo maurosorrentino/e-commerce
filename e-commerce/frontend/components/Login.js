@@ -108,12 +108,6 @@ class Login extends Component {
 
     }
 
-    componentDidMount() {
-        
-        this.fetchData();
-
-    }
-
     render() {
 
         return (
