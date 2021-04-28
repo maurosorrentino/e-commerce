@@ -12,6 +12,7 @@ const SearchStyle = styled.div`
         border: none;
         margin-top: 1rem;
         text-transform: uppercase;
+        font-size: 2rem;
 
     }
 
@@ -28,6 +29,7 @@ const SearchStyle = styled.div`
         box-shadow: 0 2px 1rem rgba(0, 0, 0, 0.30);
         max-width: 95%;
         padding: 1rem;
+        word-break: break-all;
 
     }
 
