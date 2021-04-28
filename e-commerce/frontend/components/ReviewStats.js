@@ -109,7 +109,7 @@ class ReviewStats extends Component {
             
                     <div class="bar-container">
                         
-                        <div style={{width: `${widthBar5}%`}} class="bar-5"></div>
+                        <div style={this.state.total5stars === 0 ? {width: '0%'} : {width: `${widthBar5}%`}} class="bar-5"></div>
                         
                     </div>
                     
@@ -131,7 +131,7 @@ class ReviewStats extends Component {
                         
                     <div class="bar-container">
                         
-                        <div style={{width: `${widthBar4}%`}} class="bar-4"></div>
+                        <div style={this.state.total4stars === 0 ? {width: '0%'} : {width: `${widthBar4}%`}} class="bar-4"></div>
                     
                     </div>
                 
@@ -153,7 +153,7 @@ class ReviewStats extends Component {
                     
                     <div class="bar-container">
                         
-                        <div style={{width: `${widthBar3}%`}} class="bar-3"></div>
+                        <div style={this.state.total3stars === 0 ? {width: '0%'} : {width: `${widthBar3}%`}} class="bar-3"></div>
                     
                     </div>
                 
@@ -175,7 +175,7 @@ class ReviewStats extends Component {
                         
                     <div class="bar-container">
                         
-                        <div style={{width: `${widthBar2}%`}} class="bar-2"></div>
+                        <div style={this.state.total2stars === 0 ? {width: '0%'} : {width: `${widthBar2}%`}} class="bar-2"></div>
                     
                     </div>
                 
@@ -196,7 +196,7 @@ class ReviewStats extends Component {
                     
                     <div class="bar-container">
                         
-                        <div style={{width: `${widthBar1}%`}} class="bar-1"></div>
+                        <div style={this.state.total1star === 0 ? {width: '0%'} : {width: `${widthBar1}%`}} class="bar-1"></div>
                     
                     </div>
                 
