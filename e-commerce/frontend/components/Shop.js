@@ -135,6 +135,7 @@ class Shop extends Component {
         /* disabling next button for click on next button */
         const lastPage = Math.ceil(this.state.totalItems / this.state.perPage);
 
+        // I don't know why it works with only 1 = but if I try to put === it is not gonna work, weird
         if(this.state.currentPage = lastPage) {
 
             this.setState({ lastPage: lastPage });
