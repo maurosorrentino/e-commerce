@@ -80,7 +80,7 @@ class ViewReview extends Component {
 
                 return (
 
-                    <ViewReviewStyle>
+                    <ViewReviewStyle key={review._id}>
                         
                         <span className="orange">{reviewRating}</span>
                         <h1>{review.text}</h1>
