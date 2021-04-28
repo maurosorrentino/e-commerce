@@ -55,7 +55,8 @@ class WriteReview extends Component {
 
         .then(resData => {
 
-            this.setState({ message: resData.message });
+            {/* putting the user id into state so that we have a way to show the remove review button only if review is of the user */}
+            this.setState({ message: resData.message, userId: resData.userId });
 
         })
 
@@ -265,7 +266,8 @@ class WriteReview extends Component {
 
                 <hr></hr>
 
-                <ViewReview itemId={this.props.itemId} />
+                {/* sending the user id so that we have a way to show the remove review button only if review is of the user */}
+                <ViewReview userId={this.props.userId} itemId={this.props.itemId} />
 
             </WriteReviewStyle>
 

@@ -42,6 +42,9 @@ router.post('/success', authController.success);
 router.get('/orders', authController.orders);
 
 // review route
-router.put('/write-review/:itemId', authController.review);
+router.put('/write-review/:itemId', authController.writeReview);
+
+// remove review route
+router.delete('/remove-review/:reviewId', authController.removeReview);
 
 module.exports = router;

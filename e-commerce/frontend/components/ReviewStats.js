@@ -83,6 +83,7 @@ class ReviewStats extends Component {
 
                     <span className="heading">user rating</span>
 
+                    {/* checked class makes the star orange */}
                     <span className={this.state.averageReviews >= 1 ? 'checked' : ''}><FaStar /></span>
 
                     <span className={this.state.averageReviews >= 2 ? 'checked' : ''}><FaStar /></span>
@@ -99,12 +100,14 @@ class ReviewStats extends Component {
 
                 <hr></hr>
 
+                {/* left side */}
                 <div class="side">
 
                     <div id="stars">5 stars</div>
                     
                 </div>
                 
+                {/* this is the bar that shows the color based on the % of reviews */}
                 <div class="middle">
             
                     <div class="bar-container">
@@ -115,18 +118,21 @@ class ReviewStats extends Component {
                     
                 </div>
                 
+                {/* right side */}
                 <div class="side right">
                         
                     <div id="total-reviews">{this.state.total5stars}</div>
                 
                 </div>
                 
+                {/* left side */}
                 <div class="side">
                         
                     <div id="stars">4 stars</div>
                 
                 </div>
                 
+                {/* this is the bar that shows the color based on the % of reviews */}
                 <div class="middle">
                         
                     <div class="bar-container">
@@ -137,18 +143,21 @@ class ReviewStats extends Component {
                 
                 </div>
                 
+                {/* right side */}
                 <div class="side right">
                         
                     <div id="total-reviews">{this.state.total4stars}</div>
                 
                 </div>
                     
+                {/* left side */}
                 <div class="side">
                     
                     <div id="stars">3 stars</div>
                 
                 </div>
                 
+                {/* this is the bar that shows the color based on the % of reviews */}
                 <div class="middle">
                     
                     <div class="bar-container">
@@ -159,18 +168,21 @@ class ReviewStats extends Component {
                 
                 </div>
                     
+                {/* right side */}
                 <div class="side right">
                         
                     <div id="total-reviews">{this.state.total3stars}</div>
                 
                 </div>
                 
+                {/* left side */}
                 <div class="side">
                         
                     <div id="stars">2 stars</div>
                 
                 </div>
                     
+                {/* this is the bar that shows the color based on the % of reviews */}
                 <div class="middle">
                         
                     <div class="bar-container">
@@ -181,11 +193,14 @@ class ReviewStats extends Component {
                 
                 </div>
                     
+                {/* right side */}
                 <div class="side right">
                     
                     <div id="total-reviews">{this.state.total2stars}</div>
+
                 </div>
                 
+                {/* left side */}
                 <div id="side-middle-margin-bottom" class="side">
                     
                     <div id="stars">1 star</div>
@@ -194,6 +209,7 @@ class ReviewStats extends Component {
                 
                 <div id="side-middle-margin-bottom" class="middle">
                     
+                    {/* this is the bar that shows the color based on the % of reviews */}
                     <div class="bar-container">
                         
                         <div style={this.state.total1star === 0 ? {width: '0%'} : {width: `${widthBar1}%`}} class="bar-1"></div>
@@ -202,13 +218,15 @@ class ReviewStats extends Component {
                 
                 </div>
                 
+                {/* right side */}
                 <div id="side-middle-margin-bottom" class="side right">
                         
                     <div id="total-reviews">{this.state.total1star}</div>
                     
                 </div>
 
-                <WriteReview itemId={this.props.itemId} />
+                {/* sending the user id so that we have a way to show the remove review button only if review is of the user */}
+                <WriteReview userId={this.props.userId} itemId={this.props.itemId} />
 
         </ReviewStatsStyle>
 </>

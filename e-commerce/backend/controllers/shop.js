@@ -195,7 +195,10 @@ exports.viewItem = async (req, res) => {
         const image = item.image;
         const price = item.price;
 
-        res.status(200).json({ message: 'item fetched', title, description, image, price });
+        // sending the user id so that we have a way to show the remove review button only if review is of the user
+        const userId = req.session.user._id;
+
+        res.status(200).json({ message: 'item fetched', title, description, image, price, userId });
 
     } catch (err) {
 

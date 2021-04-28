@@ -18,6 +18,7 @@ class ViewItem extends Component {
             description: '',
             image: '',
             price: undefined,
+            userId: '',
 
         }
 
@@ -52,7 +53,7 @@ class ViewItem extends Component {
 
         .then(resData => {
 
-            this.setState({ loading: false, title: resData.title, price: resData.price, description: resData.description, image: resData.image });
+            this.setState({ loading: false, userId: resData.userId, title: resData.title, price: resData.price, description: resData.description, image: resData.image });
 
         })
 
@@ -99,7 +100,8 @@ class ViewItem extends Component {
 
                 </StyleOfItem>
 
-                <ReviewStats itemId={this.props.itemId} />
+                {/* sending the user id so that we have a way to show the remove review button only if review is of the user */}
+                <ReviewStats userId={this.state.userId} itemId={this.props.itemId} />
 </>
             )}
 </>

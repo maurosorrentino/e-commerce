@@ -19,6 +19,18 @@ const WriteReviewStyle = styled.div`
 
     }
 
+    .remove-review {
+
+        background: red;
+        color: white;
+        border: 0;
+        font-size: .7rem;
+        font-weight: 600;
+        padding: 0.5rem 1.2rem;
+        border-radius: 4px;
+
+    }
+
     textarea {
 
         margin: 2rem auto;

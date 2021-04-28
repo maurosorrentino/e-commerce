@@ -674,6 +674,21 @@ exports.checkout = async (req, res) => {
 
     try {
 
+        // if user has no session we throw an error
+        if(!req.session.isAuth) {
+
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+
+        }
+
+        // verifying token from httpOnly true cookie
+        const token = req.cookies.token;
+        jwt.verify(token, process.env.TOKEN_SECRET);
+
+        // verifying weak token (httpOnly: false)
+        const weakToken = req.cookies.authCookie;
+        jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
+
         // finding userId so that we can find the user and get the items that there are into the cart + the email so that the user doesn't have to write it manually
         const userId = req.session.user._id;
         const user = await User.findById(userId);
@@ -832,9 +847,24 @@ exports.orders = async (req, res) => {
 
 }
 
-exports.review = async (req, res) => {
+exports.writeReview = async (req, res) => {
 
     try {
+
+        // if user has no session we throw an error
+        if(!req.session.isAuth) {
+
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+
+        }
+
+        // verifying token from httpOnly true cookie
+        const token = req.cookies.token;
+        jwt.verify(token, process.env.TOKEN_SECRET);
+
+        // verifying weak token (httpOnly: false)
+        const weakToken = req.cookies.authCookie;
+        jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
 
         // getting the user id so that we can find all the orders made by the user
         const userId = req.session.user._id;
@@ -918,3 +948,51 @@ exports.review = async (req, res) => {
     }
 
 };
+
+exports.removeReview = async (req, res) => {
+
+    try {
+
+        // if user has no session we throw an error
+        if(!req.session.isAuth) {
+
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+
+        }
+
+        // verifying token from httpOnly true cookie
+        const token = req.cookies.token;
+        jwt.verify(token, process.env.TOKEN_SECRET);
+
+        // verifying weak token (httpOnly: false)
+        const weakToken = req.cookies.authCookie;
+        jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
+
+        const reviewId = req.params.reviewId;
+        const userId = req.session.user._id;
+
+        const review = await Review.findById(reviewId);
+
+        if(userId.toString() !== review.userId.toString()) {
+
+            return res.status(401).json({ message: 'only the user that wrote this review can delete it.' });
+
+        }
+
+        await Review.findByIdAndDelete(reviewId);
+
+        res.status(200).json({ message: 'review was removed, you are being redirected to the same page' });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+}

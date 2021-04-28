@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { FaStar } from 'react-icons/fa';
 import ViewReviewStyle from '../components/styles/ViewReviewStyle';
+import RemoveReview from '../components/RemoveReview';
 
 class ViewReview extends Component {
 
@@ -43,6 +44,7 @@ class ViewReview extends Component {
 
         .then(resData => {
 
+            // mapping the reviews so that we can show them into the component
             this.setState({ reviews: resData.reviews.map(review => {
 
                 let reviewRating;
@@ -83,6 +85,10 @@ class ViewReview extends Component {
                     <ViewReviewStyle key={review._id}>
                         
                         <span className="orange">{reviewRating}</span>
+
+                        {/* if the user id is equal to the one that the review has into the db (so this user made the review) we show the remove button */}
+                        {this.props.userId === review.userId && <RemoveReview itemId={this.props.itemId} reviewId={review._id} /> }
+
                         <h1>{review.text}</h1>
 
                     </ViewReviewStyle>
