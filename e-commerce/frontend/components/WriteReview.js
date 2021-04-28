@@ -249,13 +249,13 @@ class WriteReview extends Component {
 
                 <span onClick={this.handleRatingValue1} onMouseOver={this.handleRating} id="rating-1" ><FaStar /></span>
 
-                <span onClick={this.handleRatingValue2} id="rating-2" ><FaStar /></span>
+                <span onClick={this.handleRatingValue2} onMouseOver={this.handleRating} id="rating-2" ><FaStar /></span>
 
-                <span onClick={this.handleRatingValue3} id="rating-3" ><FaStar /></span>
+                <span onClick={this.handleRatingValue3} onMouseOver={this.handleRating} id="rating-3" ><FaStar /></span>
 
-                <span onClick={this.handleRatingValue4} id="rating-4" ><FaStar /></span>
+                <span onClick={this.handleRatingValue4} onMouseOver={this.handleRating} id="rating-4" ><FaStar /></span>
 
-                <span onClick={this.handleRatingValue5} id="rating-5" ><FaStar /></span>
+                <span onClick={this.handleRatingValue5} onMouseOver={this.handleRating} id="rating-5" ><FaStar /></span>
 
                 <input type="hidden" name="star" value={this.state.handleRatingValue} />
 

@@ -82,41 +82,36 @@ const ReviewStatsStyle = styled.div`
     /* Individual bars */
     .bar-5 {
         
-        width: 60%; 
         height: 18px; 
-        background-color: #4CAF50;
+        background-color: green;
         
     }
     
     .bar-4 {
         
-        width: 30%; 
         height: 18px; 
-        background-color: #2196F3;
+        background-color: blue;
         
     }
     
     .bar-3 {
         
-        width: 10%; 
         height: 18px; 
-        background-color: #00bcd4;
+        background-color: lightblue;
         
     }
     
     .bar-2 {
         
-        width: 4%; 
         height: 18px; 
-        background-color: #ff9800;
+        background-color: orange;
         
     }
     
     .bar-1 {
         
-        width: 15%; 
         height: 18px; 
-        background-color: #f44336;
+        background-color: red;
         
     }
 
@@ -128,20 +123,29 @@ const ReviewStatsStyle = styled.div`
 
     @media only screen and (max-width: 420px) {
 
-        li {
+        .side, .middle {
 
-            max-width: 50%;
-            margin-left: 1rem;
+            width: 100%;
 
         }
 
-    }
+        .right {
 
-    @media only screen and (max-width: 300px) {
+            text-align: left;
+            margin-left: 10px;
+            margin-bottom: 1rem;
 
-        li {
+        }
 
-            max-width: 35%;
+        textarea {
+
+            width: 10rem;
+
+        }
+
+        #side-middle-margin-bottom {
+
+            margin-bottom: 0;
 
         }
 
@@ -149,20 +153,65 @@ const ReviewStatsStyle = styled.div`
 
     @media only screen and (min-width: 300px) and (max-width: 350px) {
 
-        li {
+        .heading {
 
-            max-width: 45%;
+            font-size: 1rem;
 
+        }
+
+    }
+
+    @media only screen and (max-width: 300px) {
+
+        .heading {
+
+            font-size: .9rem;
+
+        }
+
+        span {
+
+            font-size: .9rem;
+            
         }
 
     }
 
     @media only screen and (min-width: 420px) and (max-width: 600px) {
 
-        li {
+        .side, .middle {
 
-            max-width: 70%;
-            margin-left: 1rem;
+            width: 100%;
+
+        }
+
+        .right {
+
+            text-align: left;
+            margin-left: 10px;
+            margin-bottom: 1rem;
+
+        }
+
+        textarea {
+
+            width: 25rem;
+
+        }
+
+        #side-middle-margin-bottom {
+
+            margin-bottom: 0;
+
+        }
+
+    }
+
+    @media only screen and (min-width: 600px) and (max-width: 900px) {
+
+        textarea {
+
+            width: 35rem;
 
         }
 

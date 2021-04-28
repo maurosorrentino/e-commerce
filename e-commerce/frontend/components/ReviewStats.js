@@ -68,6 +68,13 @@ class ReviewStats extends Component {
 
     render() {
 
+        /* calculating the % of the reviews so that we can "animate" the width of the div and show the user a color bar with the % of the reviews */
+        const widthBar5 = (this.state.total5stars / this.state.totalReviews) * 100;
+        const widthBar4 = (this.state.total4stars / this.state.totalReviews) * 100;
+        const widthBar3 = (this.state.total3stars / this.state.totalReviews) * 100;
+        const widthBar2 = (this.state.total2stars / this.state.totalReviews) * 100;
+        const widthBar1 = (this.state.total1star / this.state.totalReviews) * 100;
+
         return (
 <>
             <ReviewStatsStyle>
@@ -102,7 +109,7 @@ class ReviewStats extends Component {
             
                     <div class="bar-container">
                         
-                        <div class="bar-5"></div>
+                        <div style={{width: `${widthBar5}%`}} class="bar-5"></div>
                         
                     </div>
                     
@@ -124,7 +131,7 @@ class ReviewStats extends Component {
                         
                     <div class="bar-container">
                         
-                        <div class="bar-4"></div>
+                        <div style={{width: `${widthBar4}%`}} class="bar-4"></div>
                     
                     </div>
                 
@@ -146,7 +153,7 @@ class ReviewStats extends Component {
                     
                     <div class="bar-container">
                         
-                        <div class="bar-3"></div>
+                        <div style={{width: `${widthBar3}%`}} class="bar-3"></div>
                     
                     </div>
                 
@@ -168,7 +175,7 @@ class ReviewStats extends Component {
                         
                     <div class="bar-container">
                         
-                        <div class="bar-2"></div>
+                        <div style={{width: `${widthBar2}%`}} class="bar-2"></div>
                     
                     </div>
                 
@@ -189,7 +196,7 @@ class ReviewStats extends Component {
                     
                     <div class="bar-container">
                         
-                        <div class="bar-1"></div>
+                        <div style={{width: `${widthBar1}%`}} class="bar-1"></div>
                     
                     </div>
                 
