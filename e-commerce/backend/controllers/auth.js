@@ -875,13 +875,13 @@ exports.review = async (req, res) => {
         };
 
         // if user already made a review for the same product we send an error message
-/*         const duplicate = await Review.findOne({ userId, itemId });
+        const duplicate = await Review.findOne({ userId, itemId });
 
         if(duplicate) {
 
             return res.status(401).json({ message: 'you can only make 1 review per product' });
 
-        } */
+        } 
 
         // getting the review stats from the client side
         const text = req.body.review;
