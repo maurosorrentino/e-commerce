@@ -3,6 +3,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 import Nav from './Nav';
+import Search from '../components/Search';
 
 const Logo = styled.h1`
 
@@ -85,7 +86,7 @@ export default function Header() {
 
       <div className="sub-bar">
 
-        <h1>Search</h1>
+        <Search />
 
       </div>
 

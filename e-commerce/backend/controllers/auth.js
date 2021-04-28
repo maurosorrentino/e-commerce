@@ -973,6 +973,7 @@ exports.removeReview = async (req, res) => {
 
         const review = await Review.findById(reviewId);
 
+        // if statement just to be sure that only the user that made this review can remove it (just in case somehow the button gets rendered to the wrong user)
         if(userId.toString() !== review.userId.toString()) {
 
             return res.status(401).json({ message: 'only the user that wrote this review can delete it.' });

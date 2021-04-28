@@ -70,6 +70,7 @@ const Form = styled.form`
     font-weight: 600;
     margin: 10px;
     background: green;
+    text-align: center;
 
   }
 
