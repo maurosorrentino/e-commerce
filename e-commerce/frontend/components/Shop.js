@@ -7,6 +7,7 @@ import ItemsContainerStyle from './styles/ItemsContainerStyle';
 import AddToCart from '../components/AddToCart';
 import Pagination from '../components/styles/Pagination';
 import LoadingStyle from '../components/styles/LoadingStyle';
+import ItemAvailableAgain from '../components/ItemAvailableAgain';
 
 class Shop extends Component {
 
@@ -87,7 +88,7 @@ class Shop extends Component {
 
                         {inStock === 0 && (
 
-                            <button>send me an email when it will be available again</button>
+                            <ItemAvailableAgain itemId={item._id} />
 
                         )}
                     

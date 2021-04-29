@@ -6,6 +6,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const { transport } = require('./mail/mail');
 
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');

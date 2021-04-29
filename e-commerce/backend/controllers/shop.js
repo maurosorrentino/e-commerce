@@ -1,6 +1,8 @@
 const Item = require('../models/item');
 const User = require('../models/user');
 const Review = require('../models/review');
+const ItemAvailableAgainUser = require('../models/ItemAvailableAgainUser');
+
 const { transport } = require('../mail/mail');
 
 const crypto = require('crypto');
@@ -19,14 +21,68 @@ exports.getItems = async (req, res, next) => {
         // finding the items
         const items = await Item.find()
  
-            // sending res with the items so that we can fetch it on the client side and the total number of the items
-            res.status(200).json({
+        // sending res with the items so that we can fetch it on the client side and the total number of the items
+        res.status(200).json({
 
-                message: 'fetched items',
-                items,
-                totalItems,
+            message: 'fetched items',
+            items,
+            totalItems,
 
-            });
+        });
+
+        // finding from db all the users that want to know if an item is back on the store
+        const itemAvailableAgainUser = await ItemAvailableAgainUser.find();
+    
+        // mapping these users
+        itemAvailableAgainUser.map(async user => {
+    
+            // finding the item id, email and item from this collection
+            const itemId = user.itemId;
+            const userEmail = user.userEmail;
+            const item = await Item.findById(itemId);
+    
+            if(item.stock > 0) {
+    
+                const link = `http://localhost:3000/view-item/${itemId}`;
+    
+                // finding the user with the email that we found in this collection
+                const user = await User.findOne({ email: userEmail });
+    
+                // sending email
+                await transport.sendMail({
+    
+                    from: 'sorrentino.mauro95@gmail.com',
+                    to: userEmail,
+                    subject: `Item ${item.title} Is Back On Our Shop!`,
+                    html: `
+                        
+                        <h1>Hi ${user.name}</h1>
+        
+                        <p>The Item ${item.title} Is Back Again On Our Shop</p>
+        
+                        <p>Please Click The Link Below In Order To Buy It</p>
+        
+                        <a href="${link}">Click Here To Buy The Item!</a>
+                        
+                    `,
+        
+                });
+
+                // finding the id of this collection with the itemId so that we can delete it in order to don't send an email every time this page gets loaded
+                const findInfo = await ItemAvailableAgainUser.find({ itemId });
+
+                const itemAvailableAgainUserId = findInfo.map(findId => {
+
+                    return findId._id;
+
+                });
+
+                // deleting it
+                await ItemAvailableAgainUser.findByIdAndRemove(itemAvailableAgainUserId);
+    
+            };
+    
+        });
 
     } catch (err) {
 
@@ -325,4 +381,39 @@ exports.getReviewStats = async (req, res) => {
 
     }
 
+};
+
+exports.itemAvailableAgain = async (req, res) => {
+
+    try {
+
+        // getting the user id and finding the user so that we can save the info in our db in order to send them an email when product will be available again
+        const userId = req.session.user._id;
+        const user = await User.findById(userId);
+
+        const itemId = req.params.itemId;
+
+        const itemAvailableAgainUser = new ItemAvailableAgainUser({
+
+            itemId,
+            userEmail: user.email,
+
+        });
+
+        await itemAvailableAgainUser.save();
+
+        res.status(200).json({ message: 'Thank You, We Will Email You As Soon As We Have News On This Item', email: user.email });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+    
 };
