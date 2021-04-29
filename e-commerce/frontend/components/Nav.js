@@ -4,14 +4,13 @@ import Logout from '../components/Logout';
 import Link from 'next/link';
 import React from 'react';
 import cookie from 'react-cookies';
+import { FaCog } from 'react-icons/fa';
 
 export default function Nav() {
 
     return(
 
         <NavStyle>
-
-            <Link id="shop-test" href="/shop">Shop</Link>
 
             { cookie.load('authCookie') && <Link id="sell-test" href="/auth/sell">sell</Link> }
 
@@ -26,6 +25,8 @@ export default function Nav() {
             { !cookie.load('authCookie') && <Link id="login-test" href="/auth/login">login</Link> }
 
             { cookie.load('authCookie') && <Logout /> }
+
+            { cookie.load('authCookie') && <Link id="setting-test" href="/auth/settings"><span><FaCog /></span></Link> }
 
         </NavStyle>
 

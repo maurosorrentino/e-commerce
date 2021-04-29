@@ -8,10 +8,35 @@ const NavStyle = styled.ul`
   justify-self: end;
   font-size: 1.5rem;
 
+  span {
+
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+
+  }
+
+  @media only screen and (max-width: 600px) {
+
+    span {
+
+      font-size: .5rem;
+
+    }
+
+  }
+
+  span:hover {
+
+    color: yellowgreen;
+
+  }
+
   a,
   button {
 
-    padding: 1rem 3rem;
+    padding: 1rem 4rem;
     display: flex;
     align-items: center;
     position: relative;
@@ -35,20 +60,6 @@ const NavStyle = styled.ul`
       font-size: .5rem;
 
     }
-    
-    &:before {
-
-      content: '';
-      width: 2px;
-      background: lightgreen;
-      height: 100%;
-      left: 0;
-      position: absolute;
-      transform: skew(-30deg);
-      top: 0;
-      bottom: 0;
-
-    }
 
     &:after {
 
@@ -60,7 +71,7 @@ const NavStyle = styled.ul`
       transform: translateX(-50%);
       transition: width 0.4s;
       left: 50%;
-      margin-top: 2rem;
+      margin-top: 4rem;
 
     }
 

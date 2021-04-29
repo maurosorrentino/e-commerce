@@ -45,7 +45,7 @@ exports.getItems = async (req, res, next) => {
     
                 const link = `http://localhost:3000/view-item/${itemId}`;
     
-                // finding the user with the email that we found in this collection
+                // finding the user with the email that we found in this collection so that we can put the name into the email
                 const user = await User.findOne({ email: userEmail });
     
                 // sending email

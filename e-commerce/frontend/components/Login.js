@@ -91,7 +91,7 @@ class Login extends Component {
 
                 setTimeout(() => {
 
-                    window.location.replace('/shop');
+                    window.location.replace('/');
                     
                 }, 3000);
 

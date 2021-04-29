@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { transport } = require('../mail/mail');
 
 const Schema = mongoose.Schema;
 
@@ -22,4 +21,4 @@ const ItemAvailableAgainUserSchema = new Schema({
 
 }, {timestamps: true});
 
-module.exports = mongoose.model('ItemAvailableAgainUser', ItemAvailableAgainUserSchema);
+module.exports = mongoose.model('Item_Available_Again_User', ItemAvailableAgainUserSchema);
