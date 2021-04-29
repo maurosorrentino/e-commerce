@@ -203,6 +203,7 @@ exports.createItem = async (req, res) => {
         const title = req.body.title;
         const description = req.body.description;
         const price = req.body.price;
+        const stock = req.body.stock;
         const image = req.body.image;
 
         // getting the id of the user so that we can assign it to the item
@@ -235,6 +236,19 @@ exports.createItem = async (req, res) => {
             return res.status(422).json({ message: 'Description needs to be at least 5 characters' });
 
         };
+
+        // checking if the user wrote the right value into the input (so stock > 0 and it has to be an integer)
+        if(stock === 0) {
+
+            return res.status(422).json({ message: 'Items in stock need to be grater than 0' });
+
+        }
+
+        if(!Number.isInteger(Number(stock))) {
+
+            res.status(422).json({ message: 'the number has to be an integer' });
+            
+        }
  
         // if we pass all these steps (so there is no error) we create the item into the db
         const item = new Item({
@@ -243,6 +257,7 @@ exports.createItem = async (req, res) => {
             description,
             price,
             image,
+            stock,
             userId,
 
         });
@@ -301,6 +316,13 @@ exports.addToCart = async (req, res) => {
 
     try {
 
+        // no session no add to cart
+        if(!req.session.isAuth) {
+
+            return res.status(401).json({ message: 'you need to login in in order to take this action' });
+
+        }
+
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);
@@ -308,13 +330,6 @@ exports.addToCart = async (req, res) => {
         // verifying weak token (httpOnly: false)
         const weakToken = req.cookies.authCookie;
         jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
-
-        // no session no add to cart
-        if(!req.session.isAuth) {
-
-            res.status(401).json();
-
-        }
 
         // getting the user id from the session so that we can find this user
         const userId = req.session.user._id;
@@ -350,6 +365,18 @@ exports.addToCart = async (req, res) => {
 
             // declaring new quantity and saving the user data
             cart[itemIndex].quantity = itemQuantity;
+
+            // throwing an error message if the quantity chosen is grater than the number in stock
+            // I'm putting the if statement here because anyway if we have 0 product in stock the user is not able to click on add to cart
+            if(cart[itemIndex].quantity > item.stock) {
+
+                return res.status(401).json({ message: `we only have ${item.stock} left into the store` });
+
+            }
+
+            // returning a responsive message saying to the user that item was added to the cart with the new quantity
+            res.status(200).json({ message: `${item.title} was added again to the cart. quantity: x ${itemQuantity}` });
+
             return await user.save();
 
         } else {
@@ -368,7 +395,8 @@ exports.addToCart = async (req, res) => {
 
         } 
 
-        res.status(200).json();
+        // saying to the user that item was added to the cart
+        return res.status(200).json({ message: `Item ${item.title} was added to the cart` });
         
     } catch (err) {
 
@@ -582,6 +610,7 @@ exports.editItem = async (req, res) => {
         const description = req.body.description;
         const price = req.body.price;
         const image = req.body.image;
+        const stock = req.body.stock;
 
         // getting item id and finding it
         const itemId = req.params.itemId;
@@ -608,11 +637,19 @@ exports.editItem = async (req, res) => {
 
         };
 
+        // in this case we allow the user to set 0 when editing the item (maybe they sold it from their shop)
+        if(!Number.isInteger(Number(stock))) {
+
+            return res.status(422).json({ message: 'the number has to be an integer' });
+            
+        } 
+
         // updating the item, saving it and sending a response 
         item.title = title;
         item.description = description;
         item.price = price;
         item.image = image;
+        item.stock = stock;
 
         await item.save();
 
@@ -779,7 +816,7 @@ exports.success = async (req, res) => {
         // saving total into order model into db
         const total = user.cart.total;
 
-        const items = user.cart.items.map(item => {
+        const itemsToSave = user.cart.items.map(item => {
 
             return ({
 
@@ -792,10 +829,35 @@ exports.success = async (req, res) => {
 
         })
 
+        // removing quantity from db
+        // so we first find all the items
+        const items = await Item.find();
+
+        // mapping the items that are into the db so that we can compare the ids with the ones that are into the cart
+        items.map(itemDb => {
+
+            // mapping items into the cart
+            itemsToSave.map( async itemCart => {
+
+                // comparing the ids
+                if(itemDb._id.toString() === itemCart.itemId.toString()) {
+
+                    // if ids are equal we first find again the item from the db, we then remove the quantity and then save
+                    const itemId = itemDb._id;
+                    const item = await Item.findById(itemId);
+                    item.stock -= itemCart.quantity;
+                    await item.save();
+
+                }
+
+            })
+
+        })
+
         // creating order
         const order = new Order({
 
-            items,
+            items: itemsToSave,
             total,
             userId,
 

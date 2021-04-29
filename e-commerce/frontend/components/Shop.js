@@ -57,6 +57,8 @@ class Shop extends Component {
             /* mapping the items that we are getting from the backend and setting them into state so that we can fetch them */
             this.setState({ items: resData.items.map(item => {
 
+                const inStock = item.stock;
+
                 return(
 <>
                     <StyleOfItem key={item._id}>
@@ -75,7 +77,19 @@ class Shop extends Component {
                         <button><Link href={`/view-item/${item._id}`}>View Item</Link></button>
 
                         {/* assigning the item id as props so that we can access it from AddToCart component and make a call to the right API point */}
-                        <AddToCart itemId={item._id} />
+                        <AddToCart inStock={Number(inStock)} itemId={item._id} />
+
+                        {inStock <= 5 && inStock > 0 && (
+
+                            <h1 className="few-left">only {inStock} left!!!</h1>
+
+                        )}
+
+                        {inStock === 0 && (
+
+                            <button>send me an email when it will be available again</button>
+
+                        )}
                     
                     </StyleOfItem>
 </>

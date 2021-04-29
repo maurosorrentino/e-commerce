@@ -32,6 +32,13 @@ const itemSchema = new Schema({
 
     },
 
+    stock: {
+
+        type: Number,
+        required: true,
+
+    },
+
     userId: {
 
         type: Schema.Types.ObjectId,

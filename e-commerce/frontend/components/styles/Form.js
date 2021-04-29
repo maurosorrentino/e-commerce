@@ -26,6 +26,7 @@ const Form = styled.form`
   font-weight: 600;
   font-size: 1.5rem;
   background: rgba(0, 0, 0, 0.02);
+  text-transform: uppercase;
 
   img {
 

@@ -14,6 +14,7 @@ class Sell extends Component {
         title: '',
         price: 0,
         description: '',
+        stock: 0,
         image: null,
         loading: false,
         message: null,
@@ -89,6 +90,7 @@ class Sell extends Component {
                 title: this.state.title,
                 price: this.state.price,
                 description: this.state.description,
+                stock: this.state.stock,
                 image: this.state.image,
 
             })
@@ -216,6 +218,26 @@ class Sell extends Component {
                             value={this.state.description}
                             onChange={this.handleInputs}
                             className={this.state.message === 'Description needs to be at least 5 characters' ? 'invalid' : '' }
+
+                        />
+
+                    </label>
+
+                    <label htmlFor="stock">
+
+                        How many items do you have in stock?
+
+                        <input
+
+                            name="stock"
+                            type="number"
+                            id="stock-test"
+                            placeholder="enter how many items you have in stock"
+                            value={this.state.stock}
+                            step="1"
+                            onChange={this.handleInputs}
+                            className={this.state.message === 'Items in stock need to be grater than 0'
+                            || this.state.message === 'the number has to be an integer' ? 'invalid' : '' }
 
                         />
 

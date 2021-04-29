@@ -8,12 +8,19 @@ const MessageStyles = styled.div`
     width: 80%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.30);
     word-wrap: break-word;
+    text-transform: uppercase;
 
     h1 {
 
         text-align: center;
         font-weight: 600;
         color: green;
+
+    }
+
+    .red {
+
+        color: red;
 
     }
 

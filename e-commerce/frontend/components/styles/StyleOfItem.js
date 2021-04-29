@@ -61,6 +61,19 @@ const StyleOfItem = styled.div`
 
   }
 
+  button:disabled {
+
+    opacity: .5;
+
+  }
+
+  .few-left {
+
+    color: red;
+    transform: rotate(-15deg);
+
+  }
+
 `;
 
 export default StyleOfItem;
