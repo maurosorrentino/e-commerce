@@ -93,7 +93,7 @@ class Login extends Component {
 
                     window.location.replace('/');
                     
-                }, 3000);
+                }, 2000);
 
             }
 

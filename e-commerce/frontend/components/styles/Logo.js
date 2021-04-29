@@ -16,9 +16,10 @@ const Logo = styled.h1`
 
   }
 
-  a:hover {
+  a:hover, a:focus {
 
     cursor: pointer;
+    background: green;
 
   }
 

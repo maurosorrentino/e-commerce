@@ -17,7 +17,7 @@ const OrderStyle = styled.div`
 
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         box-shadow: 0 1px 15px rgba(0, 0, 0, 0.30);
         margin: 1rem;
         max-width: 100%;

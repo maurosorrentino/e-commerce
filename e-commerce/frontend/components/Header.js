@@ -23,6 +23,12 @@ const Logo = styled.h1`
 
   }
 
+  a:hover, a:focus {
+
+    background: green;
+
+  }
+
   @media (max-width: 1300px) {
 
     margin: 1rem;

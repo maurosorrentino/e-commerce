@@ -76,6 +76,13 @@ const CartStyle = styled.div`
 
     }
 
+    h1 {
+
+        color: black;
+        font-size: 1rem;
+
+    }
+
     button {
 
         background: red;

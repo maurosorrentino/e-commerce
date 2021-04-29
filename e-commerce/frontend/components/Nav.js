@@ -26,7 +26,7 @@ export default function Nav() {
 
             { cookie.load('authCookie') && <Logout /> }
 
-            { cookie.load('authCookie') && <Link id="setting-test" href="/auth/settings"><span><FaCog /></span></Link> }
+            { cookie.load('authCookie') && <Link id="setting-test" href="/auth/settings"><button><FaCog /></button></Link> }
 
         </NavStyle>
 

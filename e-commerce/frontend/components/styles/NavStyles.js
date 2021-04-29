@@ -8,35 +8,10 @@ const NavStyle = styled.ul`
   justify-self: end;
   font-size: 1.5rem;
 
-  span {
-
-    padding: 0 1rem;
-    display: flex;
-    align-items: center;
-    position: relative;
-
-  }
-
-  @media only screen and (max-width: 600px) {
-
-    span {
-
-      font-size: .5rem;
-
-    }
-
-  }
-
-  span:hover {
-
-    color: yellowgreen;
-
-  }
-
   a,
   button {
 
-    padding: 1rem 4rem;
+    padding: 1rem 3rem;
     display: flex;
     align-items: center;
     position: relative;
@@ -79,6 +54,7 @@ const NavStyle = styled.ul`
     &:focus {
 
       outline: none;
+      color: green;
 
       &:after {
 
