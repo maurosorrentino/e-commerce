@@ -32,6 +32,7 @@ const StyleOfItem = styled.div`
     font-weight: 300;
     flex-grow: 1;
     font-size: 1.5rem;
+    color: green;
 
   }
 

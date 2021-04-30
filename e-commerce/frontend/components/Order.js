@@ -54,7 +54,7 @@ class Order extends Component {
                     <>
                         <ul key={order._id}>
 
-                            <h1 id="order-id-total">Order id: {order._id}</h1>
+                            <h1 id="order-id-total">Order id: <span>{order._id}</span></h1>
 
                             <li className="order">
                                 
@@ -92,7 +92,7 @@ class Order extends Component {
                                 
                             </li>
 
-                            <h1 id="order-id-total">Total: {Number(order.total).toFixed(2)} €</h1>
+                            <h1 id="order-id-total">Total: <span>{Number(order.total).toFixed(2)} €</span></h1>
 
                         </ul>
 

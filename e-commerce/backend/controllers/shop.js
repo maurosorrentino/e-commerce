@@ -384,6 +384,7 @@ exports.getReviewStats = async (req, res) => {
 
 };
 
+// if statemente wasn't working with !userId so I decided to put 2 middlewares for logged and not logged users
 exports.itemAvailableAgainLoggedIn = async (req, res, next) => {
 
     try {
@@ -392,16 +393,19 @@ exports.itemAvailableAgainLoggedIn = async (req, res, next) => {
         const userId = req.session.user._id;
         const user = await User.findById(userId);
 
+        // item id that we will save into this collection
         const itemId = req.params.itemId;
 
+        // if the user already requested a follow up email notification we say so to him/her
         const alreadyExists = await ItemAvailableAgainUser.findOne({ itemId, userEmail: user.email });
 
         if(alreadyExists) {
 
-            return res.status(200).json({ message: 'you already requested an email follow up for this item' });
+            return res.status(200).json({ message: 'you already requested a follow up email notification for this item' });
 
         }
 
+        // saving data into collection
         const itemAvailableAgainUser = new ItemAvailableAgainUser({
 
             itemId,
@@ -429,17 +433,20 @@ exports.itemAvailableAgainLoggedIn = async (req, res, next) => {
 
 exports.itemAvailableAgainLoggedOut = async (req, res) => {
 
+    // data that we need to save into collection
     const itemId = req.params.itemId;
     const email = req.body.email;
     
+    // if the user already requested a follow up email notification we say so to him/her
     const alreadyExists = await ItemAvailableAgainUser.findOne({ itemId, userEmail: email });
 
     if(alreadyExists) {
 
-        return res.status(200).json({ message: 'you already requested an email follow up for this item' });
+        return res.status(200).json({ message: 'you already requested a follow up email notification for this item' });
 
     }
 
+    // saving data into collection
     const itemAvailableAgainUser = new ItemAvailableAgainUser({
 
         itemId,

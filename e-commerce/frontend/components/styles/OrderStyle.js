@@ -32,7 +32,18 @@ const OrderStyle = styled.div`
         box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
         border: 5px solid white;
         background: rgba(0, 0, 0, 0.02);
-        color: #00695c;
+
+    }
+
+    .item h1 {
+
+        color: black
+
+    }
+
+    span {
+
+        color: green;
 
     }
 

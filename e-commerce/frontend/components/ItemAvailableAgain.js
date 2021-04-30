@@ -55,6 +55,7 @@ class ItemAvailableAgain extends Component {
 
     }
 
+    // so here we handle the middleware if the user is signed out (if statement !req.session wasn't working properly so I came out with this solution)
     fetchDataLoggedOut = () => {
 
         const itemId = this.props.itemId;
@@ -112,13 +113,12 @@ class ItemAvailableAgain extends Component {
 
             {this.state.message && (
 
-                <MessageStyles><h1 className={this.state.message === 'you already requested an email follow up for this item' ? 
+                <MessageStyles><h1 className={this.state.message === 'you already requested a follow up email notification for this item' ? 
                 'red' : ''}>{this.state.message}</h1></MessageStyles>
 
             )}
 
             {this.state.message === 'please enter your email' && (
-
 <>
                 <input
 
@@ -130,7 +130,7 @@ class ItemAvailableAgain extends Component {
 
                 />
 
-                <button onClick={this.fetchDataLoggedOut} id="button-logged-out">send me an email</button>
+                <button onClick={this.fetchDataLoggedOut} id="button-logged-out">Send Me An Email</button>
 </>
             )}
 </>
