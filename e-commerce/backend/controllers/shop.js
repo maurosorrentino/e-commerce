@@ -7,6 +7,7 @@ const { transport } = require('../mail/mail');
 
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
+const { use } = require('../routes/shop');
 
 exports.getItems = async (req, res, next) => {
 
@@ -19,7 +20,7 @@ exports.getItems = async (req, res, next) => {
         totalItems = await Item.find().countDocuments();
 
         // finding the items
-        const items = await Item.find()
+        const items = await Item.find();
  
         // sending res with the items so that we can fetch it on the client side and the total number of the items
         res.status(200).json({
@@ -383,7 +384,7 @@ exports.getReviewStats = async (req, res) => {
 
 };
 
-exports.itemAvailableAgain = async (req, res) => {
+exports.itemAvailableAgainLoggedIn = async (req, res, next) => {
 
     try {
 
@@ -392,6 +393,14 @@ exports.itemAvailableAgain = async (req, res) => {
         const user = await User.findById(userId);
 
         const itemId = req.params.itemId;
+
+        const alreadyExists = await ItemAvailableAgainUser.findOne({ itemId, userEmail: user.email });
+
+        if(alreadyExists) {
+
+            return res.status(200).json({ message: 'you already requested an email follow up for this item' });
+
+        }
 
         const itemAvailableAgainUser = new ItemAvailableAgainUser({
 
@@ -402,7 +411,7 @@ exports.itemAvailableAgain = async (req, res) => {
 
         await itemAvailableAgainUser.save();
 
-        res.status(200).json({ message: 'Thank You, We Will Email You As Soon As We Have News On This Item', email: user.email });
+        return res.status(200).json({ message: 'Thank You, We Will Email You As Soon As We Have News On This Item', email: user.email }); 
 
     } catch (err) {
 
@@ -417,3 +426,29 @@ exports.itemAvailableAgain = async (req, res) => {
     }
     
 };
+
+exports.itemAvailableAgainLoggedOut = async (req, res) => {
+
+    const itemId = req.params.itemId;
+    const email = req.body.email;
+    
+    const alreadyExists = await ItemAvailableAgainUser.findOne({ itemId, userEmail: email });
+
+    if(alreadyExists) {
+
+        return res.status(200).json({ message: 'you already requested an email follow up for this item' });
+
+    }
+
+    const itemAvailableAgainUser = new ItemAvailableAgainUser({
+
+        itemId,
+        userEmail: email,
+
+    });
+
+    await itemAvailableAgainUser.save();
+
+    return res.status(200).json({ message: 'Thank You, We Will Email You As Soon As We Have News On This Item' });
+    
+}

@@ -53,7 +53,7 @@ class Shop extends Component {
         .then(resData => {
 
             // we need totalItems for pagination
-            this.setState({ loading: false, totalItems: resData.totalItems });
+            this.setState({ loading: false, totalItems: resData.totalItems, email: resData.email });
 
             /* mapping the items that we are getting from the backend and setting them into state so that we can fetch them */
             this.setState({ items: resData.items.map(item => {

@@ -816,7 +816,7 @@ exports.success = async (req, res) => {
         // saving total into order model into db
         const total = user.cart.total;
 
-        const itemsToSave = user.cart.items.map(item => {
+        const itemsToSaveInOrder = user.cart.items.map(item => {
 
             return ({
 
@@ -837,7 +837,7 @@ exports.success = async (req, res) => {
         items.map(itemDb => {
 
             // mapping items into the cart
-            itemsToSave.map( async itemCart => {
+            itemsToSaveInOrder.map( async itemCart => {
 
                 // comparing the ids
                 if(itemDb._id.toString() === itemCart.itemId.toString()) {
@@ -857,7 +857,7 @@ exports.success = async (req, res) => {
         // creating order
         const order = new Order({
 
-            items: itemsToSave,
+            items: itemsToSaveInOrder,
             total,
             userId,
 

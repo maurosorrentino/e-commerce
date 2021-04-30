@@ -50,8 +50,8 @@ const StyleOfItem = styled.div`
     border: 0;
     font-size: 2rem;
     font-weight: 600;
-    padding: 0.5rem 1.2rem;
-    margin: 1rem;
+    padding: 0.2rem .5rem;
+    margin: 1rem auto;
     
   }
 
@@ -71,6 +71,13 @@ const StyleOfItem = styled.div`
 
     color: red;
     transform: rotate(-15deg);
+
+  }
+
+  #button-logged-out {
+
+    font-size: 1rem;
+    margin-left: 1rem;
 
   }
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import cookie from 'react-cookies';
 
 import MessageStyles from '../components/styles/MessageStyles';
 
@@ -6,12 +7,13 @@ class ItemAvailableAgain extends Component {
 
     state = {
 
-        email: null,
         message: null,
+        email: '',
 
     }
 
-    fetchData = () => {
+    // so here we handle the middleware if the user is signed in (if statement !req.session wasn't working properly so I came out with this solution)
+    fetchDataLoggedIn = () => {
 
         const itemId = this.props.itemId;
 
@@ -38,7 +40,7 @@ class ItemAvailableAgain extends Component {
 
         .then(resData => {
 
-            this.setState({ email: resData.email, message: resData.message });
+            this.setState({ message: resData.message });
 
         })
 
@@ -46,17 +48,91 @@ class ItemAvailableAgain extends Component {
 
     }
 
+    // here is the function where I only show the user the message please enter your email
+    pleaseEnterYourEmail = () => {
+
+        this.setState({ message: 'please enter your email' })
+
+    }
+
+    fetchDataLoggedOut = () => {
+
+        const itemId = this.props.itemId;
+
+        fetch(`http://localhost:8090/email-me-item-out/${itemId}`, {
+
+            method: 'PUT',
+
+            headers: {
+
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+
+            },
+
+            credentials: 'include',
+
+            body: JSON.stringify({
+
+                email: this.state.email,
+
+            })
+
+        })
+
+        .then(res => {
+
+            return res.json();
+
+        })
+
+        .then(resData => {
+
+            this.setState({ message: resData.message });
+
+        })
+
+        .catch(err => console.log(err));
+
+    }
+
+    handleChange = e => {
+
+        this.setState({ email: e.target.value });
+
+    }
+
     render() {
 
         return (
 <>
+            { cookie.load('authCookie') && (<button onClick={this.fetchDataLoggedIn}>Email Me When It Will Be Available Again!</button>)}
+
+            { !cookie.load('authCookie') && (<button onClick={this.pleaseEnterYourEmail}>Email Me When It Will Be Available Again!</button>)}
+
             {this.state.message && (
 
-                <MessageStyles><h1>{this.state.message}</h1></MessageStyles>
+                <MessageStyles><h1 className={this.state.message === 'you already requested an email follow up for this item' ? 
+                'red' : ''}>{this.state.message}</h1></MessageStyles>
 
             )}
 
-            <button onClick={this.fetchData}>Email Me When It Will Be Available Again!</button>
+            {this.state.message === 'please enter your email' && (
+
+<>
+                <input
+
+                    type="email"
+                    name="email"
+                    onChange={this.handleChange}
+                    placeholder="enter your email"
+                    value={this.state.email}
+
+                />
+
+                <button onClick={this.fetchDataLoggedOut} id="button-logged-out">send me an email</button>
+</>
+            )}
 </>
         )
 

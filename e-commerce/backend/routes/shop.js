@@ -18,7 +18,10 @@ router.get('/view-review/:itemId', shopController.viewReview);
 // route that shows all the stats of the reviews for the item
 router.get('/review-stats/:itemId', shopController.getReviewStats);
 
-// saving the user email into db list when clicking on button "email me when available"
-router.put('/email-me-item/:itemId', shopController.itemAvailableAgain);
+// saving the user email into db list when clicking on button "email me when available" when logged in
+router.put('/email-me-item/:itemId', shopController.itemAvailableAgainLoggedIn);
+
+// saving the user email into db list when clicking on button "email me when available" when logged out
+router.put('/email-me-item-out/:itemId', shopController.itemAvailableAgainLoggedOut);
 
 module.exports = router;
