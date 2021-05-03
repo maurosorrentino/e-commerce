@@ -1059,3 +1059,101 @@ exports.removeReview = async (req, res) => {
     }
 
 }
+
+exports.changeDetails = async (req, res) => {
+
+    try {
+
+        // finding the user
+        const userId = req.session.user._id;
+        const user = await User.findById(userId);
+
+        // getting the inputs
+        let email = req.body.email;
+        let name = req.body.name;
+        let oldPassword = req.body.oldPassword;
+        let newPassword = req.body.newPassword;
+        let confirmPassword = req.body.confirmPassword;
+
+        // so if the inputs are empty we save the old data
+        if(email === '') {
+
+            email = user.email;
+
+        };
+
+        if(name === '') {
+
+            name = user.name;
+
+        };
+
+        // checking if email is valid
+        const emailRegex = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
+        
+        // checking if email is valid with regex
+        if(!email.match(emailRegex)) {
+
+            return res.status(422).json({ message: 'Invalid email' });
+
+        };
+
+        // so if the inputs are empty we save the old data
+        if(newPassword === '' && confirmPassword === '') {
+
+            user.password = user.password;
+
+        }
+
+        // error message for password and confirm password that aren't equal
+        if(newPassword !== confirmPassword) {
+
+            return res.status(422).json({ message: 'passwords do not match!' });
+
+        };
+
+        // validation password.length > 5
+        // && because we need to tell the computer that empty strings are fine if the user doesn't want to change the password
+        if(newPassword.length < 5 && newPassword !== '' && confirmPassword !== '') {
+
+            return res.status(422).json({ message: 'password needs to be at least 5 characters' });
+
+        }
+
+        // checking if old password = to the one into db
+        const isValid = await bcrypt.compare(oldPassword, user.password);
+
+        if(!isValid) {
+
+            return res.status(401).json({ message: 'password is wrong, please confirm your password in order to change your details' });
+
+        };
+
+        // changing details
+        user.email = email;
+        user.name = name;
+
+        // if these 2 inputs are not empty we save a new password
+        if(newPassword !== '' && confirmPassword !== '') {
+
+            const hashedPassword = await bcrypt.hash(newPassword, 12);
+            user.password = hashedPassword;
+
+        }
+
+        await user.save();
+        return res.status(200).json({ message: 'you successfully changed your details'});
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+};

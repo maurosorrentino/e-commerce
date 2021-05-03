@@ -19,7 +19,7 @@ const Form = styled.form`
 
   border: 5px solid white;
   box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
-  padding: 20px;
+  padding: 2rem;
   margin: 1rem;
   text-align: center;
   line-height: 1.5;
@@ -43,7 +43,7 @@ const Form = styled.form`
   label {
 
     text-align: center;
-    margin-bottom: 1rem;
+    margin: 1rem;
     display: block;
 
   }
@@ -78,6 +78,7 @@ const Form = styled.form`
   button:hover {
 
     cursor: pointer;
+    color: yellowgreen;
 
   }
 

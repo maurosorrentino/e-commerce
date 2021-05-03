@@ -7,7 +7,6 @@ const { transport } = require('../mail/mail');
 
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
-const { use } = require('../routes/shop');
 
 exports.getItems = async (req, res, next) => {
 

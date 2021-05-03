@@ -8,7 +8,6 @@ const NavStyle = styled.ul`
   justify-self: end;
   font-size: 1.5rem;
 
-  a,
   button {
 
     padding: 1rem 3rem;
@@ -23,6 +22,13 @@ const NavStyle = styled.ul`
     color: yellowgreen;
     font-weight: 700;
 
+    @media only screen and (max-width: 450px) {
+
+      font-size: 1rem;
+      padding: 0 5px;
+
+    }
+
     @media (max-width: 700px) {
 
       font-size: .5rem;
@@ -32,7 +38,8 @@ const NavStyle = styled.ul`
 
     @media only screen and (min-width: 700px) and (max-width: 1100px) {
 
-      font-size: .5rem;
+      font-size: 2rem;
+      padding: 0 5px;
 
     }
 
@@ -64,7 +71,7 @@ const NavStyle = styled.ul`
     }
   }
 
-  @media (max-width: 1300px) {
+  @media only screen and (max-width: 1300px) {
 
     border-top: 1px solid lightgreen;
     width: 100%;
@@ -72,6 +79,7 @@ const NavStyle = styled.ul`
     font-size: 1.5rem;
 
   }
+
 `;
 
 export default NavStyle;

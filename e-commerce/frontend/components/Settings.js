@@ -14,9 +14,9 @@ class Settings extends Component {
 
             <SettingsStyle>
 
-                <Link href="/reset-password">Change Your Password</Link>
+                <Link href="/auth/change-details">Change Your Details</Link>
 
-                <Link href="/auth/save-your-card">Save Your Debit/Credit Card</Link>
+                <Link href="/auth/payouts">Payouts</Link>
 
             </SettingsStyle>
 </>

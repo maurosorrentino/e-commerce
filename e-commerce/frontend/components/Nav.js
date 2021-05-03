@@ -12,17 +12,17 @@ export default function Nav() {
 
         <NavStyle>
 
-            { cookie.load('authCookie') && <Link id="sell-test" href="/auth/sell">sell</Link> }
+            { cookie.load('authCookie') && <Link id="sell-test" href="/auth/sell"><button>sell</button></Link> }
 
-            { cookie.load('authCookie') && <Link id="cart-test" href="/auth/cart">cart</Link>}
+            { cookie.load('authCookie') && <Link id="cart-test" href="/auth/cart"><button>cart</button></Link>}
 
-            { cookie.load('authCookie') && <Link id="my-item-test" href="/auth/my-items">my items</Link> }
+            { cookie.load('authCookie') && <Link id="my-item-test" href="/auth/my-items"><button>my items</button></Link> }
 
-            { cookie.load('authCookie') && <Link href="/auth/orders">orders</Link> }
+            { cookie.load('authCookie') && <Link href="/auth/orders"><button>orders</button></Link> }
 
-            { !cookie.load('authCookie') && <Link id="signup-test" href="/auth/signup">signup</Link> }
+            { !cookie.load('authCookie') && <Link id="signup-test" href="/auth/signup"><button>signup</button></Link> }
 
-            { !cookie.load('authCookie') && <Link id="login-test" href="/auth/login">login</Link> }
+            { !cookie.load('authCookie') && <Link id="login-test" href="/auth/login"><button>login</button></Link> }
 
             { cookie.load('authCookie') && <Logout /> }
 

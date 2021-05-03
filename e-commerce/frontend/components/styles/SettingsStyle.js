@@ -14,7 +14,7 @@ const SettingsStyle = styled.div`
 
     }
 
-    a:hover {
+    a:hover, a:focus {
 
         color: green;
 
