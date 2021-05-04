@@ -26,6 +26,7 @@ const Logo = styled.h1`
   a:hover, a:focus {
 
     background: green;
+    color: yellowgreen;
 
   }
 

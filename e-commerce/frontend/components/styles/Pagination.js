@@ -19,9 +19,17 @@ const Pagination = styled.div`
 
   }
 
-  li:hover, button:hover {
+  button:hover, button:focus {
 
     cursor: pointer;
+    color: yellowgreen;
+
+  }
+
+  li:hover, li:focus {
+
+    cursor: pointer;
+    background: yellowgreen;
 
   }
 
@@ -40,6 +48,8 @@ const Pagination = styled.div`
   button:disabled {
 
     opacity: 0.5;
+    color: white;
+    cursor: not-allowed;
 
   }
 

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import cookie from 'react-cookies';
 
 import Header from '../components/Header';
 import StyleOfItem from '../components/styles/StyleOfItem';
 import LoadingStyle from '../components/styles/LoadingStyle';
 import AddToCart from '../components/AddToCart';
 import ReviewStats from '../components/ReviewStats';
+import ItemAvailableAgain from '../components/ItemAvailableAgain';
 
 class ViewItem extends Component {
 
@@ -18,19 +20,24 @@ class ViewItem extends Component {
             description: '',
             image: '',
             price: undefined,
-            userId: '',
+            inStock: undefined,
+            itemId: undefined,
+            userId: null,
 
         }
 
-        this.fetchData = this.fetchData.bind(this);
+        this.fetchDataLoggedIn = this.fetchDataLoggedIn.bind(this);
+        this.fetchDataLoggedOut = this.fetchDataLoggedOut.bind(this);
 
     }
 
-    fetchData = () => {
+    // there are 2 middleware for showing the reviews because in the one where the user is logged in I send the userId so that we have a way to show the user the button "remove review"
+    // if the review shown it's his
+    fetchDataLoggedIn = () => {
 
         const itemId = this.props.itemId;
 
-        fetch(`http://localhost:8090/view-item/${itemId}`, {
+        fetch(`http://localhost:8090/view-item-in/${itemId}`, {
 
             method: 'GET',
 
@@ -53,7 +60,8 @@ class ViewItem extends Component {
 
         .then(resData => {
 
-            this.setState({ loading: false, userId: resData.userId, title: resData.title, price: resData.price, description: resData.description, image: resData.image });
+            this.setState({ loading: false, title: resData.title, price: resData.price, 
+                description: resData.description, image: resData.image, inStock: resData.stock, itemId: resData.itemId, userId: resData.userId });
 
         })
 
@@ -61,15 +69,52 @@ class ViewItem extends Component {
 
     }
 
+    fetchDataLoggedOut = () => {
+
+        const itemId = this.props.itemId;
+
+        fetch(`http://localhost:8090/view-item-out/${itemId}`, {
+
+            method: 'GET',
+
+            headers: {
+
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+
+            },
+
+        })
+
+        .then(res => {
+
+            return res.json();
+
+        })
+
+        .then(resData => {
+
+            this.setState({ loading: false, title: resData.title, price: resData.price, 
+                description: resData.description, image: resData.image, inStock: resData.stock, itemId: resData.itemId });
+
+        })
+
+        .catch(err => console.log(err));
+
+    }
+
+
     componentDidMount() {
 
-        this.fetchData();
+        cookie.load('authCookie') && this.fetchDataLoggedIn();
+        !cookie.load('authCookie') && this.fetchDataLoggedOut();
 
     }
 
     componentDidUpdate() {
 
-        this.fetchData();
+        cookie.load('authCookie') && this.fetchDataLoggedIn();
+        !cookie.load('authCookie') && this.fetchDataLoggedOut();
 
     }
 
@@ -83,22 +128,38 @@ class ViewItem extends Component {
 
             {!this.state.loading && (
 <>
-                <StyleOfItem>
+                <div style={{maxWidth: '50%', margin: '1rem auto'}}>
 
-                    <h1>title</h1>
-                    <p>{this.state.title}</p>
+                    <StyleOfItem>
 
-                    <img alt={this.state.title} src={this.state.image}></img>
+                        <h1>title</h1>
+                        <p>{this.state.title}</p>
 
-                    <h1>description</h1>
-                    <p>{this.state.description}</p>
+                        <img alt={this.state.title} src={this.state.image}></img>
 
-                    <h1>price</h1>
-                    <p>{Number(this.state.price).toFixed(2)} €</p>
+                        <h1>description</h1>
+                        <p>{this.state.description}</p>
 
-                    <AddToCart itemId={this.props.itemId} />
+                        <h1>price</h1>
+                        <p>{Number(this.state.price).toFixed(2)} €</p>
 
-                </StyleOfItem>
+                        <AddToCart inStock={this.state.inStock} itemId={this.props.itemId} />
+
+                        {this.state.inStock <= 5 && this.state.inStock > 0 && (
+
+                            <h1 className="few-left">only {this.state.inStock} left!!!</h1>
+
+                        )}
+
+                        {this.state.inStock === 0 && (
+
+                            <ItemAvailableAgain itemId={this.state.itemId} />
+
+                        )}
+
+                    </StyleOfItem>
+
+                </div>
 
                 {/* sending the user id so that we have a way to show the remove review button only if review is of the user */}
                 <ReviewStats userId={this.state.userId} itemId={this.props.itemId} />

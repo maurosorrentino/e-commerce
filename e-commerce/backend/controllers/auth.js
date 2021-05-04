@@ -73,7 +73,8 @@ exports.signup = async (req, res) => {
 
             cart: {
 
-                items: []
+                items: [],
+                total: 0,
 
             },
 
@@ -139,7 +140,7 @@ exports.login = async (req, res) => {
         }, process.env.TOKEN_SECRET, { expiresIn: '8760h' }); // remember to change it!!!
 
         // for navigation on the client side (I use the httpOnly false cookie for authentication)
-        const weakToken = jwt.sign({}, process.env.WEAK_TOKEN_SECRET, { expiresIn: '8760h' }); // change it!!!
+        const weakToken = jwt.sign({ userId }, process.env.WEAK_TOKEN_SECRET, { expiresIn: '8760h' }); // change it!!!
 
         // if password and email matches we will authenticate by creating a session and storing the tokens into the cookies
         await User.findById(userId)
@@ -388,6 +389,7 @@ exports.addToCart = async (req, res) => {
                 title: item.title,
                 price: item.price,
                 quantity,
+                userPayout: item.userId,
 
             });
 
@@ -691,6 +693,17 @@ exports.removeItem = async (req, res) => {
         // getting the id of the item, finding it, deleting it and sending a res with 200 status code
         const itemId = req.params.itemId;
         await Item.findByIdAndDelete(itemId);
+
+        // if item gets deleted we delete also the reviews attached
+        const reviews = await Review.find({ itemId });
+        
+        reviews.map(async review => {
+
+            const reviewId = review._id;
+            return await Review.findByIdAndDelete(reviewId);
+
+        })
+
         return res.status(200).json();
 
     } catch (err) {
@@ -865,8 +878,55 @@ exports.success = async (req, res) => {
 
         await order.save();
 
+        // payouts
+        // so we map the cart of the user
+        user.cart.items.map(async item => {
+
+            // we find the id of the owner of the item inside the item and then we find the user that we need to pay
+            const userIdPayout = item.userPayout;
+            const userPayout = await User.findById(userIdPayout);
+
+            const payoutsUser = userPayout.payouts;
+
+            // we give the user 80% of the total
+            const amount = (item.price * item.quantity) / 100 * 80;
+
+            // pushing into db data that we will need in order to show the user all his payouts and take these info from db in order to pay
+            payoutsUser.push({
+
+                itemId: item.itemId,
+                amount: amount.toFixed(2),
+                buyerId: user._id,
+
+            })
+
+            await userPayout.save();
+
+            // sending payouts (how it should be done but I am not eligible for the instant payout)
+
+/*             stripe docs
+            Instant Payouts 
+            With Instant Payouts, you can instantly send funds to a supported debit card or bank account. You can request Instant Payouts 24/7, 
+            including weekends and holidays, and funds typically appear in the associated bank account within 30 minutes.
+
+            Eligibility
+            New Stripe users aren’t immediately eligible for Instant Payouts.  */
+
+
+/*             const payout = await stripe.payouts.create({
+
+                amount: payoutsUser.amount * 100,
+                currency: 'eur',
+                method: 'instant',
+                destination: payoutsUser.card,
+
+            }) */
+
+        })
+
         // empty user cart 
         user.cart.items = [];
+        user.cart.total = 0;
         await user.save();
 
         return res.status(200).json({ message: 'success', userName });
@@ -995,7 +1055,7 @@ exports.writeReview = async (req, res) => {
         const user = await User.findById(userId);
         const name = user.name;
 
-        res.status(200).json({ message: `Thank You ${name} For The Review` })
+        res.status(200).json({ message: `Thank You ${name} For The Review`, userId })
 
     } catch (err) {
 
@@ -1063,6 +1123,21 @@ exports.removeReview = async (req, res) => {
 exports.changeDetails = async (req, res) => {
 
     try {
+
+        // if user has no session we throw an error (it will appear )
+        if(!req.session.isAuth) {
+
+            return res.status(401).json();
+
+        }
+
+        // verifying token from httpOnly true cookie
+        const token = req.cookies.token;
+        jwt.verify(token, process.env.TOKEN_SECRET);
+
+        // verifying weak token (httpOnly: false)
+        const weakToken = req.cookies.authCookie;
+        jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
 
         // finding the user
         const userId = req.session.user._id;
@@ -1157,3 +1232,28 @@ exports.changeDetails = async (req, res) => {
     }
 
 };
+
+exports.getPayouts = async (req, res) => {
+
+    try {
+
+        const userId = req.session.user._id;
+        const user = await User.findById(userId);
+
+        const payouts = user.payouts;
+
+        res.status(200).json({ message: 'fetched payouts', payouts })
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+}

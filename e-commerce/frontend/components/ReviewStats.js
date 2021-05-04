@@ -94,7 +94,7 @@ class ReviewStats extends Component {
 
                     <span className={this.state.averageReviews >= 5 ? 'checked' : ''}><FaStar /></span>
 
-                    <p>{this.state.averageReviews} average based on {this.state.totalReviews} reviews</p>
+                    <p>{this.state.averageReviews} average based on {this.state.totalReviews} review{this.state.totalReviews.length > 1 ? 's' : ''}</p>
 
                 </div>
 

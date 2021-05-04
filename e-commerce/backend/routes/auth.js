@@ -47,6 +47,9 @@ router.put('/write-review/:itemId', authController.writeReview);
 // remove review route
 router.delete('/remove-review/:reviewId', authController.removeReview);
 
+// change details route
 router.patch('/change-details', authController.changeDetails);
+
+router.get('/payouts', authController.getPayouts);
 
 module.exports = router;

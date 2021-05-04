@@ -6,6 +6,23 @@ const OrderStyle = styled.div`
     margin: 1rem;
     margin-right: 3.5rem;
 
+    h1, p {
+
+        margin: 1rem;
+        text-align: center;
+        font-weight: 600;
+        color: green;
+        text-transform: uppercase;
+
+    }
+
+    #order-id-total {
+
+        color: black;
+        box-shadow: 0 1px 10px green;
+
+    }
+
     ul {
 
         list-style: none;
@@ -18,7 +35,7 @@ const OrderStyle = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 1px 15px rgba(0, 0, 0, 0.30);
+        box-shadow: 0 1px 15px green;
         margin: 1rem;
         max-width: 100%;
         flex-wrap: wrap;
@@ -136,23 +153,6 @@ const OrderStyle = styled.div`
 
         }
 
-    }
-
-    h1, p {
-
-        margin: 1rem;
-        text-align: center;
-        font-weight: 600;
-        color: green;
-        text-transform: uppercase;
-
-    }
-
-    #order-id-total {
-
-        color: black;
-        box-shadow: 0 1px 10px rgba(0, 0, 0, 0.30);
-        
     }
 
 `;

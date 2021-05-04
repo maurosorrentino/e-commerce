@@ -56,7 +56,7 @@ class WriteReview extends Component {
         .then(resData => {
 
             {/* putting the user id into state so that we have a way to show the remove review button only if review is of the user */}
-            this.setState({ message: resData.message, userId: resData.userId });
+            this.setState({ message: resData.message });
 
         })
 
@@ -246,7 +246,10 @@ class WriteReview extends Component {
 
                 <h1>write a review for this product!</h1>
 
-                {this.state.message && (<MessageStyles><h1>{this.state.message}</h1></MessageStyles>) }
+                {this.state.message && (<MessageStyles><h1 className={this.state.message === 
+                'you can only make 1 review per product' || this.state.message === 
+                'Only Users That Bought This Item Can Make A Review.' || this.state.message === 
+                'You cannot take this action, please login' ? 'red' : ''}>{this.state.message}</h1></MessageStyles>) }
 
                 <span onClick={this.handleRatingValue1} onMouseOver={this.handleRating} id="rating-1" ><FaStar /></span>
 

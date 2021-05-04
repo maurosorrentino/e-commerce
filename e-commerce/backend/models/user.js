@@ -47,7 +47,7 @@ const userSchema = new Schema({
 
     cart: {
 
-        total: { type: Number, required: false },
+        total: { type: Number, required: true },
 
         items: [
 
@@ -66,12 +66,54 @@ const userSchema = new Schema({
             title: { type: String, required: true },
 
             price: { type: Number, required: true },
+
+            userPayout: {
+
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+                required: true,
+
+            }
           
             },
 
         ]
       
     },
+
+    payouts: [{
+
+        itemId: {
+
+            type: Schema.Types.ObjectId,
+            ref: "Item",
+            required: false
+
+        },
+
+        buyerId: {
+
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: false,
+
+        },
+
+        amount: {
+
+            type: Number,
+            required: false,
+
+        },
+
+        card: {
+
+            type: Number,
+            required: false,
+            
+        }
+
+    }]
 
 }, { timestamps: true });
 

@@ -8,7 +8,7 @@ const { transport } = require('../mail/mail');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
-exports.getItems = async (req, res, next) => {
+exports.getItems = async (req, res) => {
 
     // pagination is handled on the client side so from here I only need the number of the items
     let totalItems;
@@ -28,60 +28,6 @@ exports.getItems = async (req, res, next) => {
             items,
             totalItems,
 
-        });
-
-        // finding from db all the users that want to know if an item is back on the store
-        const itemAvailableAgainUser = await ItemAvailableAgainUser.find();
-    
-        // mapping these users
-        itemAvailableAgainUser.map(async user => {
-    
-            // finding the item id, email and item from this collection
-            const itemId = user.itemId;
-            const userEmail = user.userEmail;
-            const item = await Item.findById(itemId);
-    
-            if(item.stock > 0) {
-    
-                const link = `http://localhost:3000/view-item/${itemId}`;
-    
-                // finding the user with the email that we found in this collection so that we can put the name into the email
-                const user = await User.findOne({ email: userEmail });
-    
-                // sending email
-                await transport.sendMail({
-    
-                    from: 'sorrentino.mauro95@gmail.com',
-                    to: userEmail,
-                    subject: `Item ${item.title} Is Back On Our Shop!`,
-                    html: `
-                        
-                        <h1>Hi ${user.name}</h1>
-        
-                        <p>The Item ${item.title} Is Back Again On Our Shop</p>
-        
-                        <p>Please Click The Link Below In Order To Buy It</p>
-        
-                        <a href="${link}">Click Here To Buy The Item!</a>
-                        
-                    `,
-        
-                });
-
-                // finding the id of this collection with the itemId so that we can delete it in order to don't send an email every time this page gets loaded
-                const findInfo = await ItemAvailableAgainUser.find({ itemId });
-
-                const itemAvailableAgainUserId = findInfo.map(findId => {
-
-                    return findId._id;
-
-                });
-
-                // deleting it
-                await ItemAvailableAgainUser.findByIdAndRemove(itemAvailableAgainUserId);
-    
-            };
-    
         });
 
     } catch (err) {
@@ -238,7 +184,9 @@ exports.resetPasswordPage = async (req, res, next) => {
 
 };
 
-exports.viewItem = async (req, res) => {
+// there are 2 middleware for showing the reviews because in the one where the user is logged in I send the userId so that we have a way to show the user the button "remove review"
+// if the review shown it's his
+exports.viewItemLoggedOut = async (req, res) => {
 
     try {
 
@@ -250,11 +198,43 @@ exports.viewItem = async (req, res) => {
         const description = item.description;
         const image = item.image;
         const price = item.price;
+        const stock = item.stock;
 
-        // sending the user id so that we have a way to show the remove review button only if review is of the user
+        return res.status(200).json({ message: 'item fetched', title, description, image, price, stock, itemId });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+}
+
+// there are 2 middleware for showing the reviews because in the one where the user is logged in I send the userId so that we have a way to show the user the button "remove review"
+// if the review shown it's his
+exports.viewItemLoggedIn = async (req, res) => {
+
+    try {
+
+        // finding the item to get and sending all the info that we need into res
+        const itemId = req.params.itemId;
+        const item = await Item.findById(itemId);
+
+        const title = item.title;
+        const description = item.description;
+        const image = item.image;
+        const price = item.price;
+        const stock = item.stock;
+
         const userId = req.session.user._id;
 
-        res.status(200).json({ message: 'item fetched', title, description, image, price, userId });
+        return res.status(200).json({ message: 'item fetched', title, description, image, price, stock, itemId, userId });
 
     } catch (err) {
 
@@ -277,7 +257,7 @@ exports.viewReview = async (req, res) => {
         const itemId = req.params.itemId;
         const reviews = await Review.find({ itemId });
 
-        res.status(200).json({ reviews, message: 'reviews fetched' });
+        return res.status(200).json({ reviews, message: 'reviews fetched' });
 
     } catch (err) {
 
@@ -367,7 +347,7 @@ exports.getReviewStats = async (req, res) => {
         // getting the average of the reviews
         const averageReviews = (star1 + stars2 + stars3 + stars4 + stars5) / totalReviews;
 
-        res.status(200).json({ averageReviews, total5starsLength, total4starsLength, total3starsLength, total2starsLength, total1starLength, totalReviews });
+        return res.status(200).json({ averageReviews, total5starsLength, total4starsLength, total3starsLength, total2starsLength, total1starLength, totalReviews });
 
     } catch (err) {
 
@@ -384,7 +364,7 @@ exports.getReviewStats = async (req, res) => {
 };
 
 // if statemente wasn't working with !userId so I decided to put 2 middlewares for logged and not logged users
-exports.itemAvailableAgainLoggedIn = async (req, res, next) => {
+exports.itemAvailableAgainLoggedIn = async (req, res) => {
 
     try {
 

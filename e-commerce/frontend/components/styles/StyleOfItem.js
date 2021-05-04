@@ -59,12 +59,15 @@ const StyleOfItem = styled.div`
   button:hover {
 
     cursor: pointer;
+    color: yellowgreen;
 
   }
 
   button:disabled {
 
     opacity: .5;
+    color: white;
+    cursor: not-allowed;
 
   }
 

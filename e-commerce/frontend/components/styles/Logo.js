@@ -20,6 +20,7 @@ const Logo = styled.h1`
 
     cursor: pointer;
     background: green;
+    color: yellowgreen;
 
   }
 
