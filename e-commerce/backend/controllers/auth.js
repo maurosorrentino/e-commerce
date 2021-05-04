@@ -83,7 +83,7 @@ exports.signup = async (req, res) => {
         // saving user and sending a response
         const savedUser = await user.save();
 
-        return res.status(201).json({ message: 'user created, please click on "my shop" above and log in', user: savedUser });
+        return res.status(201).json({ message: 'user created, you are being redirected to the login page', user: savedUser });
 
     } catch (err) {
 
@@ -1081,13 +1081,13 @@ exports.removeReview = async (req, res) => {
         // if statement just to be sure that only the user that made this review can remove it (just in case somehow the button gets rendered to the wrong user)
         if(userId.toString() !== review.userId.toString()) {
 
-            return res.status(401).json({ message: 'only the user that wrote this review can delete it.' });
+            return res.status(401).json();
 
         }
 
         await Review.findByIdAndDelete(reviewId);
 
-        res.status(200).json({ message: 'review was removed, you are being redirected to the same page' });
+        return res.status(200).json({ message: 'review was removed' });
 
     } catch (err) {
 

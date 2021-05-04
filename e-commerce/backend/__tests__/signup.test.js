@@ -252,7 +252,7 @@ describe('Signup success', () => {
             const response = await put('/auth/signup', req.body);
     
             expect(response.status).toBe(201);
-            expect(response.body.message).toBe('user created, please click on "my shop" above and log in');
+            expect(response.body.message).toBe('user created, you are being redirected to the login page');
             done();
 
         } catch (err) {

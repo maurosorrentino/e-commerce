@@ -43,13 +43,13 @@ class RemoveReview extends Component {
 
         .then(() => {
 
-            if(this.state.message === 'review was removed, you are being redirected to the same page') {
+            if(this.state.message === 'review was removed') {
 
                 setTimeout(() => {
 
                     window.location.replace(`/view-item/${this.props.itemId}`)
                     
-                }, 3000);
+                }, 1000);
 
             }
 
@@ -62,11 +62,9 @@ class RemoveReview extends Component {
     render() {
 
         return (
-<>
-            {this.state.message && <MessageStyles><h1>{this.state.message}</h1></MessageStyles>}
 
             <button className="remove-review" onClick={this.fetchData} aria-label="remove review">X</button>
-</>
+
         )
 
     }

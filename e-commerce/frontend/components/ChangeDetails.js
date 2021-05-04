@@ -79,7 +79,12 @@ class ChangeDetails extends Component {
 
             <Header />
 
-            {this.state.message && (<MessageStyles><h1>{this.state.message}</h1></MessageStyles>)}
+            {this.state.message && (<MessageStyles><h1 className={
+
+                this.state.message === 'Invalid email' || this.state.message === 'passwords do not match!' || this.state.message === 'password needs to be at least 5 characters' ||
+                this.state.message === 'password is wrong, please confirm your password in order to change your details' ? 'red' : ''
+
+            }>{this.state.message}</h1></MessageStyles>)}
 
             <Form onSubmit={this.fetchData}>
 

@@ -4,7 +4,7 @@ import cookie from 'react-cookies';
 import FormData from 'form-data';
 
 import Form from './styles/Form';
-import Logo from '../components/styles/Logo';
+import Header from '../components/Header';
 import MessageStyles from '../components/styles/MessageStyles';
 
 class Sell extends Component {
@@ -122,13 +122,15 @@ class Sell extends Component {
 
         return (
 <>
-            <Logo>
+            <Header />
 
-                <Link href="/">My Shop</Link>
+            { this.state.message && (<MessageStyles><h1 className={
 
-            </Logo>
+                this.state.message === 'Title needs to be at least 3 characters' || this.state.message === 'Price cannot be less or equal than 0' || 
+                this.state.message === 'you need to upload an image' || this.state.message === 'Description needs to be at least 5 characters' ||
+                this.state.message === 'Items in stock need to be grater than 0' || this.state.message === 'the number has to be an integer' ? 'red' : ''
 
-            { this.state.message && (<MessageStyles><h1 id="message-test">{this.state.message}</h1></MessageStyles> ) }
+            } id="message-test">{this.state.message}</h1></MessageStyles> ) }
 
             <Form id="form-test" encType="multipart/form-data" onSubmit={this.handleSubmit}>
 

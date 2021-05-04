@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import Form from './styles/Form';
 import MessageStyles from '../components/styles/MessageStyles';
-import Logo from '../components/styles/Logo';
+import Header from '../components/Header';
 
 class Signup extends Component {
 
@@ -73,6 +73,20 @@ class Signup extends Component {
 
         })
 
+        .then(() => {
+
+            if(this.state.message === 'user created, you are being redirected to the login page') {
+
+                setTimeout(() => {
+
+                    window.location.replace('/auth/login');
+                    
+                }, 2000);
+
+            }
+
+        })
+
         .catch(err => {
             
             this.setState({ loading: false });
@@ -87,16 +101,16 @@ class Signup extends Component {
         return (
 
         <>
-
-            <Logo>
-
-                <Link href="/">My Shop</Link>
-
-            </Logo>
+            <Header />
 
             {/* showing error/messages */}
            
-            {this.state.message && ( <MessageStyles><h1>{this.state.message}</h1></MessageStyles> ) }
+            {this.state.message && ( <MessageStyles><h1 className={
+
+                this.state.message === 'Invalid email' || this.state.message === 'please enter your name' || this.state.message === 'password needs to be at least 5 characters' ||
+                this.state.message === 'passwords do not match' ? 'red' : ''
+
+            }>{this.state.message}</h1></MessageStyles> ) }
         
             <Form className="signUp-form-test" onSubmit={this.signupHandler}>
                 

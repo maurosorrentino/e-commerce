@@ -36,6 +36,16 @@ const MessageStyles = styled.div`
 
     }
 
+    @media only screen and (max-width: 300px) {
+
+        h1 {
+
+            font-size: 8px;
+
+        }
+
+    }
+
 `;
 
 export default MessageStyles;

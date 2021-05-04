@@ -122,7 +122,12 @@ class EditItem extends Component {
 
         return (
 <>
-            { this.state.message && (<MessageStyles><h1 id="message-test">{this.state.message}</h1></MessageStyles> ) }
+            { this.state.message && (<MessageStyles><h1 className={
+
+                this.state.message === 'Title needs to be at least 3 characters' || this.state.message === 'Price cannot be less or equal than 0' || 
+                this.state.message === 'Description needs to be at least 5 characters' || this.state.message === 'the number has to be an integer' ? 'red' : ''
+
+            } id="message-test">{this.state.message}</h1></MessageStyles> ) }
 
             <Form id="form-test" encType="multipart/form-data" onSubmit={this.handleSubmit}>
 

@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import Form from './styles/Form';
 import MessageStyles from './styles/MessageStyles';
-import Logo from './styles/Logo';
+import Header from './Header';
 
 class Login extends Component {
 
@@ -25,7 +25,8 @@ class Login extends Component {
 
     handleInputs = e => {
 
-        this.setState({ [e.target.name]: e.target.value });
+        /* messaage: null so that we can keep the class of the message red on change */
+        this.setState({ [e.target.name]: e.target.value, message: null });
 
     }
 
@@ -112,13 +113,14 @@ class Login extends Component {
 
         return (
 <>
-            <Logo>
+            <Header />
 
-                <Link href="/">My Shop</Link>
-
-            </Logo>
-
-            { this.state.message && (<MessageStyles><h1 id="message-test">{this.state.message}</h1></MessageStyles> ) }
+            { this.state.message && (<MessageStyles><h1 className={
+                
+                this.state.message === `There is no account into our database with this email: ${this.state.email}` || this.state.message === 'invalid password, please try again'
+        ? 'red' : ''} 
+        
+        id="message-test">{this.state.message}</h1></MessageStyles> ) }
 
             <Form id="login-form-test" onSubmit={this.loginHandler}>
 

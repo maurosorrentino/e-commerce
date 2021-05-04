@@ -20,13 +20,14 @@ const Form = styled.form`
   border: 5px solid white;
   box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
   padding: 2rem;
-  margin: 1rem;
+  margin: 1rem auto;
   text-align: center;
   line-height: 1.5;
   font-weight: 600;
   font-size: 1.5rem;
   background: rgba(0, 0, 0, 0.02);
   text-transform: uppercase;
+  max-width: 60%;
 
   img {
 
@@ -112,6 +113,9 @@ const Form = styled.form`
 
   @media only screen and (max-width: 600px) {
 
+    max-width: 100%;
+    margin-left: 1.5rem;
+
     img {
 
       width: 120px;
@@ -146,35 +150,35 @@ const Form = styled.form`
 
     @media only screen and (min-width: 700px) {
 
-    img {
+      img {
 
-      width: 400px;
+        width: 400px;
 
-    }
+      }
 
-    h1 {
+      h1 {
 
-      font-size: 1.5rem;
+        font-size: 1.5rem;
 
-    }
+      }
 
-    label {
+      label {
 
-      font-size: 1.5rem;
+        font-size: 1.5rem;
 
-    }
+      }
 
-    input {
+      input {
 
-      font-size: 1.5rem;
+        font-size: 1.5rem;
 
-    }
+      }
 
-    button {
+      button {
 
-      font-size: 1.5rem;
+        font-size: 1.5rem;
 
-    }
+      }
 
   }
 

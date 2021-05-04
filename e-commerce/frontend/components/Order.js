@@ -118,7 +118,6 @@ class Order extends Component {
 
         return (
 <>
-
             <Header />
 
             {this.state.loading && (<LoadingStyle>Loading...</LoadingStyle>) }
