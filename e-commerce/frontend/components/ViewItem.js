@@ -7,6 +7,7 @@ import LoadingStyle from '../components/styles/LoadingStyle';
 import AddToCart from '../components/AddToCart';
 import ReviewStats from '../components/ReviewStats';
 import ItemAvailableAgain from '../components/ItemAvailableAgain';
+import ViewItemStyle from '../components/styles/ViewItemStyle';
 
 class ViewItem extends Component {
 
@@ -128,7 +129,7 @@ class ViewItem extends Component {
 
             {!this.state.loading && (
 <>
-                <div style={{maxWidth: '50%', margin: '1rem auto'}}>
+                <ViewItemStyle>
 
                     <StyleOfItem>
 
@@ -159,7 +160,7 @@ class ViewItem extends Component {
 
                     </StyleOfItem>
 
-                </div>
+                </ViewItemStyle>
 
                 {/* sending the user id so that we have a way to show the remove review button only if review is of the user */}
                 <ReviewStats userId={this.state.userId} itemId={this.props.itemId} />

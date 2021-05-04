@@ -50,6 +50,22 @@ const WriteReviewStyle = styled.div`
 
     }
 
+    @media only screen and (max-width: 600px) {
+
+        button {
+
+            font-size: 1.5rem;
+
+        }
+
+        h1 {
+
+            font-size: 1.5rem;
+
+        }
+
+    }
+
 `;
 
 export default WriteReviewStyle;
