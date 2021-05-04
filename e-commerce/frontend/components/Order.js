@@ -68,15 +68,15 @@ class Order extends Component {
 
                                                 <li>
 
-                                                    <h1>Title:</h1>
+                                                    <h1>Title</h1>
 
                                                     <p>{item.title}</p>
 
-                                                    <h1>Price:</h1>
+                                                    <h1>Price</h1>
 
                                                     <p>{Number(item.price).toFixed(2)} €</p>
 
-                                                    <h1>Quantity:</h1>
+                                                    <h1>Quantity</h1>
 
                                                     <p>{item.quantity}</p>
 

@@ -106,14 +106,21 @@ const userSchema = new Schema({
 
         },
 
-        card: {
+        iban: {
 
-            type: Number,
+            type: String,
             required: false,
             
         }
 
-    }]
+    }],
+
+    iban: {
+
+        type: String,
+        required: false,
+        
+    }
 
 }, { timestamps: true });
 

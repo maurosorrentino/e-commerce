@@ -22,27 +22,6 @@ const NavStyle = styled.ul`
     color: yellowgreen;
     font-weight: 700;
 
-    @media only screen and (max-width: 450px) {
-
-      font-size: 1rem;
-      padding: 0 5px;
-
-    }
-
-    @media (max-width: 700px) {
-
-      font-size: .5rem;
-      padding: 0 10px;
-
-    }
-
-    @media only screen and (min-width: 700px) and (max-width: 1100px) {
-
-      font-size: 2rem;
-      padding: 0 5px;
-
-    }
-
     &:after {
 
       height: 2px;
@@ -69,6 +48,49 @@ const NavStyle = styled.ul`
 
       }
     }
+  }
+
+  @media only screen and (max-width: 350px) {
+
+    button {
+
+      font-size: .8rem;
+      padding: 4px 4px;
+
+    }
+
+  }
+
+  @media only screen and (min-width: 350px) and (max-width: 450px) {
+
+    button {
+
+      font-size: 1rem;
+      padding: 4px 4px;
+
+    }
+
+  }
+
+  @media only screen and (min-width: 450px) and (max-width: 800px) {
+
+    button {
+
+      padding: 4px 4px;
+      font-size: 2rem;
+
+    }
+
+  }
+
+  @media only screen and (min-width: 450px) and (max-width: 600px) {
+
+    button {
+
+      font-size: 1.5rem;
+
+    }
+
   }
 
   @media only screen and (max-width: 1300px) {

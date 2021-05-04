@@ -902,25 +902,8 @@ exports.success = async (req, res) => {
 
             await userPayout.save();
 
-            // sending payouts (how it should be done but I am not eligible for the instant payout)
-
-/*             stripe docs
-            Instant Payouts 
-            With Instant Payouts, you can instantly send funds to a supported debit card or bank account. You can request Instant Payouts 24/7, 
-            including weekends and holidays, and funds typically appear in the associated bank account within 30 minutes.
-
-            Eligibility
-            New Stripe users aren’t immediately eligible for Instant Payouts.  */
-
-
-/*             const payout = await stripe.payouts.create({
-
-                amount: payoutsUser.amount * 100,
-                currency: 'eur',
-                method: 'instant',
-                destination: payoutsUser.card,
-
-            }) */
+            // sending payouts 
+            // I can't code this part because in ordr to do so I need to put info about the company on stripe
 
         })
 
@@ -1242,9 +1225,84 @@ exports.getPayouts = async (req, res) => {
 
         const payouts = user.payouts;
 
-        res.status(200).json({ message: 'fetched payouts', payouts })
+        return res.status(200).json({ message: 'fetched payouts', payouts })
 
     } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+}
+
+exports.currentIban = async (req, res) => {
+
+    try {
+
+        const userId = req.session.user._id;
+        const user = await User.findById(userId);
+
+        const currentIban = user.iban;
+
+        return res.status(200).json({ iban: currentIban });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+};
+
+exports.saveNewIban = async (req, res) => {
+
+    try {
+
+        // if user has no session we throw an error (it will appear )
+        if(!req.session.isAuth) {
+
+            return res.status(401).json();
+
+        }
+
+        // verifying token from httpOnly true cookie
+        const token = req.cookies.token;
+        jwt.verify(token, process.env.TOKEN_SECRET);
+
+        // verifying weak token (httpOnly: false)
+        const weakToken = req.cookies.authCookie;
+        jwt.verify(weakToken, process.env.WEAK_TOKEN_SECRET);
+
+        const userId = req.session.user._id;
+        const user = await User.findById(userId);
+
+        const iban = req.body.iban.toUpperCase();
+
+        if(iban.length > 34) {
+
+            return res.status(422).json({ message: 'something is wrong with your iban' });
+
+        };
+
+        user.iban = iban;
+
+        await user.save();
+
+        return res.status(200).json({ message: `your new iban is: ${iban}` });
+
+    } catch(err) {
 
         console.log(err);
 

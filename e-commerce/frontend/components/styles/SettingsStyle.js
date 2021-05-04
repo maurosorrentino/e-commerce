@@ -20,6 +20,17 @@ const SettingsStyle = styled.div`
 
     }
 
+    @media only screen and (max-width: 400px) {
+
+        a {
+
+            font-size: 1.5rem;
+            padding: 1rem;
+
+        }
+
+    }
+
 `;
 
 export default SettingsStyle;

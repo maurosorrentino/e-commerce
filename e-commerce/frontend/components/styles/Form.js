@@ -110,7 +110,7 @@ const Form = styled.form`
     }
   }
 
-  @media only screen and (max-width: 330px) {
+  @media only screen and (max-width: 600px) {
 
     img {
 
@@ -120,11 +120,23 @@ const Form = styled.form`
 
     h1 {
 
-      font-size: 1rem;
+      font-size: .8rem;
 
     }
 
     label {
+
+      font-size: .8rem;
+
+    }
+
+    input {
+
+      font-size: .8rem;
+
+    }
+
+    button {
 
       font-size: .8rem;
 
@@ -137,6 +149,30 @@ const Form = styled.form`
     img {
 
       width: 400px;
+
+    }
+
+    h1 {
+
+      font-size: 1.5rem;
+
+    }
+
+    label {
+
+      font-size: 1.5rem;
+
+    }
+
+    input {
+
+      font-size: 1.5rem;
+
+    }
+
+    button {
+
+      font-size: 1.5rem;
 
     }
 

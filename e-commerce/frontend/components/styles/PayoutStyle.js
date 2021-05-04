@@ -8,7 +8,6 @@ const PayoutStyle = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    word-break: break-all;
 
     ul {
 
@@ -50,7 +49,25 @@ const PayoutStyle = styled.div`
 
     }
 
+    @media only screen and (max-width: 300px) {
+
+        word-wrap: break-word;
+
+        h1 {
+
+            margin-left: 2rem;
+            
+        }
+
+    }
+
     @media only screen and (max-width: 420px) {
+
+        h1 {
+
+            font-size: 1rem;
+
+        }
 
         li {
 
@@ -65,13 +82,40 @@ const PayoutStyle = styled.div`
 
         }
 
+        a {
+
+            font-size: 1rem;
+            padding: 1rem;
+
+        }
+
     }
 
     @media only screen and (min-width: 420px) and (max-width: 600px) {
 
+        h1 {
+
+            font-size: 1rem;
+
+        }
+
+        li {
+
+            font-size: 1rem;
+
+        }
+
         ul {
 
+            padding: 1rem;
             max-width: 80%;
+
+        }
+
+        a {
+
+            font-size: 1rem;
+            padding: 1rem;
 
         }
 

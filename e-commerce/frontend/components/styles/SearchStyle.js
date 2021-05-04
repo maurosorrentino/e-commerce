@@ -40,6 +40,16 @@ const SearchStyle = styled.div`
 
     }
 
+    @media only screen and (max-width: 450px) {
+
+        input {
+
+            font-size: 1rem;
+
+        }
+
+    }
+
     @media only screen and (max-width: 1100px) {
 
         ul {

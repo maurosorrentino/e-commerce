@@ -10,13 +10,6 @@ const StyleOfItem = styled.div`
   text-align: center;
   margin: 2rem;
   word-wrap: break-word;
-  
-  @media only screen and (max-width: 300px) and (max-width: 420px) {
-
-    width: 95%;
-    margin: 1rem auto;
-
-  }
 
   img {
 
@@ -82,6 +75,31 @@ const StyleOfItem = styled.div`
 
     font-size: 1rem;
     margin-left: 1rem;
+
+  }
+
+  @media only screen and (max-width: 450px) {
+
+    width: 95%;
+    margin: 1rem auto;
+
+    h1 {
+
+      font-size: 1.5rem;
+
+    }
+
+    p {
+
+      font-size: 1rem;
+
+    }
+
+    button {
+
+      font-size: 1.5rem;
+
+    }
 
   }
 

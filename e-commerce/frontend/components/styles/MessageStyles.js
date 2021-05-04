@@ -24,11 +24,13 @@ const MessageStyles = styled.div`
 
     }
 
-    @media only screen and (max-width: 500px) {
+    @media only screen and (max-width: 600px) {
+
+        padding: 1rem;
 
         h1 {
 
-            font-size: 1rem;
+            font-size: .7rem;
 
         }
 

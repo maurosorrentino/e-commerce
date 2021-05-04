@@ -52,4 +52,10 @@ router.patch('/change-details', authController.changeDetails);
 
 router.get('/payouts', authController.getPayouts);
 
+// showing current iban
+router.get('/current-iban', authController.currentIban);
+
+// saving new iban
+router.put('/save-new-iban', authController.saveNewIban);
+
 module.exports = router;

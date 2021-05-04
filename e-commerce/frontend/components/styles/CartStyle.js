@@ -24,7 +24,13 @@ const CartStyle = styled.div`
 
     }
 
-    @media only screen and (max-width: 420px) {
+    @media only screen and (min-width: 400px) and (max-width: 500px) {
+
+        ul {
+
+            max-width: 200%;
+
+        }
 
         li {
 
@@ -35,27 +41,13 @@ const CartStyle = styled.div`
 
     }
 
-    @media only screen and (max-width: 300px) {
+    @media only screen and (min-width: 500px) and (max-width: 600px) {
 
-        li {
+        ul {
 
-            max-width: 35%;
-
-        }
-
-    }
-
-    @media only screen and (min-width: 300px) and (max-width: 350px) {
-
-        li {
-
-            max-width: 45%;
+            max-width: 200%;
 
         }
-
-    }
-
-    @media only screen and (min-width: 420px) and (max-width: 600px) {
 
         li {
 
@@ -64,6 +56,23 @@ const CartStyle = styled.div`
 
         }
 
+    }
+
+    @media only screen and (max-width: 400px) {
+
+        ul {
+
+            max-width: 180%;
+
+        }
+
+        li {
+
+            max-width: 50%;
+            margin-left: 1rem;
+
+        }
+        
     }
 
     h1, p {

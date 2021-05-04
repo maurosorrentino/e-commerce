@@ -24,12 +24,6 @@ const Logo = styled.h1`
 
   }
 
-  @media (max-width: 1300px) {
-
-    margin: 3rem;
-    font-size: 2rem;
-
-  }
 `;
 
 export default Logo;

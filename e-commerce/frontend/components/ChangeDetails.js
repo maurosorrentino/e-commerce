@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 
 import Form from '../components/styles/Form';
-import Logo from '../components/styles/Logo';
+import Header from '../components/Header';
 import MessageStyles from '../components/styles/MessageStyles';
 
 class ChangeDetails extends Component {
@@ -77,11 +77,7 @@ class ChangeDetails extends Component {
         return (
 <>
 
-            <Logo>
-
-                <Link href="/">my shop</Link>
-
-            </Logo>
+            <Header />
 
             {this.state.message && (<MessageStyles><h1>{this.state.message}</h1></MessageStyles>)}
 

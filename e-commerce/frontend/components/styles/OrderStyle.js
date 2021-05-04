@@ -82,6 +82,12 @@ const OrderStyle = styled.div`
 
         margin: 1rem;
         margin-right: 3.5rem;
+        
+        p, h1 {
+
+            font-size: 1rem;
+
+        }
 
     }
 
@@ -97,6 +103,12 @@ const OrderStyle = styled.div`
         .item {
 
             max-width: 90%;
+
+        }
+
+        p, h1 {
+
+            font-size: 1rem;
 
         }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 
 import PayoutStyle from '../components/styles/PayoutStyle';
-import Logo from '../components/styles/Logo';
+import Header from '../components/Header';
 import LoadingStyle from '../components/styles/LoadingStyle';
 
 class Payouts extends Component {
@@ -87,17 +87,13 @@ class Payouts extends Component {
         return (
 <>
 
-            <Logo>
-
-                <Link href="/">My Shop</Link>
-
-            </Logo>
+            <Header />
 
             {this.state.loading && (<LoadingStyle>Loading...</LoadingStyle>) }
 
             <PayoutStyle>
 
-                <Link href="/auth/save-your-card">save your card</Link>
+                <Link href="/auth/save-your-iban">save/change your bank account</Link>
 
             </PayoutStyle>
 
@@ -113,7 +109,7 @@ class Payouts extends Component {
             
                 <PayoutStyle>
 
-                    <h1>here is the list of your payout{this.state.payouts.length > 1 ? 's' : ''}: </h1>
+                    <h1>here is {this.state.payouts.length > 1 ? 'the list of' : ''} your payout{this.state.payouts.length > 1 ? 's' : ''}: </h1>
                     
                     {this.state.payouts}
                     

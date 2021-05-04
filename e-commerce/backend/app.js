@@ -15,7 +15,6 @@ const shopRoutes = require('./routes/shop');
 
 const Item = require('./models/item');
 const User = require('./models/user');
-const Review = require('./models/review');
 const ItemAvailableAgainUser = require('./models/ItemAvailableAgainUser');
 
 const { transport } = require('./mail/mail');
@@ -27,7 +26,7 @@ const MONGODB_URL = process.env.MONGODB;
 
 // defining the db where the agenda will be saved (background job)
 const agenda = new Agenda({
-    
+
     db: { address: MONGODB_URL },
     useUnifiedTopology: true,
     useNewUrlParser: true,
@@ -85,7 +84,7 @@ agenda.define('item_available_again_users', async (job) => {
 
             });
 
-            // deleting it
+            // deleting it so that we do not send duplicate emails to the users
             await ItemAvailableAgainUser.findByIdAndRemove(itemAvailableAgainUserId);
     
         };
@@ -96,9 +95,11 @@ agenda.define('item_available_again_users', async (job) => {
 
 // starting the agenda and telling the computer to do it every 5 seconds
 (async function() {
+
     await agenda.start();
     await agenda.every("5 seconds", "item_available_again_users")
-})()
+
+})();
 
 const app = express();
 
