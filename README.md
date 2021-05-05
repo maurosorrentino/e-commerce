@@ -1,5 +1,8 @@
 # e-commerce
 
+SEE IT ONLINE:
+
+
 This is a project made with React.js Next.js Node.js Express and MondoDB.
 
 Header is the only component that has the style inside the same file. All the others components have the file into the "style" folder.
