@@ -1,6 +1,6 @@
 # e-commerce
 
-SEE IT ONLINE:
+SEE IT ONLINE: (coming soon!)
 
 
 This is a project made with React.js Next.js Node.js Express and MondoDB.
@@ -17,6 +17,6 @@ The process of signing an user up does not check if the user has access to the e
 as "reset password" process that I implemented and if they want they are able to change the email into the settings).
 
 I wanted to make the life of the user as easy as possible when wanted to buy an item (best choice would be let them buy the item without signing up but this is a 
-project for learning purposes).
+project for learning purposes so I wanted to implement this).
 
 Have fun!
