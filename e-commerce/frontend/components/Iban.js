@@ -63,7 +63,7 @@ class Iban extends Component {
 
         this.setState({ loading: true });
 
-        fetch(`http://localhost:8090/auth/save-new-iban`, {
+        fetch(`${process.env.LOCALHOST}/auth/save-new-iban`, {
 
             method: 'PUT',
 

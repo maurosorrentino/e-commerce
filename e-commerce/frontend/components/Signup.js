@@ -36,7 +36,7 @@ class Signup extends Component {
     // connecting react with node in order to have a connection between the client side and the database
     fetchData = () => {
 
-        fetch(`http://localhost:8090/auth/signup`, {
+        fetch(`${process.env.LOCALHOST}/auth/signup`, {
 
             method: 'PUT',
     

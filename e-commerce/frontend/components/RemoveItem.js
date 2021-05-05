@@ -15,7 +15,7 @@ class RemoveItem extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`http://localhost:8090/auth/remove-item/${itemId}`, {
+        fetch(`${process.env.LOCALHOST}/auth/remove-item/${itemId}`, {
 
             method: 'DELETE',
 

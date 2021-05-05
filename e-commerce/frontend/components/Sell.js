@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Link from 'next/link';
 import cookie from 'react-cookies';
 import FormData from 'form-data';
 
@@ -43,9 +42,9 @@ class Sell extends Component {
         formData.append('file', files[0]);
 
         // appending cloudinary preset (folder where it will be stored the file)
-        formData.append('upload_preset', 'qfhsqrkq');
+        formData.append('upload_preset', process.env.PRESET);
 
-        return fetch('https://api.Cloudinary.com/v1_1/dqhw3ma9u/image/upload', {
+        return fetch(process.env.CLOUDINARY, {
 
             method: 'POST',
             body: formData,
@@ -72,7 +71,7 @@ class Sell extends Component {
 
         this.setState({ loading: true });
 
-        fetch(`http://localhost:8090/auth/sell`, {
+        fetch(`${process.env.LOCALHOST}/auth/sell`, {
 
             method: 'PUT',
 

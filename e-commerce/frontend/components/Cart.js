@@ -26,7 +26,7 @@ class Cart extends Component {
 
     fetchData = () => {
 
-        fetch(`http://localhost:8090/auth/cart`, {
+        fetch(`${process.env.LOCALHOST}/auth/cart`, {
 
             method: 'GET',
 

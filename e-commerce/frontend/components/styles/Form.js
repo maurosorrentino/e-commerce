@@ -114,7 +114,7 @@ const Form = styled.form`
   @media only screen and (max-width: 600px) {
 
     max-width: 100%;
-    margin-left: 1.5rem;
+    margin: 1rem;
 
     img {
 

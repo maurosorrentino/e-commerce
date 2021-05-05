@@ -29,7 +29,7 @@ class ReviewStats extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`http://localhost:8090/review-stats/${itemId}`, {
+        fetch(`${process.env.LOCALHOST}/review-stats/${itemId}`, {
 
             method: 'GET',
 

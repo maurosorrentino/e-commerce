@@ -31,7 +31,7 @@ class ChangeDetails extends Component {
 
         this.setState({ loading: true });
 
-        fetch(`http://localhost:8090/auth/change-details`, {
+        fetch(`${process.env.LOCALHOST}/auth/change-details`, {
 
             method: 'PATCH',
 

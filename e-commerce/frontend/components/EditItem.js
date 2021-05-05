@@ -42,9 +42,9 @@ class EditItem extends Component {
         formData.append('file', files[0]);
 
         // appending cloudinary preset (folder where it will be stored the file)
-        formData.append('upload_preset', 'qfhsqrkq');
+        formData.append('upload_preset', process.env.PRESET);
 
-        return fetch('https://api.Cloudinary.com/v1_1/dqhw3ma9u/image/upload', {
+        return fetch(process.env.CLOUDINARY, {
 
             method: 'POST',
             body: formData,
@@ -72,7 +72,7 @@ class EditItem extends Component {
         const itemId = this.props.itemId;
         this.setState({ loading: true });
 
-        fetch(`http://localhost:8090/auth/edit-item/${itemId}`, {
+        fetch(`${process.env.LOCALHOST}/auth/edit-item/${itemId}`, {
 
             method: 'PATCH',
 

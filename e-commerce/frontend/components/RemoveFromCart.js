@@ -7,7 +7,7 @@ class RemoveFromCart extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`http://localhost:8090/auth/remove-from-cart/${itemId}`, {
+        fetch(`${process.env.LOCALHOST}/auth/remove-from-cart/${itemId}`, {
 
             method: 'PATCH',
 

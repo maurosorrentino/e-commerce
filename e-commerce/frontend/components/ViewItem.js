@@ -74,7 +74,7 @@ class ViewItem extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`http://localhost:8090/view-item-out/${itemId}`, {
+        fetch(`${process.env.LOCALHOST}/view-item-out/${itemId}`, {
 
             method: 'GET',
 

@@ -25,7 +25,7 @@ class WriteReview extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`http://localhost:8090/auth/write-review/${itemId}`, {
+        fetch(`${process.env.LOCALHOST}/auth/write-review/${itemId}`, {
 
             method: 'PUT',
 

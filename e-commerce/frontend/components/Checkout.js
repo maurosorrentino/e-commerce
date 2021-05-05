@@ -11,7 +11,7 @@ function Checkout() {
         const stripe = await stripePromise;
 
         // calling API end point to create checkout session
-        const res = await fetch(`http://localhost:8090/auth/create-checkout-session`, {
+        const res = await fetch(`${process.env.LOCALHOST}/auth/create-checkout-session`, {
 
             method: 'POST',
 

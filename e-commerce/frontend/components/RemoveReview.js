@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import MessageStyles from '../components/styles/MessageStyles'
-
 class RemoveReview extends Component {
 
     state = {
@@ -14,7 +12,7 @@ class RemoveReview extends Component {
 
         const reviewId = this.props.reviewId;
 
-        fetch(`http://localhost:8090/auth/remove-review/${reviewId}`, {
+        fetch(`${process.env.LOCALHOST}/auth/remove-review/${reviewId}`, {
 
             method: 'DELETE',
 

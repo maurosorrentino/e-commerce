@@ -22,7 +22,7 @@ class Order extends Component {
 
     fetchData = () => {
 
-        fetch(`http://localhost:8090/auth/orders`, {
+        fetch(`${process.env.LOCALHOST}/auth/orders`, {
 
 
             method: 'GET',
