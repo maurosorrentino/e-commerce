@@ -29,7 +29,7 @@ const CartStyle = styled.div`
         li {
 
             max-width: 35%;
-            margin: 1rem;
+            margin: 1rem auto;
 
         }
 
@@ -40,7 +40,7 @@ const CartStyle = styled.div`
         li {
 
             max-width: 40%;
-            margin: 1rem;
+            margin: 1rem auto;
 
         }
 
@@ -51,7 +51,7 @@ const CartStyle = styled.div`
         li {
 
             max-width: 50%;
-            margin: 1rem;
+            margin: 1rem auto;
 
         }
 
@@ -62,18 +62,29 @@ const CartStyle = styled.div`
         li {
 
             max-width: 65%; 
-            margin: 1rem;
+            margin: 1rem auto;
 
         }
 
     }
 
-    @media only screen and (min-width: 600px) and (max-width: 800px) {
+    @media only screen and (min-width: 700px) and (max-width: 800px) {
 
         li {
 
             max-width: 70%; 
-            margin-left: 4rem;
+            margin-left: 6rem; 
+
+        }
+
+    }
+
+    @media only screen and (min-width: 600px) and (max-width: 700px) {
+
+        li {
+
+            max-width: 70%; 
+            margin-left: 5rem; 
 
         }
 
@@ -84,13 +95,24 @@ const CartStyle = styled.div`
         li {
 
             max-width: 45%;
-            margin-left: 1rem;
+            margin-left: 1rem; 
 
         }
         
     }
 
-    @media only screen and (min-width: 500px) and (max-width: 500px) {
+    @media only screen and (min-width: 550px) and (max-width: 600px) {
+
+        li {
+
+            max-width: 65%;
+            margin-left: 3rem;
+
+        }
+        
+    }
+
+    @media only screen and (min-width: 500px) and (max-width: 550px) {
 
         li {
 
