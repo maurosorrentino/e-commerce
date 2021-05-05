@@ -29,7 +29,7 @@ const CartStyle = styled.div`
         li {
 
             max-width: 35%;
-            margin: 1rem auto;
+            margin: 1rem;
 
         }
 
@@ -40,7 +40,7 @@ const CartStyle = styled.div`
         li {
 
             max-width: 40%;
-            margin: 1rem auto;
+            margin: 1rem;
 
         }
 
@@ -51,7 +51,7 @@ const CartStyle = styled.div`
         li {
 
             max-width: 50%;
-            margin: 1rem auto;
+            margin: 1rem;
 
         }
 
@@ -62,7 +62,7 @@ const CartStyle = styled.div`
         li {
 
             max-width: 65%; 
-            margin: 1rem auto;
+            margin: 1rem;
 
         }
 
