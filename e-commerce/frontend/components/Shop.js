@@ -210,7 +210,7 @@ class Shop extends Component {
 
             <ItemsContainerStyle>{currentItems}</ItemsContainerStyle>
 
-            {!this.state.loading && this.state.items.length > 1 && (
+            {!this.state.loading && this.state.items.length > 4 && (
 
                 <Pagination>
 

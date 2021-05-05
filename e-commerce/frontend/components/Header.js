@@ -45,7 +45,7 @@ const StyledHeader = styled.header`
 
     border-bottom: 10px solid lightgreen;
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 50% 50%;
     justify-content: space-between;
     align-items: stretch;
 

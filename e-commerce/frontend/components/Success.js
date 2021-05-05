@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
 
-import Logo from '../components/styles/Logo';
+import Header from '../components/Header';
 import MessageStyles from '../components/styles/MessageStyles';
 
 class Success extends Component {
@@ -62,11 +62,7 @@ class Success extends Component {
 
         return (
 <>
-            <Logo>
-
-                <Link href="/">My Shop</Link>
-
-            </Logo>
+            <Header />
 
             <MessageStyles>
 

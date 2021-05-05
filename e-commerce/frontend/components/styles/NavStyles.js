@@ -10,7 +10,7 @@ const NavStyle = styled.ul`
 
   button {
 
-    padding: 1rem 3rem;
+    padding: 1rem 2.8rem;
     display: flex;
     align-items: center;
     position: relative;
@@ -78,6 +78,17 @@ const NavStyle = styled.ul`
 
       padding: 4px 4px;
       font-size: 2rem;
+
+    }
+
+  }
+
+  @media only screen and (min-width: 800px) and (max-width: 1200px) {
+
+    button {
+
+      font-size: 1.5rem;
+      padding: 1rem 2rem;
 
     }
 

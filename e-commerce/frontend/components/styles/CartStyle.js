@@ -16,7 +16,7 @@ const CartStyle = styled.div`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1rem;
+        padding: .2rem;
         box-shadow: 0 2px 10px green;
         margin-bottom: 1rem;
         max-width: 95%;
@@ -24,18 +24,34 @@ const CartStyle = styled.div`
 
     }
 
-    @media only screen and (min-width: 400px) and (max-width: 500px) {
+    @media only screen and (max-width: 330px) {
 
-        ul {
+        li {
 
-            max-width: 200%;
+            max-width: 35%;
+            margin: 1rem;
 
         }
+
+    }
+
+    @media only screen and (min-width: 330px) and (max-width: 350px) {
+
+        li {
+
+            max-width: 40%;
+            margin: 1rem;
+
+        }
+
+    }
+
+    @media only screen and (min-width: 400px) and (max-width: 500px) {
 
         li {
 
             max-width: 50%;
-            margin-left: 1rem;
+            margin: 1rem;
 
         }
 
@@ -43,33 +59,43 @@ const CartStyle = styled.div`
 
     @media only screen and (min-width: 500px) and (max-width: 600px) {
 
-        ul {
-
-            max-width: 200%;
-
-        }
-
         li {
 
-            max-width: 70%;
-            margin-left: 1rem;
+            max-width: 65%; 
+            margin: 1rem;
 
         }
 
     }
 
-    @media only screen and (max-width: 400px) {
-
-        ul {
-
-            max-width: 180%;
-
-        }
+    @media only screen and (min-width: 600px) and (max-width: 800px) {
 
         li {
 
-            max-width: 50%;
+            max-width: 70%; 
+            margin-left: 4rem;
+
+        }
+
+    }
+
+    @media only screen and (min-width: 350px) and (max-width: 400px) {
+
+        li {
+
+            max-width: 45%;
             margin-left: 1rem;
+
+        }
+        
+    }
+
+    @media only screen and (min-width: 500px) and (max-width: 500px) {
+
+        li {
+
+            max-width: 65%;
+            margin: 1rem;
 
         }
         
@@ -101,6 +127,7 @@ const CartStyle = styled.div`
         font-weight: 600;
         padding: 0.5rem 1.2rem;
         border-radius: 4px;
+        margin-right: .7rem;
         
     }
 

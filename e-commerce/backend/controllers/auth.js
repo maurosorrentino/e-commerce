@@ -745,6 +745,8 @@ exports.checkout = async (req, res) => {
         const email = user.email;
         const cart = user.cart.items;
 
+        const amount = parseFloat(Number(user.cart.total * 100).toFixed(2));
+
         const session = await stripe.checkout.sessions.create({
 
             customer_email: email,
@@ -784,7 +786,7 @@ exports.checkout = async (req, res) => {
 
                         },
 
-                        unit_amount: user.cart.total.toFixed(2) * 100,
+                        unit_amount: amount,
 
                     },
 
