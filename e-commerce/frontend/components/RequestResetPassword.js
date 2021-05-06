@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 
 import Form from '../components/styles/Form';
-import Logo from '../components/styles/Logo';
+import Header from '../components/Header';
 import MessageStyles from '../components/styles/MessageStyles';
 
 class RequestResetPassword extends Component {
@@ -73,11 +73,7 @@ class RequestResetPassword extends Component {
 
         return (
 <>
-            <Logo>
-
-                <Link href="/">My Shop</Link>
-
-            </Logo>
+            <Header />
 
             { this.state.message && (<MessageStyles><h1 id="message-test">{this.state.message}</h1></MessageStyles> ) }
     

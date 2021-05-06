@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Link from 'next/link';
 
 import Form from './styles/Form';
 import MessageStyles from '../components/styles/MessageStyles';

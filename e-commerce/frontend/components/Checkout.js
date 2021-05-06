@@ -1,7 +1,7 @@
 import React from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe('pk_test_51HeLa7AY2cupxdbxV4hWNp3doOx930yt7seJyMhNViFtFQokc5h93RaJN4NljgNlcRc1f4rVUWQFFwTSzyWJZBzf00EkidN4To');
+const stripePromise = loadStripe(process.env.STRIPE);
 
 function Checkout() {
 
