@@ -25,12 +25,22 @@ require('dotenv').config();
 const MONGODB_URL = process.env.MONGODB; 
 
 // defining the db where the agenda will be saved (background job)
+// DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
 const agenda = new Agenda({
 
-    db: { address: MONGODB_URL },
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    useFindAndModify: false,
+    db: { 
+        
+        address: MONGODB_URL,
+
+        options: {
+
+            useUnifiedTopology: true,
+            useNewUrlParser: true,
+            useFindAndModify: false,
+    
+        },
+    
+    },
     
 });
 
