@@ -8,13 +8,6 @@ const NavStyle = styled.ul`
   justify-self: end;
   font-size: 1.5rem;
 
-  span {
-
-    margin-left: 5px;
-    margin-top: 6px;
-
-  }
-
   button {
 
     padding: 1rem 2.6rem;
