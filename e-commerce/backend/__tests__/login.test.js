@@ -13,7 +13,7 @@ function post(url, body) {
     const httpRequest = request.post(url);
     httpRequest.send(body);
     httpRequest.set('Accept', 'application/json');
-    httpRequest.set('Origin', 'http://localhost:8090');
+    httpRequest.set('Origin', process.env.LOCALHOST_BE);
     return httpRequest;
 
 };

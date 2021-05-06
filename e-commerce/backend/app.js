@@ -60,7 +60,7 @@ agenda.define('item_available_again_users', async (job) => {
     
         if(item.stock > 0) {
     
-            const link = `http://localhost:3000/view-item/${itemId}`;
+            const link = `${process.env.LOCALHOST_FE}/view-item/${itemId}`;
     
             // finding the user with the email that we found in this collection so that we can put the name into the email
             const user = await User.findOne({ email: userEmail });
@@ -126,7 +126,7 @@ const store = new MongoDBStore({
 const server = http.createServer(app);
 
 // without this line we are not able to store the cookie
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: process.env.LOCALHOST_FE, credentials: true }));
 
 // resave: false means that the session won't be saved in every requests but only if something will be changed in the session (using default true has been deprecated)
 // saveUninitialized: false makes sure that the session won't be saved if nothing changes
@@ -166,7 +166,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token');
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', process.env.LOCALHOST_FE);
 
     next();
 

@@ -14,7 +14,7 @@ function put(url, body) {
     const httpRequest = request.put(url);
     httpRequest.send(body);
     httpRequest.set('Accept', 'application/json');
-    httpRequest.set('Origin', 'http://localhost:8090');
+    httpRequest.set('Origin', process.env.LOCALHOST_BE);
     return httpRequest;
 
 };
@@ -24,7 +24,7 @@ function post(url, body) {
     const httpRequest = request.post(url);
     httpRequest.send(body);
     httpRequest.set('Accept', 'application/json');
-    httpRequest.set('Origin', 'http://localhost:8090');
+    httpRequest.set('Origin', process.env.LOCALHOST_BE);
     return httpRequest;
 
 };
@@ -74,6 +74,7 @@ describe('create item', () => {
                     description: 'testing',
                     image: 'https://res.cloudinary.com/dqhw3ma9u/image/upload/v1615827298/my-shop/before_after_analogy_rtkuec_vg8y7d.png',
                     price: 10,
+                    stock: 1,
                 
                 },
     

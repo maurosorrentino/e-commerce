@@ -8,6 +8,8 @@ const { transport } = require('../mail/mail');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
+require('dotenv').config();
+
 exports.getItems = async (req, res) => {
 
     // pagination is handled on the client side so from here I only need the number of the items
@@ -81,7 +83,7 @@ exports.requestResetPassword = async (req, res, next) => {
         const encodedToken = encodeURIComponent(resetToken);
 
         // sending plain token encoded to the user so that later we can verify it
-        const link = `http://localhost:3000/reset-password-form/${encodedToken}/${user._id}`;
+        const link = `${process.env.LOCALHOST_FE}/reset-password-form/${encodedToken}/${user._id}`;
 
         await transport.sendMail({
 
