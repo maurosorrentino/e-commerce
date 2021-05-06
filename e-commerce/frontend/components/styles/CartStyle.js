@@ -6,8 +6,9 @@ const CartStyle = styled.div`
 
         list-style: none;
         padding: 0;
-        margin: auto;
-        width: 45rem;
+        margin: 1rem auto;
+        width: 80%;
+        display: block;
 
     }
 
@@ -24,89 +25,76 @@ const CartStyle = styled.div`
 
     }
 
-    @media only screen and (max-width: 330px) {
+    @media only screen and (max-width: 300px) {
 
         li {
 
-            max-width: 35%;
-            margin: 1rem;
+            max-width: 100%;
 
-        }
+        } 
 
     }
 
-    @media only screen and (min-width: 330px) and (max-width: 350px) {
+    @media only screen and (min-width: 300px) and (max-width: 350px) {
+
+        ul {
+
+            max-width: 90%
+
+        }
 
         li {
 
-            max-width: 40%;
-            margin: 1rem;
+            width: 100%;
+
+        } 
+
+    } 
+
+    @media only screen and (min-width: 350px) and (max-width: 370px) {
+
+        li {
+
+            max-width: 100%;
+
+        } 
+
+        ul {
+
+            width: 70%;
 
         }
 
-    }
+    } 
+
+    @media only screen and (min-width: 370px) and (max-width: 400px) {
+
+        li {
+
+            max-width: 100%;
+
+        } 
+
+        ul {
+
+            width: 60%;
+
+        }
+
+    } 
 
     @media only screen and (min-width: 400px) and (max-width: 500px) {
 
         li {
 
-            max-width: 50%;
+            max-width: 100%;
             margin: 1rem;
 
-        }
+        } 
 
-    }
+        ul {
 
-    @media only screen and (min-width: 500px) and (max-width: 600px) {
-
-        li {
-
-            max-width: 65%; 
-            margin: 1rem;
-
-        }
-
-    }
-
-    @media only screen and (min-width: 700px) and (max-width: 800px) {
-
-        li {
-
-            max-width: 70%; 
-            margin-left: 6rem; 
-
-        }
-
-    }
-
-    @media only screen and (min-width: 600px) and (max-width: 700px) {
-
-        li {
-
-            max-width: 70%; 
-            margin-left: 5rem; 
-
-        }
-
-    }
-
-    @media only screen and (min-width: 350px) and (max-width: 400px) {
-
-        li {
-
-            max-width: 45%;
-            margin-left: 1rem; 
-
-        }
-        
-    }
-
-    @media only screen and (min-width: 550px) and (max-width: 600px) {
-
-        li {
-
-            max-width: 65%;
-            margin-left: 3rem;
+            width: 100%;
 
         }
         
@@ -116,11 +104,48 @@ const CartStyle = styled.div`
 
         li {
 
-            max-width: 65%;
-            margin: 1rem;
+            max-width: 100%;
+
+        } 
+
+        ul {
+
+            width: 85%;
 
         }
         
+    }
+
+    @media only screen and (min-width: 550px) and (max-width: 600px) {
+
+        li {
+
+            max-width: 100%;
+
+        } 
+
+        ul {
+
+            width: 75%;
+
+        }
+        
+    } 
+
+    @media only screen and (min-width: 600px) and (max-width: 800px) {
+
+        li {
+
+            max-width: 100%;
+
+        } 
+
+        ul {
+
+            width: 95%;
+
+        }
+
     }
 
     h1, p {
