@@ -1,0 +1,22 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+    env_file:
+      - "frontend/.env.local"
+    expose:
+      - 3000
+    ports:
+      - "3000:3000"
+    command: npm start
+    links:
+      - "backend:backend"
+  backend:
+    build:
+      context: ./backend
+    env_file:
+      - "backend/.env"
+    expose:
+      - 8090
+    ports:
+      - "8090:8090"
