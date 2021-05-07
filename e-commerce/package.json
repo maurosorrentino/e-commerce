@@ -4,8 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "test": "jest --testTimeout=30000 --detectOpenHandles"
+    "start": "nodemon backend/app.js",
+    "test": "jest --testTimeout=30000 --detectOpenHandles",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "",
   "license": "ISC",
@@ -55,8 +56,6 @@
     "jest": "^26.6.3",
     "multer": "^1.4.2",
     "path": "^0.12.7",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
     "sequelize-cli": "^6.2.0",
     "socket.io": "^3.1.1",
     "sqlite3": "^5.0.2",
