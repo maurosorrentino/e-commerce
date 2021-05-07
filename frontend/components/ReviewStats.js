@@ -1,0 +1,239 @@
+import React, { Component } from 'react';
+import { FaStar } from 'react-icons/fa';
+
+import ReviewStatsStyle from './styles/ReviewStatsStyle';
+import WriteReview from '../components/WriteReview';
+
+class ReviewStats extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+
+            totalReviews: 0,
+            averageReviews: 0,
+            total5stars: 0,
+            total4stars: 0,
+            total3stars: 0,
+            total2stars: 0,
+            total1star: 0,
+    
+        }
+
+        this.fetchData = this.fetchData.bind(this);
+
+    }
+
+    fetchData = () => {
+
+        const itemId = this.props.itemId;
+
+        fetch(`${process.env.LOCALHOST}/review-stats/${itemId}`, {
+
+            method: 'GET',
+
+            headers: {
+
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+
+            },
+
+        })
+
+        .then(res => {
+
+            return res.json();
+
+        })
+
+        .then(resData => {
+
+            this.setState({ totalReviews: resData.totalReviews, averageReviews: resData.averageReviews.toFixed(2), total5stars: resData.total5starsLength, 
+                total4stars: resData.total4starsLength, total3stars: resData.total3starsLength, 
+                total2stars: resData.total2starsLength, total1star: resData.total1starLength })
+
+        })
+
+        .catch(err => console.log(err));
+
+    }
+
+    componentDidMount() {
+
+        this.fetchData();
+
+    }
+
+    render() {
+
+        /* calculating the % of the reviews so that we can "animate" the width of the div and show the user a color bar with the % of the reviews */
+        const widthBar5 = (this.state.total5stars / this.state.totalReviews) * 100;
+        const widthBar4 = (this.state.total4stars / this.state.totalReviews) * 100;
+        const widthBar3 = (this.state.total3stars / this.state.totalReviews) * 100;
+        const widthBar2 = (this.state.total2stars / this.state.totalReviews) * 100;
+        const widthBar1 = (this.state.total1star / this.state.totalReviews) * 100;
+
+        return (
+<>
+            <ReviewStatsStyle>
+
+                <div id="user-rating">
+
+                    <span className="heading">user rating</span>
+
+                    {/* checked class makes the star orange */}
+                    <span className={this.state.averageReviews >= 1 ? 'checked' : ''}><FaStar /></span>
+
+                    <span className={this.state.averageReviews >= 2 ? 'checked' : ''}><FaStar /></span>
+
+                    <span className={this.state.averageReviews >= 3 ? 'checked' : ''}><FaStar /></span>
+
+                    <span className={this.state.averageReviews >= 4 ? 'checked' : ''}><FaStar /></span>
+
+                    <span className={this.state.averageReviews >= 5 ? 'checked' : ''}><FaStar /></span>
+
+                    <p>{this.state.averageReviews} average based on {this.state.totalReviews} review{this.state.totalReviews.length > 1 ? 's' : ''}</p>
+
+                </div>
+
+                <hr></hr>
+
+                {/* left side */}
+                <div class="side">
+
+                    <div id="stars">5 stars</div>
+                    
+                </div>
+                
+                {/* this is the bar that shows the color based on the % of reviews */}
+                <div class="middle">
+            
+                    <div class="bar-container">
+                        
+                        <div style={this.state.total5stars === 0 ? {width: '0%'} : {width: `${widthBar5}%`}} class="bar-5"></div>
+                        
+                    </div>
+                    
+                </div>
+                
+                {/* right side */}
+                <div class="side right">
+                        
+                    <div id="total-reviews">{this.state.total5stars}</div>
+                
+                </div>
+                
+                {/* left side */}
+                <div class="side">
+                        
+                    <div id="stars">4 stars</div>
+                
+                </div>
+                
+                {/* this is the bar that shows the color based on the % of reviews */}
+                <div class="middle">
+                        
+                    <div class="bar-container">
+                        
+                        <div style={this.state.total4stars === 0 ? {width: '0%'} : {width: `${widthBar4}%`}} class="bar-4"></div>
+                    
+                    </div>
+                
+                </div>
+                
+                {/* right side */}
+                <div class="side right">
+                        
+                    <div id="total-reviews">{this.state.total4stars}</div>
+                
+                </div>
+                    
+                {/* left side */}
+                <div class="side">
+                    
+                    <div id="stars">3 stars</div>
+                
+                </div>
+                
+                {/* this is the bar that shows the color based on the % of reviews */}
+                <div class="middle">
+                    
+                    <div class="bar-container">
+                        
+                        <div style={this.state.total3stars === 0 ? {width: '0%'} : {width: `${widthBar3}%`}} class="bar-3"></div>
+                    
+                    </div>
+                
+                </div>
+                    
+                {/* right side */}
+                <div class="side right">
+                        
+                    <div id="total-reviews">{this.state.total3stars}</div>
+                
+                </div>
+                
+                {/* left side */}
+                <div class="side">
+                        
+                    <div id="stars">2 stars</div>
+                
+                </div>
+                    
+                {/* this is the bar that shows the color based on the % of reviews */}
+                <div class="middle">
+                        
+                    <div class="bar-container">
+                        
+                        <div style={this.state.total2stars === 0 ? {width: '0%'} : {width: `${widthBar2}%`}} class="bar-2"></div>
+                    
+                    </div>
+                
+                </div>
+                    
+                {/* right side */}
+                <div class="side right">
+                    
+                    <div id="total-reviews">{this.state.total2stars}</div>
+
+                </div>
+                
+                {/* left side */}
+                <div id="side-middle-margin-bottom" class="side">
+                    
+                    <div id="stars">1 star</div>
+                
+                </div>
+                
+                <div id="side-middle-margin-bottom" class="middle">
+                    
+                    {/* this is the bar that shows the color based on the % of reviews */}
+                    <div class="bar-container">
+                        
+                        <div style={this.state.total1star === 0 ? {width: '0%'} : {width: `${widthBar1}%`}} class="bar-1"></div>
+                    
+                    </div>
+                
+                </div>
+                
+                {/* right side */}
+                <div id="side-middle-margin-bottom" class="side right">
+                        
+                    <div id="total-reviews">{this.state.total1star}</div>
+                    
+                </div>
+
+                {/* sending the user id so that we have a way to show the remove review button only if review is of the user */}
+                <WriteReview userId={this.props.userId} itemId={this.props.itemId} />
+
+        </ReviewStatsStyle>
+</>
+        )
+
+    }
+
+}
+
+export default ReviewStats;
