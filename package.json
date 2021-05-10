@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "engines": {
-    "node": "14.4.0"
+    "node": "14.4.0",
+    "npm": "7.6.2"
   },
   "scripts": {
     "start": "nodemon backend/app.js",
