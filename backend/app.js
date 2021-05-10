@@ -184,7 +184,7 @@ mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true,
 
     .then(() => {
 
-        server.listen(process.env.PORT, '0.0.0.0');
+        server.listen(process.env.PORT);
         console.log('connected to db');
 
     })
