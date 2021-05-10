@@ -6,7 +6,6 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const path = require('path');
 
 // agenda is used for background jobs
 const Agenda = require('agenda');
@@ -179,22 +178,13 @@ app.use(shopRoutes);
 // auth routes
 app.use('/auth', authRoutes);
 
-// heroku
-if (process.env.NODE_ENV === "production" ) {
-    app.use(express.static("build"));
-    app.get("*", (req, res) => {
-      res.sendFile(path.resolve(__dirname,  "build", "index.html"));
-    });
-  }
-
-
 // connecting to db
 // DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
 mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
 
     .then(() => {
 
-        server.listen(process.env.PORT);
+        server.listen(process.env.PORT || 5000);
         console.log('connected to db');
 
     })
