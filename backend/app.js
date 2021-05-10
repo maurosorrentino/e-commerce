@@ -6,6 +6,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 // agenda is used for background jobs
 const Agenda = require('agenda');
