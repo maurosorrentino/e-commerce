@@ -178,6 +178,15 @@ app.use(shopRoutes);
 // auth routes
 app.use('/auth', authRoutes);
 
+// heroku
+if (process.env.NODE_ENV === "production"{
+    app.use(express.static("build"));
+    app.get("*", (req, res) => {
+      res.sendFile(path.resolve(__dirname,  "build", "index.html"));
+    });
+  }
+
+
 // connecting to db
 // DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
 mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
