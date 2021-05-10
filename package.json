@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "engines": {
+    "node": "14.4.0"
+  },
   "scripts": {
     "start": "nodemon backend/app.js",
     "test": "jest --testTimeout=30000 --detectOpenHandles",
