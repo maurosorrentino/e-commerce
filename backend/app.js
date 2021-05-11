@@ -113,7 +113,7 @@ agenda.define('item_available_again_users', async (job) => {
 
 const app = express();
 
-app.use(express.static(__dirname + 'forntend/.next/server/pages/index.html'));
+app.use(express.static(__dirname + 'frontend/.next/server/pages/index.html'));
 
 // setting up the sessions into the db
 const store = new MongoDBStore({
@@ -128,7 +128,7 @@ const store = new MongoDBStore({
 const server = http.createServer(app);
 
 // without this line we are not able to store the cookie
-app.use(cors({ origin: process.env.LOCALHOST_FE, credentials: true }));
+app.use(cors({ origin: `${window.location.host}:3000`, credentials: true }));
 
 // resave: false means that the session won't be saved in every requests but only if something will be changed in the session (using default true has been deprecated)
 // saveUninitialized: false makes sure that the session won't be saved if nothing changes
