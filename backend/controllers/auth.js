@@ -138,7 +138,7 @@ exports.login = async (req, res) => {
             email,
             userId,
 
-        }, process.env.TOKEN_SECRET, { expiresIn: '8760h' }); // remember to change it!!!
+        }, process.env.TOKEN_SECRET, { expiresIn: '24h' }); 
 
         // for navigation on the client side (I use the httpOnly false cookie for authentication)
         const weakToken = jwt.sign({ userId }, process.env.WEAK_TOKEN_SECRET, { expiresIn: '24h' }); 
@@ -800,21 +800,9 @@ exports.checkout = async (req, res) => {
             mode: 'payment',
             allow_promotion_codes: true,
 
-            success_url: new URL ({
+            success_url: new URL (`https://e-commerce-my-shop/auth/success`),
 
-                protocol: 'https',
-                hostname: 'e-commerce-my-shop',
-                pathname: `/auth/success`,
-
-            }),
-
-            cancel_url: new URL ({
-
-                protocol: 'https',
-                hostname: 'e-commerce-my-shop',
-                pathname: `/auth/cancel`,
-
-            }),
+            cancel_url: new URL (`https://e-commerce-my-shop/auth/cancel`),
 
         });
 
