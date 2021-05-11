@@ -798,8 +798,22 @@ exports.checkout = async (req, res) => {
 
             mode: 'payment',
             allow_promotion_codes: true,
-            success_url: `${window.location.host}:3000/auth/success`, 
-            cancel_url: `${window.location.host}:3000/auth/cancel`,
+            
+            success_url: url.format({
+
+                protocol: 'https',
+                hostname: 'e-commerce-my-shop',
+                pathname: `/auth/success`,
+
+            }),
+
+            cancel_url: url.format({
+
+                protocol: 'https',
+                hostname: 'e-commerce-my-shop',
+                pathname: `/auth/cancel`,
+
+            }),
 
         });
 
