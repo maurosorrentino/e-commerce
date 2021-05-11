@@ -4,8 +4,6 @@ const router = express.Router();
 
 const shopController = require('../controllers/shop');
 
-router.get('/', shopController.getItems);
-
 router.get('/shop', shopController.getItems);
 
 router.patch('/reset-password/', shopController.requestResetPassword);
