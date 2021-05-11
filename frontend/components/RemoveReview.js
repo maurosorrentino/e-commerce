@@ -12,7 +12,7 @@ class RemoveReview extends Component {
 
         const reviewId = this.props.reviewId;
 
-        fetch(`${process.env.LOCALHOST}/auth/remove-review/${reviewId}`, {
+        fetch(`${window.location.host}:8090/auth/remove-review/${reviewId}`, {
 
             method: 'DELETE',
 

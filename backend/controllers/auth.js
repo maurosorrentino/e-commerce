@@ -798,8 +798,8 @@ exports.checkout = async (req, res) => {
 
             mode: 'payment',
             allow_promotion_codes: true,
-            success_url: `${process.env.LOCALHOST_FE}/auth/success`, 
-            cancel_url: `${process.env.LOCALHOST_FE}/auth/cancel`,
+            success_url: `${window.location.host}:3000/auth/success`, 
+            cancel_url: `${window.location.host}:3000/auth/cancel`,
 
         });
 

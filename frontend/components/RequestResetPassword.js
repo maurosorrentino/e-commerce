@@ -27,7 +27,7 @@ class RequestResetPassword extends Component {
 
         this.setState({ loading: true });
 
-        fetch(`${process.env.LOCALHOST}/reset-password`, {
+        fetch(`${window.location.host}:8090/reset-password`, {
 
             method: 'PATCH',
 

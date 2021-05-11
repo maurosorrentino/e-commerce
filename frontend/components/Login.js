@@ -41,7 +41,7 @@ class Login extends Component {
 
     fetchData = () => {
 
-        fetch(`${process.env.LOCALHOST}/auth/login`, {
+        fetch(`${window.location.host}:8090/auth/login`, {
 
             method: 'POST',
 

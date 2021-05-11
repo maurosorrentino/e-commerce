@@ -4,7 +4,7 @@ class Logout extends Component {
 
     logout = () => {
 
-        fetch(`${process.env.LOCALHOST}/auth/logout`, {
+        fetch(`${window.location.host}:8090/auth/logout`, {
 
             method: 'DELETE',
 

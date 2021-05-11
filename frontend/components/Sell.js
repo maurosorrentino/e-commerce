@@ -71,7 +71,7 @@ class Sell extends Component {
 
         this.setState({ loading: true });
 
-        fetch(`${process.env.LOCALHOST}/auth/sell`, {
+        fetch(`${window.location.host}:8090/auth/sell`, {
 
             method: 'PUT',
 

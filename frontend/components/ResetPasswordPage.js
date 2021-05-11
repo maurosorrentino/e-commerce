@@ -28,7 +28,7 @@ class ResetPasswordPage extends Component {
         const userId = this.props.userId;
 
         // we need to encode the api point in order to connect to it
-        fetch(`${process.env.LOCALHOST}/reset-password-form/${encodeURIComponent(resetToken)}/${userId}`, {
+        fetch(`${window.location.host}:8090/reset-password-form/${encodeURIComponent(resetToken)}/${userId}`, {
 
             method: 'PATCH',
 

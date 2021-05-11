@@ -72,7 +72,7 @@ class EditItem extends Component {
         const itemId = this.props.itemId;
         this.setState({ loading: true });
 
-        fetch(`${process.env.LOCALHOST}/auth/edit-item/${itemId}`, {
+        fetch(`${window.location.host}:8090/auth/edit-item/${itemId}`, {
 
             method: 'PATCH',
 

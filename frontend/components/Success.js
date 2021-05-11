@@ -20,7 +20,7 @@ class Success extends Component {
 
     fetchData = () => {
 
-        fetch(`${process.env.LOCALHOST}/auth/success`, {
+        fetch(`${window.location.host}:8090/auth/success`, {
 
             method: 'POST',
 

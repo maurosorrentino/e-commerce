@@ -23,7 +23,7 @@ class Payouts extends Component {
 
     fetchData = () => {
 
-        fetch(`${process.env.LOCALHOST}/auth/payouts`, {
+        fetch(`${window.location.host}:8090/auth/payouts`, {
 
 
             method: 'GET',

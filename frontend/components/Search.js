@@ -22,7 +22,7 @@ class Search extends Component {
 
     fetchData = () => {
 
-        fetch(`${process.env.LOCALHOST}/shop`, {
+        fetch(`${window.location.host}:8090/shop`, {
 
             method: 'GET',
 

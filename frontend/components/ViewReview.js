@@ -23,7 +23,7 @@ class ViewReview extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`${process.env.LOCALHOST}/view-review/${itemId}`, {
+        fetch(`${window.location.host}:8090/view-review/${itemId}`, {
 
             method: 'GET',
 

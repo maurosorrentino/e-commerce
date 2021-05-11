@@ -17,7 +17,7 @@ class ItemAvailableAgain extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`${process.env.LOCALHOST}/email-me-item/${itemId}`, {
+        fetch(`${window.location.host}:8090/email-me-item/${itemId}`, {
 
             method: 'PUT',
 
@@ -60,7 +60,7 @@ class ItemAvailableAgain extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`${process.env.LOCALHOST}/email-me-item-out/${itemId}`, {
+        fetch(`${window.location.host}:8090/email-me-item-out/${itemId}`, {
 
             method: 'PUT',
 

@@ -22,7 +22,7 @@ class MyItems extends Component {
 
     fetchData = () => {
 
-        fetch(`${process.env.LOCALHOST}/auth/my-items`, {
+        fetch(`${window.location.host}:8090/auth/my-items`, {
 
             method: 'GET',
 
