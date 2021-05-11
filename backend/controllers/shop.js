@@ -7,7 +7,7 @@ const { transport } = require('../mail/mail');
 
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
-const URL = require('url');
+const { UrL } = require('url');
 
 require('dotenv').config();
 
@@ -84,7 +84,7 @@ exports.requestResetPassword = async (req, res, next) => {
         const encodedToken = encodeURIComponent(resetToken);
 
         // sending plain token encoded to the user so that later we can verify it
-        const link = new URL (`https://e-commerce-my-shop/reset-password-form/${encodedToken}/${user._id}`);
+        const link = new UrL (`https://e-commerce-my-shop/reset-password-form/${encodedToken}/${user._id}`);
 
         await transport.sendMail({
 

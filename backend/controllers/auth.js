@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const URL = require('url');
+const { UrL } = require('url');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // signup controller
@@ -800,9 +800,9 @@ exports.checkout = async (req, res) => {
             mode: 'payment',
             allow_promotion_codes: true,
 
-            success_url: new URL (`https://e-commerce-my-shop/auth/success`),
+            success_url: new UrL (`https://e-commerce-my-shop/auth/success`),
 
-            cancel_url: new URL (`https://e-commerce-my-shop/auth/cancel`),
+            cancel_url: new UrL (`https://e-commerce-my-shop/auth/cancel`),
 
         });
 
