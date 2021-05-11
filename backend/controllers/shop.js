@@ -7,6 +7,7 @@ const { transport } = require('../mail/mail');
 
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
+const url = require('url');
 
 require('dotenv').config();
 
