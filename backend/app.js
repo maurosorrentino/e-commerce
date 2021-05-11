@@ -60,7 +60,7 @@ agenda.define('item_available_again_users', async (job) => {
     
         if(item.stock > 0) {
     
-            const link = `${process.env.LOCALHOST_FE}/view-item/${itemId}`;
+            const link = `${window.location.host}:3000/view-item/${itemId}`;
     
             // finding the user with the email that we found in this collection so that we can put the name into the email
             const user = await User.findOne({ email: userEmail });
@@ -112,6 +112,8 @@ agenda.define('item_available_again_users', async (job) => {
 })();
 
 const app = express();
+
+app.use(express.static(__dirname + 'forntend/.next/server/pages/index.html'));
 
 // setting up the sessions into the db
 const store = new MongoDBStore({
@@ -166,7 +168,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token');
-    res.setHeader('Access-Control-Allow-Origin', process.env.LOCALHOST_FE);
+    res.setHeader('Access-Control-Allow-Origin', `${window.location.host}:3000`);
 
     next();
 

@@ -11,7 +11,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "jest"
+    "test": "jest",
+    "prod": "next export"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.13.7",
