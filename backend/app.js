@@ -6,7 +6,6 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const { UrL } = require('url');
 
 // agenda is used for background jobs
 const Agenda = require('agenda');
@@ -61,7 +60,7 @@ agenda.define('item_available_again_users', async (job) => {
     
         if(item.stock > 0) {
     
-            const link = new UrL (`https://e-commerce-my-shop/view-item/${itemId}`);
+            const link = `https://e-commerce-my-shop/view-item/${itemId}`;
     
             // finding the user with the email that we found in this collection so that we can put the name into the email
             const user = await User.findOne({ email: userEmail });
@@ -129,7 +128,7 @@ const store = new MongoDBStore({
 const server = http.createServer(app);
 
 // without this line we are not able to store the cookie
-app.use(cors({ origin: new UrL (`https://e-commerce-my-shop`), credentials: true }));
+app.use(cors({ origin: `https://e-commerce-my-shop`, credentials: true }));
 
 // resave: false means that the session won't be saved in every requests but only if something will be changed in the session (using default true has been deprecated)
 // saveUninitialized: false makes sure that the session won't be saved if nothing changes
@@ -169,7 +168,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token');
-    res.setHeader('Access-Control-Allow-Origin', new UrL (`https://e-commerce-my-shop`));
+    res.setHeader('Access-Control-Allow-Origin', `https://e-commerce-my-shop`);
 
     next();
 

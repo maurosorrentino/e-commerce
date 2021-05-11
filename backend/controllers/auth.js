@@ -800,9 +800,9 @@ exports.checkout = async (req, res) => {
             mode: 'payment',
             allow_promotion_codes: true,
 
-            success_url: new UrL (`https://e-commerce-my-shop/auth/success`),
+            success_url: `https://e-commerce-my-shop/auth/success`,
 
-            cancel_url: new UrL (`https://e-commerce-my-shop/auth/cancel`),
+            cancel_url: `https://e-commerce-my-shop/auth/cancel`,
 
         });
 
