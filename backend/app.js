@@ -6,7 +6,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const url = require('url');
+const URL = require('url');
 
 // agenda is used for background jobs
 const Agenda = require('agenda');
@@ -61,7 +61,7 @@ agenda.define('item_available_again_users', async (job) => {
     
         if(item.stock > 0) {
     
-            const link = url.format({
+            const link = new URL ({
 
                 protocol: 'https',
                 hostname: 'e-commerce-my-shop',

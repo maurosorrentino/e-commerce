@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const url = require('url');
+const URL = require('url');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // signup controller
@@ -800,7 +800,7 @@ exports.checkout = async (req, res) => {
             mode: 'payment',
             allow_promotion_codes: true,
 
-            success_url: url.format({
+            success_url: new URL ({
 
                 protocol: 'https',
                 hostname: 'e-commerce-my-shop',
@@ -808,7 +808,7 @@ exports.checkout = async (req, res) => {
 
             }),
 
-            cancel_url: url.format({
+            cancel_url: new URL ({
 
                 protocol: 'https',
                 hostname: 'e-commerce-my-shop',

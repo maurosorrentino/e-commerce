@@ -7,7 +7,7 @@ const { transport } = require('../mail/mail');
 
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
-const url = require('url');
+const URL = require('url');
 
 require('dotenv').config();
 
@@ -84,7 +84,7 @@ exports.requestResetPassword = async (req, res, next) => {
         const encodedToken = encodeURIComponent(resetToken);
 
         // sending plain token encoded to the user so that later we can verify it
-        const link = url.format({
+        const link = new URL ({
 
             protocol: 'https',
             hostname: 'e-commerce-my-shop',
