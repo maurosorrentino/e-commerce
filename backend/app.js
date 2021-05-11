@@ -114,8 +114,6 @@ agenda.define('item_available_again_users', async (job) => {
 
 const app = express();
 
-const __dirname = path.resolve();
-
 app.use(express.static(path.join(__dirname + '/frontend/.next/server/pages')));
 
 app.get('*', (req, res) =>
