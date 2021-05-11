@@ -141,7 +141,7 @@ exports.login = async (req, res) => {
         }, process.env.TOKEN_SECRET, { expiresIn: '8760h' }); // remember to change it!!!
 
         // for navigation on the client side (I use the httpOnly false cookie for authentication)
-        const weakToken = jwt.sign({ userId }, process.env.WEAK_TOKEN_SECRET, { expiresIn: '8760h' }); // change it!!!
+        const weakToken = jwt.sign({ userId }, process.env.WEAK_TOKEN_SECRET, { expiresIn: '24h' }); 
 
         // if password and email matches we will authenticate by creating a session and storing the tokens into the cookies
         await User.findById(userId)
@@ -153,10 +153,10 @@ exports.login = async (req, res) => {
                 req.session.user = user;
 
                 // token into cookie
-                res.cookie('token', token, { maxAge: 3600000 * 24 * 365, httpOnly: true, path: '/' }); // remember to change it!!!!
-                
+                res.cookie('token', token, { maxAge: 3600000 * 24, httpOnly: true, path: '/' }); 
+
                 // navigation on the client side
-                res.cookie('authCookie', weakToken, {maxAge: 3600000 * 24 * 365, httpOnly: false, path: '/' }); // change it!!!
+                res.cookie('authCookie', weakToken, {maxAge: 3600000 * 24, httpOnly: false, path: '/' }); 
 
                 // saving the session
                 req.session.save(err => console.log(err));

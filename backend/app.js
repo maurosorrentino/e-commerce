@@ -135,7 +135,7 @@ const store = new MongoDBStore({
 const server = http.createServer(app);
 
 // without this line we are not able to store the cookie
-app.use(cors({ origin: url.format({
+app.use(cors({ origin: new URL ({
 
     protocol: 'https',
     hostname: 'e-commerce-my-shop',
@@ -156,7 +156,7 @@ app.use(
         cookie: {
 
             httpOnly: true,
-            maxAge: 3600000 * 24 * 365, // remember to change it!!!
+            maxAge: 3600000 * 24, 
             secure: false,
 
         },
@@ -180,7 +180,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token');
-    res.setHeader('Access-Control-Allow-Origin', url.format({
+    res.setHeader('Access-Control-Allow-Origin', new URL ({
 
         protocol: 'https',
         hostname: 'e-commerce-my-shop',
