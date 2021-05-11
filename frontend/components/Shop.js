@@ -31,7 +31,7 @@ class Shop extends Component {
  
     fetchData = () => {
 
-        fetch(`${window.location.hostname}:8090/shop`, {
+        fetch(`http://localhost:8090/shop`, {
 
             method: 'GET',
 
