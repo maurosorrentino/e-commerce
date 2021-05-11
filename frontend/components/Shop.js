@@ -31,7 +31,7 @@ class Shop extends Component {
  
     fetchData = () => {
 
-        fetch(`${window.location.hostname}/shop`, {
+        fetch(`${window.location.hostname}:8090/shop`, {
 
             method: 'GET',
 
