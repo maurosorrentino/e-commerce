@@ -116,7 +116,7 @@ const app = express();
 
 if (process.env.NODE_ENV === 'production') {
     
-    app.use(express.static(path.join(__dirname + '/../frontend/.next/server/pages')));
+    app.use(express.static(path.join(__dirname + '/../frontend/.next/')));
   
     app.get('*', (req, res) =>
 
