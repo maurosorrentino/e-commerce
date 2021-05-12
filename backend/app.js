@@ -116,11 +116,11 @@ const app = express();
 
 if(process.env.NODE_ENV === 'production') {
     
-    app.use(express.static(path.join(__dirname + '/server/pages')));
+    app.use(express.static(path.join(__dirname + 'build/server/pages')));
   
     app.get('*', (req, res) =>
 
-        res.sendFile(path.resolve(__dirname + '/server', 'pages', 'index.html'))
+        res.sendFile(path.resolve(__dirname + '/build', 'server', 'pages', 'index.html'))
 
     );
 
