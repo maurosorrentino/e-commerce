@@ -42,6 +42,8 @@ class Shop extends Component {
 
             },
 
+            body: JSON.stringify(),
+
         })
 
         .then(res => {
