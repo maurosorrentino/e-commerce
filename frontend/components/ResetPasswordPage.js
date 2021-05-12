@@ -58,7 +58,6 @@ class ResetPasswordPage extends Component {
 
         .then(resData => {
 
-            console.log(resData);
             this.setState({ message: resData.message, loading: true });
 
         })

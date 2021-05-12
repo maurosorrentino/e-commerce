@@ -38,6 +38,12 @@ class Iban extends Component {
 
             credentials: 'include',
 
+            body: JSON.stringify({
+
+                iban: this.state.iban,
+
+            })
+
         })
 
         .then(res => {
