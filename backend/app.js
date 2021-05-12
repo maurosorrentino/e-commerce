@@ -118,7 +118,7 @@ app.use(express.static(path.join(__dirname + '/../frontend/.next/server/pages'))
 
 app.get('/', (req, res) =>
 
-    res.sendFile(path.resolve(__dirname, '/frontend/.next/server/pages/index.html'))
+    res.sendFile(path.resolve(__dirname, '/../frontend/.next/server/pages/index.html'))
 
 );
 
