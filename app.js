@@ -11,14 +11,14 @@ const path = require('path');
 // agenda is used for background jobs
 const Agenda = require('agenda');
 
-const authRoutes = require('./routes/auth');
-const shopRoutes = require('./routes/shop');
+const authRoutes = require('./backend/routes/auth');
+const shopRoutes = require('./backend/routes/shop');
 
-const Item = require('./models/item');
-const User = require('./models/user');
-const ItemAvailableAgainUser = require('./models/ItemAvailableAgainUser');
+const Item = require('./backend/models/item');
+const User = require('./backend/models/user');
+const ItemAvailableAgainUser = require('./backend/models/ItemAvailableAgainUser');
 
-const { transport } = require('./mail/mail');
+const { transport } = require('./backend/mail/mail');
 
 // secrets in .env file
 require('dotenv').config();
@@ -116,11 +116,11 @@ const app = express();
 
 if(process.env.NODE_ENV === 'production') {
     
-    app.use(express.static(path.join(__dirname + '/../frontend/.next/server/pages')));
+    app.use(express.static(path.join(__dirname, '/frontend/.next/server/pages')));
   
     app.get('*', (req, res) =>
 
-        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , '.next', 'server', 'pages', 'index.html'))
+        res.sendFile(path.resolve(__dirname, 'frontend' , '.next', 'server', 'pages', 'index.html'))
 
     );
 
