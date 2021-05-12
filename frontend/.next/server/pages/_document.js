@@ -166,7 +166,12 @@ var MyDocument = /*#__PURE__*/function (_Document) {
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(MyDocument, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_document__WEBPACK_IMPORTED_MODULE_7__["Html"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_document__WEBPACK_IMPORTED_MODULE_7__["Head"], null, this.props.styleTags), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("body", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_document__WEBPACK_IMPORTED_MODULE_7__["Main"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_document__WEBPACK_IMPORTED_MODULE_7__["NextScript"], null)));
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_document__WEBPACK_IMPORTED_MODULE_7__["Html"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_document__WEBPACK_IMPORTED_MODULE_7__["Head"], null, this.props.styleTags), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("body", {
+        style: {
+          margin: 0,
+          padding: 0
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_document__WEBPACK_IMPORTED_MODULE_7__["Main"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(next_document__WEBPACK_IMPORTED_MODULE_7__["NextScript"], null)));
     }
   }], [{
     key: "getInitialProps",
