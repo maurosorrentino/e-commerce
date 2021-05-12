@@ -114,13 +114,21 @@ agenda.define('item_available_again_users', async (job) => {
 
 const app = express();
 
-app.use(express.static(path.join(__dirname + '/../frontend/.next/server/pages')));
-
-app.get('/', (req, res) =>
+if (process.env.NODE_ENV === 'production') {
+    
+    app.use(express.static(path.join(__dirname + '/../frontend/.next/server/pages')));
+  
+    app.get('*', (req, res) =>
 
     res.sendFile(path.resolve(__dirname + '/../frontend/.next/server/pages/index.html'))
 
-);
+    );
+
+  } else {
+    app.get('/', (req, res) => {
+      res.send('API is running....')
+    })
+  }
 
 // setting up the sessions into the db
 const store = new MongoDBStore({
