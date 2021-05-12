@@ -42,7 +42,14 @@ class Shop extends Component {
 
             },
 
-            body: JSON.stringify(),
+            body: JSON.stringify({
+
+                items: this.state.items,
+                totalItems: this.state.totalItems,
+                perPage: this.state.perPage,
+                currentPage: this.state.currentPage,
+
+            }),
 
         })
 
