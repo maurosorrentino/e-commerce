@@ -1,0 +1,1 @@
+{"ast":null,"code":"import React from 'react';\nimport Payouts from '../../components/Payouts';\n\nvar payoutsPage = function payoutsPage() {\n  return /*#__PURE__*/React.createElement(Payouts, null);\n};\n\nexport default payoutsPage;","map":null,"metadata":{},"sourceType":"module"}

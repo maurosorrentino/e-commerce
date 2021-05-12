@@ -1,0 +1,1 @@
+{"ast":null,"code":"import React from 'react';\nimport RequestResetPassword from '../components/RequestResetPassword';\n\nvar requestResetPassword = function requestResetPassword() {\n  return /*#__PURE__*/React.createElement(RequestResetPassword, null);\n};\n\nexport default requestResetPassword;","map":null,"metadata":{},"sourceType":"module"}

@@ -1,0 +1,1 @@
+{"ast":null,"code":"import React from 'react';\nimport Order from '../../components/Order';\n\nvar orderPage = function orderPage() {\n  return /*#__PURE__*/React.createElement(Order, null);\n};\n\nexport default orderPage;","map":null,"metadata":{},"sourceType":"module"}

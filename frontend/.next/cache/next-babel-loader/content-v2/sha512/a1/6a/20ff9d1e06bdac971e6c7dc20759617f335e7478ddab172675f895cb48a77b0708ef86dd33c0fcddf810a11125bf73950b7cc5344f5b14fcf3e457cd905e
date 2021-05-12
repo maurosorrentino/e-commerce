@@ -1,0 +1,1 @@
+{"ast":null,"code":"import React from 'react';\nimport Iban from '../../components/Iban';\n\nvar ibanPage = function ibanPage() {\n  return /*#__PURE__*/React.createElement(Iban, null);\n};\n\nexport default ibanPage;","map":null,"metadata":{},"sourceType":"module"}

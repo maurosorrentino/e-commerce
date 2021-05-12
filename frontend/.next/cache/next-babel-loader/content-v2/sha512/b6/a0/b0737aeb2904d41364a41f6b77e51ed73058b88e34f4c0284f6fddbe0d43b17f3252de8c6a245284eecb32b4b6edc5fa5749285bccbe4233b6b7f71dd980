@@ -1,0 +1,1 @@
+{"ast":null,"code":"import Signup from '../../components/Signup';\nimport React from 'react';\n\nvar SignupPage = function SignupPage(props) {\n  return /*#__PURE__*/React.createElement(Signup, null);\n};\n\nexport default SignupPage;","map":null,"metadata":{},"sourceType":"module"}
