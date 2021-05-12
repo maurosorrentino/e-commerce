@@ -114,13 +114,13 @@ agenda.define('item_available_again_users', async (job) => {
 
 const app = express();
 
-if (process.env.NODE_ENV === 'production') {
+if(process.env.NODE_ENV === 'production') {
     
-    app.use(express.static(path.join(__dirname + '/../frontend/.next/')));
+    app.use(express.static(path.join(__dirname + '/../frontend/.next/server/pages')));
   
     app.get('*', (req, res) =>
 
-        res.sendFile(path.resolve(__dirname + '/../frontend/.next/server/pages/index.html'))
+        res.sendFile(path.resolve(__dirname + 'frontend' , '.next', 'server', 'pages', 'index.html'))
 
     );
 
