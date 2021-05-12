@@ -11,14 +11,14 @@ const path = require('path');
 // agenda is used for background jobs
 const Agenda = require('agenda');
 
-const authRoutes = require('./backend/routes/auth');
-const shopRoutes = require('./backend/routes/shop');
+const authRoutes = require('./routes/auth');
+const shopRoutes = require('./routes/shop');
 
-const Item = require('./backend/models/item');
-const User = require('./backend/models/user');
-const ItemAvailableAgainUser = require('./backend/models/ItemAvailableAgainUser');
+const Item = require('./models/item');
+const User = require('./models/user');
+const ItemAvailableAgainUser = require('./models/ItemAvailableAgainUser');
 
-const { transport } = require('./backend/mail/mail');
+const { transport } = require('./mail/mail');
 
 // secrets in .env file
 require('dotenv').config();
