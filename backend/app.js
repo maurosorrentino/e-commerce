@@ -206,7 +206,7 @@ mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true,
 
         server.listen(process.env.PORT);
         console.log('connected to db');
-        console.log(path.resolve(__dirname + '/../', 'frontend' , '.next', 'server', 'pages', 'index.html'));
+        console.log(path.resolve(__dirname + '/../', 'frontend' , '.next', 'server', 'pages', '/index.html'));
 
     })
 
