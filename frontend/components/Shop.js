@@ -31,7 +31,7 @@ class Shop extends Component {
  
     fetchData = () => {
 
-        fetch(`/shop/`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/shop`, {
 
             method: 'GET',
 

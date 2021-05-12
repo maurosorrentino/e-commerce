@@ -22,7 +22,7 @@ class Order extends Component {
 
     fetchData = () => {
 
-        fetch(`${window.location.host}:8090/auth/orders`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/orders`, {
 
 
             method: 'GET',

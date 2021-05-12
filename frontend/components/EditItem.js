@@ -72,7 +72,7 @@ class EditItem extends Component {
         const itemId = this.props.itemId;
         this.setState({ loading: true });
 
-        fetch(`${window.location.host}:8090/auth/edit-item/${itemId}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/edit-item/${itemId}`, {
 
             method: 'PATCH',
 

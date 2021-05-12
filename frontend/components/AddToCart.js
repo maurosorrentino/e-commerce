@@ -15,7 +15,7 @@ class AddToCart extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`${window.location.host}:8090/auth/add-to-cart/${itemId}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/add-to-cart/${itemId}`, {
 
             method: 'PATCH',
 

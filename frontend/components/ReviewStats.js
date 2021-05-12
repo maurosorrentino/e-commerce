@@ -29,7 +29,7 @@ class ReviewStats extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`${window.location.host}:8090/review-stats/${itemId}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/review-stats/${itemId}`, {
 
             method: 'GET',
 

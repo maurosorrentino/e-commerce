@@ -2,13 +2,6 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": {
-    "/backend": {
-      "/controllers": {
-        "target": "http://localhost:5000"
-      }
-    }
-  },
   "engines": {
     "node": "14.4.0",
     "npm": "7.6.2"

@@ -25,7 +25,7 @@ class Iban extends Component {
 
     fetchCurrentIban = () => {
 
-        fetch(`${window.location.host}/auth/current-iban`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/current-iban`, {
 
             method: 'GET',
 
@@ -62,7 +62,7 @@ class Iban extends Component {
 
         this.setState({ loading: true });
 
-        fetch(`${window.location.host}:8090/auth/save-new-iban`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/save-new-iban`, {
 
             method: 'PUT',
 

@@ -31,7 +31,7 @@ class ChangeDetails extends Component {
 
         this.setState({ loading: true });
 
-        fetch(`${window.location.host}:8090/auth/change-details`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/change-details`, {
 
             method: 'PATCH',
 
