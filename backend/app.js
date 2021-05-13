@@ -37,6 +37,12 @@ if(process.env.NODE_ENV === 'production') {
 
     );
 
+    app.get('/auth/cart', (req, res) =>
+
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'cart.html'))
+
+    );
+
   } else {
 
     app.get('/', (req, res) => {
