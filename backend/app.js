@@ -107,7 +107,7 @@ agenda.define('item_available_again_users', async (job) => {
         
             });
 
-            // finding the id of this collection with the itemId so that we can delete it in order to don't send an email every time this page gets loaded
+            // finding the id of this collection with the itemId so that we can delete it in order to don't send an email every 5 seconds
             const findInfo = await ItemAvailableAgainUser.find({ itemId });
 
             const itemAvailableAgainUserId = findInfo.map(findId => {
