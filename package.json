@@ -2,6 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
+  "proxies": {
+    "/api/": {
+      "origin": "https://e-commerce-my-shop.herokuapp.com/"
+    }
+  },
   "main": "app.js",
   "homepage": "https://e-commerce-my-shop.herokuapp.com/",
   "engines": {
