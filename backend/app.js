@@ -258,7 +258,25 @@ if(process.env.NODE_ENV === 'production') {
     
     app.get('/auth/success', (req, res) =>
     
-        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'change-details.html'))
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'success.html'))
+    
+    );
+
+    app.get('/reset-password', (req, res) =>
+    
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'reset-password.html'))
+    
+    );
+
+    app.get('/view-item/:itemId', (req, res) =>
+    
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'view-item[itemId].html'))
+    
+    );
+
+    app.get('/reset-password-form/:resetToken/:userId', (req, res) =>
+    
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'reset-password-form[resetToken][userId].html'))
     
     );
 
