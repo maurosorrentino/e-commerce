@@ -129,7 +129,7 @@ class EditItem extends Component {
 
             } id="message-test">{this.state.message}</h1></MessageStyles> ) }
 
-            <Form id="form-test" encType="multipart/form-data" onSubmit={this.handleSubmit}>
+            <Form key={this.props.itemId} id="form-test" encType="multipart/form-data" onSubmit={this.handleSubmit}>
 
                 <fieldset aria-busy={this.state.loading} disabled={this.state.loading}>
 
