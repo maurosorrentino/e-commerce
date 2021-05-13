@@ -270,13 +270,13 @@ if(process.env.NODE_ENV === 'production') {
 
     app.get('/view-item/*', (req, res) =>
     
-        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', '[itemId].html'))
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'view-item[itemId].html'))
     
     );
 
     app.get('/reset-password-form/**', (req, res) =>
     
-        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', '[userId].html'))
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'reset-password-form[userId].html'))
     
     );
 
