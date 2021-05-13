@@ -10,6 +10,15 @@
       "react-hot-loader/babel",
       "babel-plugin-syntax-async-functions",
       "@babel/plugin-transform-async-to-generator",
-      "@babel/plugin-transform-runtime"
+      "@babel/plugin-transform-runtime",
+
+      [
+        "styled-components",
+        {
+          "ssr": true,
+          "displayName": true,
+          "preprocess": false
+        }
+      ]
     ]
   }
