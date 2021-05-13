@@ -74,7 +74,11 @@ class RequestResetPassword extends Component {
 <>
             <Header />
 
-            { this.state.message && (<MessageStyles><h1 id="message-test">{this.state.message}</h1></MessageStyles> ) }
+            { this.state.message && (<MessageStyles><h1 className={
+                
+                this.state.message === `We Couldn't Find An Account With The Following Email: ${this.state.email}` ? 'red' : ''} 
+            
+            id="message-test">{this.state.message}</h1></MessageStyles> ) }
     
             <Form onSubmit={this.fetchData}>
 

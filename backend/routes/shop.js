@@ -6,7 +6,7 @@ const shopController = require('../controllers/shop');
 
 router.get('/api/shop', shopController.getItems);
 
-router.patch('/api/reset-password/', shopController.requestResetPassword);
+router.patch('/api/reset-password', shopController.requestResetPassword);
 
 router.patch('/api/reset-password-form/:resetToken/:userId', shopController.resetPasswordPage);
 
