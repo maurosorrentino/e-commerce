@@ -202,13 +202,13 @@ if(process.env.NODE_ENV === 'production') {
     
     );
     
-    app.patch('/auth/change-details', (req, res) =>
+    app.get('/auth/change-details', (req, res) =>
     
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'change-details.html'))
     
     );
     
-    app.post('/auth/login', (req, res) =>
+    app.get('/auth/login', (req, res) =>
     
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'login.html'))
     
@@ -232,13 +232,13 @@ if(process.env.NODE_ENV === 'production') {
     
     );
     
-    app.put('/auth/save-your-iban', (req, res) =>
+    app.get('/auth/save-your-iban', (req, res) =>
     
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'save-your-iban.html'))
     
     );
     
-    app.put('/auth/sell', (req, res) =>
+    app.get('/auth/sell', (req, res) =>
     
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'sell.html'))
     
@@ -250,13 +250,13 @@ if(process.env.NODE_ENV === 'production') {
     
     );
     
-    app.put('/auth/signup', (req, res) =>
+    app.get('/auth/signup', (req, res) =>
     
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'signup.html'))
     
     );
     
-    app.post('/auth/success', (req, res) =>
+    app.get('/auth/success', (req, res) =>
     
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'change-details.html'))
     
