@@ -25,6 +25,27 @@ require('dotenv').config();
 
 const MONGODB_URL = process.env.MONGODB; 
 
+const app = express();
+
+if(process.env.NODE_ENV === 'production') {
+    
+    app.use(express.static(path.join(__dirname + '/../frontend/.next/server/pages')));
+  
+    app.get('*', (req, res) =>
+
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , '.next', 'server', 'pages', 'index.html'))
+
+    );
+
+  } else {
+
+    app.get('/', (req, res) => {
+
+      res.send('API is running....')
+
+    })
+  }
+
 // defining the db where the agenda will be saved (background job)
 // DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
 const agenda = new Agenda({
@@ -111,27 +132,6 @@ agenda.define('item_available_again_users', async (job) => {
     await agenda.every("5 seconds", "item_available_again_users")
 
 })();
-
-const app = express();
-
-if(process.env.NODE_ENV === 'production') {
-    
-    app.use(express.static(path.join(__dirname + '/../frontend/.next/server/pages')));
-  
-    app.get('*', (req, res) =>
-
-        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , '.next', 'server', 'pages', 'index.html'))
-
-    );
-
-  } else {
-
-    app.get('/', (req, res) => {
-
-      res.send('API is running....')
-
-    })
-  }
 
 // setting up the sessions into the db
 const store = new MongoDBStore({
