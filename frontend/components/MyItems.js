@@ -22,7 +22,7 @@ class MyItems extends Component {
 
     fetchData = () => {
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/my-items`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/my-items`, {
 
             method: 'GET',
 

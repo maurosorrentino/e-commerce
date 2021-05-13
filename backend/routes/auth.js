@@ -26,7 +26,7 @@ router.get('/cart', authController.cartPage);
 router.patch('/remove-from-cart/:itemId', authController.removeFromCart);
 
 // list of items that user created path
-router.get('/my-items', authController.myItems);
+router.get('/api/my-items', authController.myItems);
 
 // edit item path
 router.patch('/edit-item/:itemId', authController.editItem);
