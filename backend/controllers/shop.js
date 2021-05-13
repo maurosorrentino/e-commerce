@@ -105,7 +105,7 @@ exports.requestResetPassword = async (req, res, next) => {
 
         });
 
-        res.status(200).json({ message: 'Password Reset Requested, Please Check Your Email' });
+        return res.status(200).json({ message: 'Password Reset Requested, Please Check Your Email' });
         
     } catch (err) {
 

@@ -184,6 +184,8 @@ if(process.env.NODE_ENV === 'production') {
     
     app.use(express.static(path.join(__dirname + '/../frontend/out')));
   
+    // I do not think that this is the best solution to serve these files (without this code people won't be able to send link to other people cause they will get a cannot get error)
+    // but I didn't find anything on google so I thought of this solution
     app.get('/', (req, res) =>
 
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'index.html'))
