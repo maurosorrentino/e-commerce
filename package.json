@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "homepage": "https://e-commerce-my-shop.herokuapp.com/",
   "engines": {
     "node": "14.4.0",
     "npm": "7.6.2"
   },
   "scripts": {
-    "homepage": "https://e-commerce-my-shop.herokuapp.com/",
     "start": "nodemon backend/app.js",
     "test": "jest --testTimeout=30000 --detectOpenHandles",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
