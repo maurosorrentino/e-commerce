@@ -42,13 +42,6 @@ class Shop extends Component {
 
             },
 
-            body: JSON.stringify({
-
-                items: this.state.items,
-                totalItems: this.state.totalItems,
-                
-            })
-
         })
 
         .then(res => {
