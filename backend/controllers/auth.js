@@ -248,7 +248,7 @@ exports.createItem = async (req, res) => {
 
         if(!Number.isInteger(Number(stock))) {
 
-            res.status(422).json({ message: 'the number has to be an integer' });
+            return res.status(422).json({ message: 'the number has to be an integer' });
             
         }
  
