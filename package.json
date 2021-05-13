@@ -11,7 +11,7 @@
     "homepage": "https://e-commerce-my-shop.herokuapp.com/",
     "start": "nodemon backend/app.js",
     "test": "jest --testTimeout=30000 --detectOpenHandles",
-    "heroku-postbuild": "npm install --prefix frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "",
   "license": "ISC",
