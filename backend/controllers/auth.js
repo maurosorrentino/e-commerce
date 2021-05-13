@@ -240,7 +240,7 @@ exports.createItem = async (req, res) => {
         };
 
         // checking if the user wrote the right value into the input (so stock > 0 and it has to be an integer)
-        if(stock === 0) {
+        if(Number(stock) <= 0) {
 
             return res.status(422).json({ message: 'Items in stock need to be grater than 0' });
 
