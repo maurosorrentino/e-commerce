@@ -1,23 +1,6 @@
 {
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
-  "/auth/cancel": "pages/auth/cancel.html",
-  "/auth/cart": "pages/auth/cart.html",
-  "/auth/change-details": "pages/auth/change-details.html",
-  "/auth/login": "pages/auth/login.html",
-  "/auth/my-items": "pages/auth/my-items.html",
-  "/auth/order": "pages/auth/order.html",
-  "/auth/orders": "pages/auth/orders.html",
-  "/auth/payouts": "pages/auth/payouts.html",
-  "/auth/save-your-iban": "pages/auth/save-your-iban.html",
-  "/auth/sell": "pages/auth/sell.html",
-  "/auth/settings": "pages/auth/settings.html",
-  "/auth/signup": "pages/auth/signup.html",
-  "/auth/success": "pages/auth/success.html",
-  "/": "pages/index.html",
-  "/reset-password-form/[resetToken]/[userId]": "pages/reset-password-form/[resetToken]/[userId].html",
-  "/reset-password": "pages/reset-password.html",
-  "/view-item/[itemId]": "pages/view-item/[itemId].html",
   "/_error": "pages/_error.js",
-  "/404": "pages/404.html"
+  "/": "pages/index.js"
 }
