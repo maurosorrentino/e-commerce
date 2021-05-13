@@ -268,13 +268,13 @@ if(process.env.NODE_ENV === 'production') {
     
     );
 
-    app.get('/view-item/:itemId', (req, res) =>
+    app.get('/view-item/*', (req, res) =>
     
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', '[itemId].html'))
     
     );
 
-    app.get('/reset-password-form/:resetToken/:userId', (req, res) =>
+    app.get('/reset-password-form/**', (req, res) =>
     
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', '[userId].html'))
     
