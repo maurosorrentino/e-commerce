@@ -186,7 +186,7 @@ if(process.env.NODE_ENV === 'production') {
   
     app.get('/', (req, res) =>
 
-        res.sendFile(file, { root: __dirname + '/../', 'frontend' , 'out', 'index.html'})
+        res.sendFile(file, { root: __dirname + '/../frontend/out/index.html'})
 
     );
 
