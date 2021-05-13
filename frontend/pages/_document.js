@@ -1,25 +1,30 @@
-/* if we don't add these codes to our website every time that we load the page for 1 second we get the page that is not styled */
-import React from 'react';
-import Document, { Head, Main, NextScript, Html } from 'next/document';
-import { ServerStyleSheet } from 'styled-components';
+import Document from 'next/document'
+import { ServerStyleSheet } from 'styled-components'
 
 export default class MyDocument extends Document {
-  static getInitialProps({ renderPage }) {
-    const sheet = new ServerStyleSheet();
-    const page = renderPage(App => props => sheet.collectStyles(<App {...props} />));
-    const styleTags = sheet.getStyleElement();
-    return { ...page, styleTags };
-  }
+  static async getInitialProps(ctx) {
+    const sheet = new ServerStyleSheet()
+    const originalRenderPage = ctx.renderPage
 
-  render() {
-    return (
-      <Html>
-        <Head>{this.props.styleTags}</Head>
-        <body style={{ margin: 0, padding: 0 }}>
-          <Main />
-          <NextScript />
-        </body>
-      </Html>
-    );
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App) => (props) =>
+            sheet.collectStyles(<App {...props} />),
+        })
+
+      const initialProps = await Document.getInitialProps(ctx)
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        ),
+      }
+    } finally {
+      sheet.seal()
+    }
   }
 }
