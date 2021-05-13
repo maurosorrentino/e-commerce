@@ -27,26 +27,6 @@ const MONGODB_URL = process.env.MONGODB;
 
 const app = express();
 
-// serving static files when in production
-if(process.env.NODE_ENV === 'production') {
-    
-    app.use(express.static(path.join(__dirname + '/../frontend/out')));
-  
-    app.get('/', (req, res) =>
-
-        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'index.html'))
-
-    );
-
-  } else {
-
-    app.get('/', (req, res) => {
-
-      res.send('API is running....')
-
-    })
-  }
-
 // defining the db where the agenda will be saved (background job)
 // DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
 const agenda = new Agenda({
@@ -198,6 +178,26 @@ app.use(shopRoutes);
  
 // auth routes
 app.use('/auth', authRoutes);
+
+// serving static files when in production
+if(process.env.NODE_ENV === 'production') {
+    
+    app.use(express.static(path.join(__dirname + '/../frontend/out')));
+  
+    app.get('/', (req, res) =>
+
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'index.html'))
+
+    );
+
+  } else {
+
+    app.get('/', (req, res) => {
+
+      res.send('API is running....')
+
+    })
+  }
 
 // connecting to db
 // DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
