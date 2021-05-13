@@ -38,7 +38,7 @@ class ViewItem extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/view-item-in/${itemId}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/view-item-in/${itemId}`, {
 
             method: 'GET',
 

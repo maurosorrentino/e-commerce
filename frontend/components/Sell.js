@@ -71,7 +71,7 @@ class Sell extends Component {
 
         this.setState({ loading: true });
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/sell`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/sell`, {
 
             method: 'PUT',
 

@@ -15,7 +15,7 @@ class RemoveItem extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/remove-item/${itemId}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/remove-item/${itemId}`, {
 
             method: 'DELETE',
 

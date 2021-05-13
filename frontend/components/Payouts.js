@@ -23,7 +23,7 @@ class Payouts extends Component {
 
     fetchData = () => {
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/payouts`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/payouts`, {
 
 
             method: 'GET',

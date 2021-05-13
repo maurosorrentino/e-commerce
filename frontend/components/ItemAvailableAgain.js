@@ -17,7 +17,7 @@ class ItemAvailableAgain extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/email-me-item/${itemId}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/email-me-item/${itemId}`, {
 
             method: 'PUT',
 
@@ -60,7 +60,7 @@ class ItemAvailableAgain extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/email-me-item-out/${itemId}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/email-me-item-out/${itemId}`, {
 
             method: 'PUT',
 

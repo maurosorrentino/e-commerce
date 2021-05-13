@@ -26,7 +26,7 @@ class Cart extends Component {
 
     fetchData = () => {
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/cart`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/cart`, {
 
             method: 'GET',
 

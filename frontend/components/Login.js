@@ -41,7 +41,7 @@ class Login extends Component {
 
     fetchData = () => {
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/login`, {
 
             method: 'POST',
 

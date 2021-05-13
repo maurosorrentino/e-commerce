@@ -22,7 +22,7 @@ class Order extends Component {
 
     fetchData = () => {
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/orders`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/orders`, {
 
 
             method: 'GET',

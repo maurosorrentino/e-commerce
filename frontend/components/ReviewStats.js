@@ -29,7 +29,7 @@ class ReviewStats extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/review-stats/${itemId}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/review-stats/${itemId}`, {
 
             method: 'GET',
 

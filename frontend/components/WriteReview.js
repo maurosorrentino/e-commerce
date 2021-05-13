@@ -25,7 +25,7 @@ class WriteReview extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/write-review/${itemId}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/write-review/${itemId}`, {
 
             method: 'PUT',
 

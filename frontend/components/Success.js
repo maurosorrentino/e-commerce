@@ -20,7 +20,7 @@ class Success extends Component {
 
     fetchData = () => {
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/success`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/success`, {
 
             method: 'POST',
 

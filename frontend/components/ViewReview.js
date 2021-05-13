@@ -23,7 +23,7 @@ class ViewReview extends Component {
 
         const itemId = this.props.itemId;
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/view-review/${itemId}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/view-review/${itemId}`, {
 
             method: 'GET',
 

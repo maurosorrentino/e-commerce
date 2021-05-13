@@ -12,7 +12,7 @@ class RemoveReview extends Component {
 
         const reviewId = this.props.reviewId;
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/remove-review/${reviewId}`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/remove-review/${reviewId}`, {
 
             method: 'DELETE',
 
