@@ -100,7 +100,12 @@ class ResetPasswordPage extends Component {
         return (
 <>
 
-            { this.state.message && (<MessageStyles><h1 id="message-test">{this.state.message}</h1></MessageStyles> ) }
+            { this.state.message && (<MessageStyles><h1 className={
+
+                this.state.message === 'Forbidden! Please Request Another Password Reset, You Are Being Redirected To Reset Password Page'
+                || this.state.message === 'Sorry, We Could Not Find An Account, Please Request Another Password Reset. You Are Being Redirected To The Page' ? 'red' : ''
+
+            } id="message-test">{this.state.message}</h1></MessageStyles> ) }
 
             <Form onSubmit={this.fetchData}>
 
