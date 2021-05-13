@@ -27,6 +27,7 @@ const MONGODB_URL = process.env.MONGODB;
 
 const app = express();
 
+// serving static files when in production
 if(process.env.NODE_ENV === 'production') {
     
     app.use(express.static(path.join(__dirname + '/../frontend/out')));
@@ -40,6 +41,30 @@ if(process.env.NODE_ENV === 'production') {
     app.get('/auth/cart', (req, res) =>
 
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'cart.html'))
+
+    );
+
+    app.get('/auth/cancel', (req, res) =>
+
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'cancel.html'))
+
+    );
+
+    app.get('/auth/change-details', (req, res) =>
+
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'change-details.html'))
+
+    );
+
+    app.get('/auth/login', (req, res) =>
+
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'login.html'))
+
+    );
+
+    app.get('/auth/my-items', (req, res) =>
+
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'my-items.html'))
 
     );
 
