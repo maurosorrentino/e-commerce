@@ -5,8 +5,8 @@
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/qY7oOtmm4hhGW6gEDC_BE/_buildManifest.js",
-    "static/qY7oOtmm4hhGW6gEDC_BE/_ssgManifest.js"
+    "static/yxAHa89Cn9wu8W1sU35l7/_buildManifest.js",
+    "static/yxAHa89Cn9wu8W1sU35l7/_ssgManifest.js"
   ],
   "pages": {
     "/": [
@@ -17,7 +17,7 @@
       "static/chunks/commons.0ac7522e5b8265c8af74.js",
       "static/chunks/c516fd13f0d56153c4f944c97b0d0da273a35c9e.e8d40490f30faf341308.js",
       "static/chunks/c99554fb2c5b1436f77de0f80e0e182a89f11697.3fa7b005075eeb983d3c.js",
-      "static/chunks/pages/index-9209bc3438eb7a503584.js"
+      "static/chunks/pages/index-fdac1f69ebba301d7cc4.js"
     ],
     "/_app": [
       "static/chunks/main-9ff570cd26362b5e8ed6.js",
@@ -122,7 +122,7 @@
       "static/chunks/commons.0ac7522e5b8265c8af74.js",
       "static/chunks/c516fd13f0d56153c4f944c97b0d0da273a35c9e.e8d40490f30faf341308.js",
       "static/chunks/c99554fb2c5b1436f77de0f80e0e182a89f11697.3fa7b005075eeb983d3c.js",
-      "static/chunks/pages/auth/save-your-iban-ad96a55a3dbfabc7d2da.js"
+      "static/chunks/pages/auth/save-your-iban-c87b8dc4b1a823daa305.js"
     ],
     "/auth/sell": [
       "static/chunks/main-9ff570cd26362b5e8ed6.js",
@@ -180,7 +180,7 @@
       "static/chunks/framework.d2ae4074d0a54d95f68e.js",
       "static/chunks/commons.0ac7522e5b8265c8af74.js",
       "static/chunks/c516fd13f0d56153c4f944c97b0d0da273a35c9e.e8d40490f30faf341308.js",
-      "static/chunks/pages/reset-password-form/[resetToken]/[userId]-eb4759fcc3d93eba38a6.js"
+      "static/chunks/pages/reset-password-form/[resetToken]/[userId]-744602630a623da01215.js"
     ],
     "/view-item/[itemId]": [
       "static/chunks/main-9ff570cd26362b5e8ed6.js",
