@@ -322,7 +322,7 @@ if(process.env.NODE_ENV === 'production') {
 
     app.get('/auth/verify-account/:tokenVerifyEmail/:userId', (req, res) =>
     
-        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'verify-account/[resetToken]/[userId].html'))
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'verify-account/[tokenVerifyEmail]/[userId].html'))
     
     );
 
