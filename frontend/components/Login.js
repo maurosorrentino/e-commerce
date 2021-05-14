@@ -75,7 +75,7 @@ class Login extends Component {
 
             // we only want to show the user one of these 3 messages
             if(resData.message !== 'invalid password, please try again' && resData.message !== `There is no account into our database with this email: ${this.state.email}` 
-            && resData.message !== 'Successful Login, You Are Being Redirected To Our Shop' && resData.message !== 'Please Verify Your Account') {
+            && resData.message !== 'Successful Login, You Are Being Redirected To Our Shop' && resData.message !== 'Please Verify Your Account By Checking Your Email') {
 
                 this.setState({ message: null });
 

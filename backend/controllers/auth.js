@@ -231,7 +231,7 @@ exports.login = async (req, res) => {
         // if the user didn't verify the email he cannot login
         if(user.tokenVerifyEmail) {
 
-            return res.status(401).json({ message: 'Please Verify Your Account' })
+            return res.status(401).json({ message: 'Please Verify Your Account By Checking Your Email' })
 
         }
 
