@@ -47,6 +47,43 @@ const agenda = new Agenda({
     
 });
 
+// background job for deleting users that did not verified the email
+agenda.define('deleting users that did not verify their email within 1 hour', async (job) => {
+
+    // we first find all the users
+    const users = await User.find();
+
+    // mapping them
+    users.map(async user => {
+
+        const userId = user._id;
+        let expired;
+
+        // if the user doesn't have a token expire date we leave it
+        if(user.tokenVerifyEmailExpires === undefined) {
+            
+            return expired = false;
+
+        }
+
+        // if user has token expire date we check if it passed more than one hour and if so we remove the user
+        if(user.tokenVerifyEmailExpires) {
+
+            expired = Date.now() > user.tokenVerifyEmailExpires;
+
+            if(expired) {
+
+                await User.findByIdAndDelete(userId);
+                console.log('account deleted')
+    
+            }
+
+        }
+
+    })
+
+});
+
 // defining what the agenda should do (send emails to all the users that clicked "email me when available again")
 agenda.define('item_available_again_users', async (job) => {
 
@@ -63,7 +100,7 @@ agenda.define('item_available_again_users', async (job) => {
     
         if(item.stock > 0) {
     
-            const link = `https://e-commerce-my-shop.herokuapp.com/view-item/${itemId}`;
+            const link = `${process.env.URL}/view-item/${itemId}`;
     
             // finding the user with the email that we found in this collection so that we can put the name into the email
             const user = await User.findOne({ email: userEmail });
@@ -71,7 +108,7 @@ agenda.define('item_available_again_users', async (job) => {
             // sending email
             await transport.sendMail({
     
-                from: 'sorrentino.mauro95@gmail.com',
+                from: process.env.MAIL_USER,
                 to: userEmail,
                 subject: `Item ${item.title} Is Back On Our Shop!`,
                 html: `
@@ -111,6 +148,7 @@ agenda.define('item_available_again_users', async (job) => {
 
     await agenda.start();
     await agenda.every("5 seconds", "item_available_again_users")
+    await agenda.every("5 seconds", "deleting users that did not verify their email within 1 hour");
 
 })();
 
@@ -127,7 +165,7 @@ const store = new MongoDBStore({
 const server = http.createServer(app);
 
 // without this line we are not able to store the cookie
-app.use(cors({ origin: `https://e-commerce-my-shop.herokuapp.com`, credentials: true }));
+app.use(cors({ origin: process.env.URL, credentials: true }));
 
 // resave: false means that the session won't be saved in every requests but only if something will be changed in the session (using default true has been deprecated)
 // saveUninitialized: false makes sure that the session won't be saved if nothing changes
@@ -167,7 +205,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token');
-    res.setHeader('Access-Control-Allow-Origin', `https://e-commerce-my-shop.herokuapp.com`);
+    res.setHeader('Access-Control-Allow-Origin', process.env.URL);
 
     next();
 
@@ -282,6 +320,12 @@ if(process.env.NODE_ENV === 'production') {
     
     );
 
+    app.get('/auth/verify-account/:tokenVerifyEmail/:userId', (req, res) =>
+    
+        res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'verify-account/[resetToken]/[userId].html'))
+    
+    );
+
   } else {
 
     app.get('/', (req, res) => {
@@ -290,7 +334,7 @@ if(process.env.NODE_ENV === 'production') {
 
     })
   }
-
+ 
 // connecting to db
 // DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
 mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })

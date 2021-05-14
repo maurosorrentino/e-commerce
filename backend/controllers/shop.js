@@ -83,11 +83,11 @@ exports.requestResetPassword = async (req, res, next) => {
         const encodedToken = encodeURIComponent(resetToken);
 
         // sending plain token encoded to the user so that later we can verify it
-        const link = `https://e-commerce-my-shop.herokuapp.com/reset-password-form/${encodedToken}/${user._id}`;
+        const link = `${process.env.URL}/reset-password-form/${encodedToken}/${user._id}`;
 
         await transport.sendMail({
 
-            from: 'sorrentino.mauro95@gmail.com',
+            from: process.env.MAIL_USER,
             to: user.email,
             subject: 'Reset Password Requested',
 

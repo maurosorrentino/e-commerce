@@ -3,11 +3,13 @@ const Item = require('../models/item');
 const Order = require('../models/order');
 const Review = require('../models/review');
 
+const { transport } = require('../mail/mail');
+
 require('dotenv').config();
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { UrL } = require('url');
+const crypto = require('crypto');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // signup controller
@@ -64,6 +66,13 @@ exports.signup = async (req, res) => {
         // hashing password
         const hashedPassword = await bcrypt.hash(password, 12);
 
+        // creating a token so that we can send it by email to the user and verify the email
+        const tokenVerifyEmail = crypto.randomBytes(32).toString('hex');
+
+        // hashing the token and setting an expire date of 1 hour, if the user is not going to verify his account in 1 hour account will be deleted
+        const hashedTokenVerifyEmail = await bcrypt.hash(tokenVerifyEmail, 12);
+        const tokenVerifyEmailExpires = Date.now() + 3600000;
+
         // creating user with hashed password into the db
         const user = new User({
 
@@ -71,6 +80,8 @@ exports.signup = async (req, res) => {
             email,
             password: hashedPassword,
             isAdmin: false,
+            tokenVerifyEmail: hashedTokenVerifyEmail,
+            tokenVerifyEmailExpires,
 
             cart: {
 
@@ -81,10 +92,37 @@ exports.signup = async (req, res) => {
 
         });
 
-        // saving user and sending a response
+        // saving user 
         const savedUser = await user.save();
 
-        return res.status(201).json({ message: 'user created, you are being redirected to the login page', user: savedUser });
+        // encoding the token so that we can send it into the url
+        const encodedToken = encodeURIComponent(tokenVerifyEmail);
+
+        const userId = savedUser._id;
+
+        const link = `${process.env.URL}/auth/verify-account/${encodedToken}/${userId}`;
+
+        await transport.sendMail({
+
+            from: process.env.MAIL_USER,
+            to: savedUser.email,
+            subject: 'Please Verify Your Account',
+
+            html: 
+
+                `<h1>Hi ${savedUser.name},</h1>
+                <br>
+
+                <p>Please Click On The Link Below In Order To Verify The Account</p>
+                <br>
+
+                <a href="${link}">Click Here To Verify Your Account</a>
+
+                `,
+
+        });
+
+        return res.status(201).json({ message: 'user created, please check your email in order to verify your account within 1 hour', user: savedUser });
 
     } catch (err) {
 
@@ -100,6 +138,60 @@ exports.signup = async (req, res) => {
     }
 
 };
+
+exports.verifySignup = async (req, res) => {
+
+    try {
+
+        // getting the data from url
+        const tokenVerifyEmail = decodeURIComponent(req.params.tokenVerifyEmail);
+        const userId = req.params.userId;
+
+        // finding the user so that we can verify token and password
+        const user = await User.findById(userId);
+
+        const tokenIsValid = await bcrypt.compare(tokenVerifyEmail, user.tokenVerifyEmail);
+
+        // verifying the token, if it is not valid we need to remove the account so that the user can sign up again
+        if(!tokenIsValid || Date.now() > user.tokenVerifyEmailExpires) {
+
+            await User.findByIdAndDelete(userId);
+
+            return res.status(401).json({ message: 'Sorry, Something Went wrong. Please Signup Again' });
+
+        };
+
+        // verifying password
+        const password = req.body.password;
+        const passwordIsValid = await bcrypt.compare(password, user.password);
+        
+        if(!passwordIsValid) {
+
+            return res.status(401).json({ message: 'Passwords Do Not Match' });
+
+        };
+
+        // deleting these data from db so that we can delete all the users that have these data for more than 1 hour (background job)
+        user.tokenVerifyEmail = undefined;
+        user.tokenVerifyEmailExpires = undefined;
+
+        await user.save();
+
+        return res.status(200).json({ message: 'Thank You For Verifying Your Account, You Are Being Redirected To The Login Page' });
+
+    } catch (err) {
+
+        console.log(err);
+
+        if(!err.statusCode) {
+
+            err.statusCode = 500;
+
+        }
+
+    }
+
+}
 
 // login controller
 exports.login = async (req, res) => {
@@ -127,6 +219,13 @@ exports.login = async (req, res) => {
         if(!isEqual) {
 
             return res.status(401).json({ message: 'invalid password, please try again' });
+
+        }
+
+        // if the user didn't verify the email he cannot login
+        if(user.tokenVerifyEmail) {
+
+            return res.status(401).json({ message: 'Please Verify Your Account' })
 
         }
 
@@ -800,9 +899,9 @@ exports.checkout = async (req, res) => {
             mode: 'payment',
             allow_promotion_codes: true,
 
-            success_url: `https://e-commerce-my-shop.herokuapp.com/auth/success`,
+            success_url: `${process.env.URL}/auth/success`,
 
-            cancel_url: `https://e-commerce-my-shop.herokuapp.com/auth/cancel`,
+            cancel_url: `${process.env.URL}/auth/cancel`,
 
         });
 

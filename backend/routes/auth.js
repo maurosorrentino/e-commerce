@@ -7,6 +7,8 @@ const router = express.Router();
 // signup route with validation
 router.put('/api/signup', authController.signup);
 
+router.patch('/api/verify-account/:tokenVerifyEmail/:userId', authController.verifySignup);
+
 // login route (validation is into the controller so that I don't need to write more code on the client side in order to show the user what's wrong)
 router.post('/api/login', authController.login);
 

@@ -75,7 +75,7 @@ class Login extends Component {
 
             // we only want to show the user one of these 3 messages
             if(resData.message !== 'invalid password, please try again' && resData.message !== `There is no account into our database with this email: ${this.state.email}` 
-            && resData.message !== 'Successful Login, You Are Being Redirected To Our Shop') {
+            && resData.message !== 'Successful Login, You Are Being Redirected To Our Shop' && resData.message !== 'Please Verify Your Account') {
 
                 this.setState({ message: null });
 
@@ -117,7 +117,9 @@ class Login extends Component {
 
             { this.state.message && (<MessageStyles><h1 className={
                 
-                this.state.message === `There is no account into our database with this email: ${this.state.email}` || this.state.message === 'invalid password, please try again'
+                this.state.message === `There is no account into our database with this email: ${this.state.email}` 
+                || this.state.message === 'invalid password, please try again' || this.state.message === 'Please Verify Your Account'
+                
         ? 'red' : ''} 
         
         id="message-test">{this.state.message}</h1></MessageStyles> ) }

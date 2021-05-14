@@ -72,20 +72,6 @@ class Signup extends Component {
 
         })
 
-        .then(() => {
-
-            if(this.state.message === 'user created, you are being redirected to the login page') {
-
-                setTimeout(() => {
-
-                    window.location.replace('/auth/login');
-                    
-                }, 2000);
-
-            }
-
-        })
-
         .catch(err => {
             
             this.setState({ loading: false });

@@ -24,6 +24,8 @@ class ResetPasswordPage extends Component {
 
         e.preventDefault();
 
+        this.setState({ loading: true })
+
         const resetToken = this.props.resetToken;
         const userId = this.props.userId;
 
@@ -58,13 +60,11 @@ class ResetPasswordPage extends Component {
 
         .then(resData => {
 
-            this.setState({ message: resData.message, loading: true });
+            this.setState({ message: resData.message, loading: false });
 
         })
 
         .then(() => {
-
-            this.setState({ loading: false });
 
             // redirecting to login page in case of success
             if(this.state.message === 'You Have Changed Your Password, You Are Being Readirected To The Login Page') {
@@ -115,6 +115,8 @@ class ResetPasswordPage extends Component {
 
                     <label htmlFor="password">
 
+                        Password
+
                         <input
 
                             name="password"
@@ -129,6 +131,8 @@ class ResetPasswordPage extends Component {
                     </label>
 
                     <label htmlFor="confirm password">
+
+                        Confirm Password
 
                         <input
 

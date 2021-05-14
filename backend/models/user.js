@@ -45,6 +45,20 @@ const userSchema = new Schema({
 
     },
 
+    tokenVerifyEmail: {
+
+        type: String,
+        required: false,
+
+    },
+
+    tokenVerifyEmailExpires: {
+
+        type: Date,
+        required: false,
+
+    },
+
     cart: {
 
         total: { type: Number, required: true },

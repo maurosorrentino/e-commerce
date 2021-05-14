@@ -105,7 +105,7 @@ class Payouts extends Component {
 
                 </PayoutStyle>) }
 
-            {!this.state.loading && this.state.payouts > 0 && (
+            {!this.state.loading && this.state.payouts.length > 0 && (
             
                 <PayoutStyle>
 
