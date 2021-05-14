@@ -64,7 +64,7 @@ class VerifyAccount extends Component {
 
         .then(() => {
 
-            if(this.state.message === 'Sorry, Something Went wrong. Please Signup Again') {
+            if(this.state.message === 'Sorry, Something Went wrong. Please Signup Again' || this.state.message === 'Sorry, The Account Was Deleted') {
 
                 setTimeout(() => {
 
@@ -98,7 +98,8 @@ class VerifyAccount extends Component {
 
             { this.state.message && (<MessageStyles><h1 className={
 
-                this.state.message === 'Sorry, Something Went wrong. Please Signup Again' || this.state.message === 'Passwords Do Not Match' ? 'red' : ''
+                this.state.message === 'Sorry, Something Went wrong. Please Signup Again' 
+                || this.state.message === 'Passwords Do Not Match' || this.state.message === 'Sorry, The Account Was Deleted' ? 'red' : ''
 
             }>{this.state.message}</h1></MessageStyles>)}
 

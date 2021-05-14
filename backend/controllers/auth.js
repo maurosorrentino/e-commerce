@@ -150,6 +150,12 @@ exports.verifySignup = async (req, res) => {
         // finding the user so that we can verify token and password
         const user = await User.findById(userId);
 
+        if(!user) {
+
+            return res.status(404).json({ message: 'Sorry, The Account Was Deleted' });
+
+        }
+
         const tokenIsValid = await bcrypt.compare(tokenVerifyEmail, user.tokenVerifyEmail);
 
         // verifying the token, if it is not valid we need to remove the account so that the user can sign up again
