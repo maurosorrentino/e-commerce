@@ -24,15 +24,10 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/auth/signup": [
+    "/auth/orders": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/auth/signup.js"
-    ],
-    "/auth/verify-account/[tokenVerifyEmail]/[userId]": [
-      "static/chunks/main.js",
-      "static/chunks/webpack.js",
-      "static/chunks/pages/auth/verify-account/[tokenVerifyEmail]/[userId].js"
+      "static/chunks/pages/auth/orders.js"
     ]
   },
   "ampFirstPages": []

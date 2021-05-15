@@ -76,7 +76,6 @@ const OrderStyle = styled.div`
         .item {
 
             max-width: 95%;
-            margin: .5rem 9px;
 
         }
 
@@ -140,12 +139,6 @@ const OrderStyle = styled.div`
 
         }
 
-        .item {
-
-            margin-left: .6rem;
-
-        }
-
         margin-right: 3.5rem;
 
     }
@@ -156,12 +149,6 @@ const OrderStyle = styled.div`
 
             max-width: 65%;
             margin-left: 4.5rem;
-
-        }
-
-        .item {
-
-            margin-left: 1.7rem;
 
         }
 

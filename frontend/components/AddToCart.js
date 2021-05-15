@@ -71,7 +71,8 @@ class AddToCart extends Component {
 
                 {this.state.message && (
 
-                    <MessageStyles><h1 className={this.state.message === `we only have ${(this.props.inStock)} left into the store` ? 
+                    <MessageStyles><h1 className={this.state.message === `we only have ${(this.props.inStock)} left into the store` ||
+                    this.state.message === 'you need to login in in order to take this action' ? 
                     'red' : ''}>{this.state.message}</h1></MessageStyles>
 
                 )}
