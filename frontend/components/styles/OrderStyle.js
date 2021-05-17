@@ -20,13 +20,14 @@ const OrderStyle = styled.div`
 
         color: black;
         box-shadow: 0 1px 10px green;
+        margin: 0 auto;
 
     }
 
     ul {
 
         list-style: none;
-        margin-top: 3rem;
+        margin: 3rem auto;  
 
     }
 
@@ -39,12 +40,13 @@ const OrderStyle = styled.div`
         margin: 1rem;
         max-width: 100%;
         flex-wrap: wrap;
+        margin: 1rem auto;
 
     }
 
     .item {
 
-        margin: .5rem 10px;
+        margin: .5rem auto;
         padding: .5rem;
         box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
         border: 5px solid white;
@@ -69,7 +71,6 @@ const OrderStyle = styled.div`
         .order {
 
             max-width: 75%;
-            margin-left: 1rem;
 
         }
 
@@ -79,9 +80,6 @@ const OrderStyle = styled.div`
 
         }
 
-        margin: 1rem;
-        margin-right: 3.5rem;
-        
         p, h1 {
 
             font-size: 1rem;
@@ -95,7 +93,6 @@ const OrderStyle = styled.div`
         .order {
 
             max-width: 70%;
-            margin: 0 auto;
 
         }
 
@@ -111,8 +108,6 @@ const OrderStyle = styled.div`
 
         }
 
-        margin-left: 1rem;
-
     }
 
     @media only screen and (max-width: 300px) {
@@ -120,12 +115,6 @@ const OrderStyle = styled.div`
         .order {
 
             max-width: 100%;
-
-        }
-
-        #order-id-total {
-
-            margin-right: 1rem;
 
         }
 
@@ -139,8 +128,6 @@ const OrderStyle = styled.div`
 
         }
 
-        margin-right: 3.5rem;
-
     }
 
     @media only screen and (min-width: 420px) and (max-width: 600px) {
@@ -148,7 +135,6 @@ const OrderStyle = styled.div`
         .order {
 
             max-width: 65%;
-            margin-left: 4.5rem;
 
         }
 
