@@ -89,13 +89,13 @@ class Payouts extends Component {
 
             <Header />
 
-            {this.state.loading && (<LoadingStyle>Loading...</LoadingStyle>) }
-
             <PayoutStyle>
 
                 <Link href="/auth/save-your-iban">save/change your bank account</Link>
 
             </PayoutStyle>
+
+            {this.state.loading && (<LoadingStyle>Loading...</LoadingStyle>) }
 
             {this.state.payouts.length === 0 && !this.state.loading && (
             
