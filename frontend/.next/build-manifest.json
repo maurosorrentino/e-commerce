@@ -24,10 +24,20 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/auth/orders": [
+    "/auth/cart": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/auth/orders.js"
+      "static/chunks/pages/auth/cart.js"
+    ],
+    "/auth/my-items": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/auth/my-items.js"
+    ],
+    "/auth/payouts": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/auth/payouts.js"
     ]
   },
   "ampFirstPages": []

@@ -1004,7 +1004,7 @@ exports.success = async (req, res) => {
             // pushing into db data that we will need in order to show the user all his payouts and take these info from db in order to pay
             payoutsUser.push({
 
-                itemId: item.itemId,
+                itemId: [item.itemId],
                 amount: amount.toFixed(2),
                 buyerId: user._id,
 
