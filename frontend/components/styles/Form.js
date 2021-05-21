@@ -111,10 +111,10 @@ const Form = styled.form`
     }
   }
 
-  @media only screen and (max-width: 1000px) {
+  @media only screen and (max-width: 600px) {
 
     max-width: 100%;
-    margin: 1rem;
+    margin: 1rem auto;
 
     img {
 
