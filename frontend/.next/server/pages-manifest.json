@@ -2,7 +2,6 @@
   "/_app": "pages/_app.js",
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
-  "/auth/payouts": "pages/auth/payouts.js",
-  "/auth/my-items": "pages/auth/my-items.js",
-  "/auth/cart": "pages/auth/cart.js"
+  "/": "pages/index.js",
+  "/auth/my-items": "pages/auth/my-items.js"
 }
