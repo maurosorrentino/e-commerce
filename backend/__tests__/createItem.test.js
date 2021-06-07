@@ -1,110 +1,223 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
 const jwt = require('jsonwebtoken');
+const expressRequestMock = require('express-request-mock');
 
 const app = require('../app');
 const server = require('../app');
 
-const request = supertest(app);
+const authController = require('../controllers/auth');
+const Item = require('../models/item');
 
 require('dotenv').config();
 
-function put(url, body) {
-
-    const httpRequest = request.put(url);
-    httpRequest.send(body);
-    httpRequest.set('Accept', 'application/json');
-    httpRequest.set('Origin', process.env.LOCALHOST_BE);
-    return httpRequest;
-
-};
-
-function post(url, body) {
-
-    const httpRequest = request.post(url);
-    httpRequest.send(body);
-    httpRequest.set('Accept', 'application/json');
-    httpRequest.set('Origin', process.env.LOCALHOST_BE);
-    return httpRequest;
-
-};
-
 describe('create item', () => {
-
     // without the following lines we will get errors like this one and others similar 
     // error: MongooseError: Operation `users.findOneAndDelete()` buffering timed out after 10000ms
-    beforeEach( async (done) => {
-
+    beforeEach(async (done) => {
         await mongoose.connect(process.env.MONGODB, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
-        done();
 
+        // these lines are needed in order to mock the verify token function
+        const jwtSpy = jest.spyOn(jwt, 'verify');
+        jwtSpy.mockReturnValue('some decoded token');
+        done();
     });
 
     // this is needed because otherwise we will get an error saying that we are already listening to that port
-    afterEach( async (done) => {
-
+    afterEach(async (done) => {
         await server.close(); 
         done();
-        
     });
 
-    // validation: { title.length >= 3, description.length >= 5, price > 0, image required }
+    // validation: { title.length >= 3, description.length >= 5, price > 0, image required, price > 0, stock > 0 }
     it('creates an item if all the inputs are correct', async (done) => {
-
         try {
+            const decorators = { 
+                session: { 
+                    isAuth: true,
 
-            const reqLogin = {
-
-                body: {
-
-                    email: 'test@test.com',
-                    password: '123456',
-
-                }
-
-            };
-
-            await post('/auth/login', reqLogin.body); 
-
-            const req = {
+                    user: {
+                        _id: '602fb86391feb44b24d37c28',
+                    }
+                },
 
                 body: {
-    
                     title: 'test',
                     description: 'testing',
-                    image: 'https://res.cloudinary.com/dqhw3ma9u/image/upload/v1615827298/my-shop/before_after_analogy_rtkuec_vg8y7d.png',
+                    image: 'fake image path',
                     price: 10,
                     stock: 1,
-                
-                },
-    
-            }; 
+                }
+            };
 
-            const jwtSpy = jest.spyOn(jwt, 'verify');
+            const { res } = await expressRequestMock(authController.createItem, decorators);
+            expect(res.statusCode).toBe(200);
 
-            jwtSpy.mockReturnValue('some decoded token');
-    
-            const response = await put('/auth/sell', req.body);
-    
-            // expect(response.status).toBe(200);
-            expect(response.body.message).toBe('item was creatd'); 
+            // these lines are needed so that we can delete the item created after that the test passes
+            const item = await Item.findOne({ image: 'fake image path' });
+            const itemId = item._id;
+            await Item.findByIdAndDelete(itemId);
             done();
 
         } catch (err) {
-
             console.log(err);
+            done(err);
+        }
+    });
+    // validation: { title.length >= 3, description.length >= 5, price > 0, image required, price > 0, stock > 0 }
+    it('gives a status code of 422 if title validation fails', async (done) => {
+        try {
+            const decorators = {
+                session: {
+                    isAuth: true,
+
+                    user: {
+                        _id: '602fb86391feb44b24d37c28',
+                    }
+                },
+
+                body: {
+                    title: '',
+                    description: 'testing',
+                    image: 'fake image path',
+                    price: 10,
+                    stock: 1,
+                }
+            };
+
+            let { res } = await expressRequestMock(authController.createItem, decorators);
+            expect(res.statusCode).toBe(422);
             done();
 
+        } catch (err) {
+            console.log(err);
+            done(err);
         }
-
     });
 
-    // without these lines we will get "You are trying to `import` a file after the Jest environment has been torn down"
-    afterAll( async (done) => {
+    it('gives a status code of 422 if description validation fails', async (done) => {
+        try {
+            const decorators = {
+                session: {
+                    isAuth: true,
+    
+                    user: {
+                        _id: '602fb86391feb44b24d37c28',
+                    }
+                },
+    
+                body: {
+                    title: 'test',
+                    description: '',
+                    image: 'fake image path',
+                    price: 10,
+                    stock: 1,
+                }                
+            }
+    
+            const { res } = await expressRequestMock(authController.createItem, decorators);
+            expect(res.statusCode).toBe(422);
+            done();
+            
+        } catch(err) {
+            console.log(err);
+            done(err);
+        };        
+    });
 
+    it('gives a status code of 404 if image is not found', async (done) => {
+        try {
+            const decorators = {
+                session: {
+                    isAuth: true,
+
+                    user: {
+                        _id: '602fb86391feb44b24d37c28',
+                    }
+                },
+
+                body: {
+                    title: 'test',
+                    description: 'testing',
+                    image: undefined,
+                    price: 10,
+                    stock: 1,
+                }
+            };
+
+            const { res } = await expressRequestMock(authController.createItem, decorators);
+            expect(res.statusCode).toBe(404);
+            done();
+
+        } catch (err) {
+            console.log(err);
+            done(err);
+        }
+    });
+
+    it('gives a status code of 422 if price validation fails', async (done) => {
+        try {
+            const decorators = {
+                session: {
+                    isAuth: true,
+
+                    user: {
+                        _id: '602fb86391feb44b24d37c28',
+                    }
+                },
+
+                body: {
+                    title: 'test',
+                    description: 'testing',
+                    image: 'fake image path',
+                    price: 0,
+                    stock: 1,
+                }
+            };
+
+            const { res } = await expressRequestMock(authController.createItem, decorators);
+            expect(res.statusCode).toBe(422);
+            done();
+
+        } catch (err) {
+            console.log(err);
+            done(err);
+        }
+    });
+
+    it('gives status code of 422 if stock validation fails', async (done) => {
+        try {
+            const decorators = {
+                session: {
+                    isAuth: true,
+                    
+                    user: {
+                        _id: '602fb86391feb44b24d37c28',
+                    }
+                },
+
+                body: {
+                    title: 'test',
+                    description: 'testing',
+                    image: 'fake image path',
+                    price: 10,
+                    stock: 0,
+                }
+            };
+
+            const { res } = await expressRequestMock(authController.createItem, decorators);
+            expect(res.statusCode).toBe(422);
+            done();
+
+        } catch (err) {
+            console.log(err);
+            done(err);
+        }
+    })
+
+    // without these lines we will get "You are trying to `import` a file after the Jest environment has been torn down"
+    afterAll(async (done) => {
         await mongoose.connection.close();
         done();
-        
     })
-    
 });

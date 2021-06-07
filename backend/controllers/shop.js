@@ -381,62 +381,54 @@ exports.itemAvailableAgainLoggedIn = async (req, res) => {
         const alreadyExists = await ItemAvailableAgainUser.findOne({ itemId, userEmail: user.email });
 
         if(alreadyExists) {
-
             return res.status(200).json({ message: 'you already requested a follow up email notification for this item' });
-
         }
 
         // saving data into collection
         const itemAvailableAgainUser = new ItemAvailableAgainUser({
-
             itemId,
             userEmail: user.email,
-
         });
 
         await itemAvailableAgainUser.save();
-
         return res.status(200).json({ message: 'Thank You, We Will Email You As Soon As We Have News On This Item', email: user.email }); 
 
     } catch (err) {
-
         console.log(err);
 
         if(!err.statusCode) {
-
             err.statusCode = 500;
-
         }
-
     }
-    
 };
 
 exports.itemAvailableAgainLoggedOut = async (req, res) => {
 
-    // data that we need to save into collection
-    const itemId = req.params.itemId;
-    const email = req.body.email;
-    
-    // if the user already requested a follow up email notification we say so to him/her
-    const alreadyExists = await ItemAvailableAgainUser.findOne({ itemId, userEmail: email });
+    try {
+        // data that we need to save into collection
+        const itemId = req.params.itemId;
+        const email = req.body.email;
+        
+        // if the user already requested a follow up email notification we say so to him/her
+        const alreadyExists = await ItemAvailableAgainUser.findOne({ itemId, userEmail: email });
 
-    if(alreadyExists) {
+        if(alreadyExists) {
+            return res.status(200).json({ message: 'you already requested a follow up email notification for this item' });
+        }
 
-        return res.status(200).json({ message: 'you already requested a follow up email notification for this item' });
+        // saving data into collection
+        const itemAvailableAgainUser = new ItemAvailableAgainUser({
+            itemId,
+            userEmail: email,
+        });
 
+        await itemAvailableAgainUser.save();
+        return res.status(200).json({ message: 'Thank You, We Will Email You As Soon As We Have News On This Item' });
+    } catch (err) {
+        console.log(err);
+
+        if(!err.statusCode) {
+            err.statusCode = 500;
+        }
     }
-
-    // saving data into collection
-    const itemAvailableAgainUser = new ItemAvailableAgainUser({
-
-        itemId,
-        userEmail: email,
-
-    });
-
-    await itemAvailableAgainUser.save();
-
-    return res.status(200).json({ message: 'Thank You, We Will Email You As Soon As We Have News On This Item' });
-    
 }

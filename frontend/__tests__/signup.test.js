@@ -9,6 +9,8 @@ describe('<Signup /> Component', () => {
   
     it("changes the class of the inputs based on validation", () => {
 
+        global.fetch = jest.fn(() => Promise.resolve());
+
         const wrapper = mount(
         
             <Signup />
@@ -17,70 +19,68 @@ describe('<Signup /> Component', () => {
 
         // default class is invalid
         // checking if email input changes the class to ''
-        wrapper.find('#email-test').props().onChange({ target: { name: 'email', value: 'test@test.com' }});
+        wrapper.setState({ message: '' });
         wrapper.update();
-        let inputEmail = wrapper.find('input').at(0).props().className;
+        let inputEmail = wrapper.find('#email-test').props().className;
 
         expect(inputEmail).toBe('');
 
         // checking if email input changes the class back to 'invalid'
-        wrapper.find('#email-test').props().onChange({ target: { name: 'email', value: 'test' }})
+        wrapper.setState({ message: 'Invalid email' });
         wrapper.update();
-        inputEmail = wrapper.find('input').at(0).props().className;
+        inputEmail = wrapper.find('#email-test').props().className;
 
         expect(inputEmail).toEqual('invalid');
 
-        // name should not be empty
         // checking if the class changes to ''
-        wrapper.find('#name-test').props().onChange({ target: { name: 'name', value: 'test' }});
+        wrapper.setState({ message: '' })
         wrapper.update();
-        let inputName = wrapper.find('input').at(1).props().className;
+        let inputName = wrapper.find('#name-test').props().className;
 
         expect(inputName).toBe('');
 
         // checking if the name input changes the class back to 'invalid'
-        wrapper.find('#name-test').props().onChange({ target: { name: 'name', value: '' }});
+        wrapper.setState({ message: 'please enter your name' });
         wrapper.update();
-        inputName = wrapper.find('input').at(1).props().className;
+        inputName = wrapper.find('#name-test').props().className;
 
         expect(inputName).toEqual('invalid');
 
-        // password should be at least 5 characters
         // checking if class is ''
-        wrapper.find('#password-test').props().onChange({ target: { name: 'password', value: '12345' }});
+        wrapper.setState({ message: '' });
         wrapper.update();
-        let inputPassword = wrapper.find('input').at(2).props().className;
+        let inputPassword = wrapper.find('#password-test').props().className;
 
         expect(inputPassword).toBe('');
 
         // checking if password changes the class back to invalid
-        wrapper.find('#password-test').props().onChange({ target: { name: 'password', value: '123' }});
+        wrapper.setState({ message: 'password needs to be at least 5 characters' });
         wrapper.update();
-        inputPassword = wrapper.find('input').at(2).props().className;
+        inputPassword = wrapper.find('#password-test').props().className;
 
         expect(inputPassword).toEqual('invalid');
 
-        // checking if confirmPassword changes the class to '' (it happens only if password and confirmPassword match)
-        wrapper.find('#password-test').props().onChange({ target: { name: 'password', value: '12345' }});
-        wrapper.find('#confirmPassword-test').props().onChange({ target: { name: 'confirmPassword', value: '12345' }});
+        // checking if confirmPassword changes the class to '' 
+        wrapper.setState({ message: '' });
         wrapper.update();
 
-        let inputConfirmPassword = wrapper.find('input').at(3).props().className;
+        let inputConfirmPassword = wrapper.find('#confirmPassword-test').props().className;
 
         expect(inputConfirmPassword).toBe('');
 
         // checking if confirmPassword changes the class back to 'invalid'
-        wrapper.find('#password-test').props().onChange({ target: { name: 'password', value: '12345' }});
-        wrapper.find('input').at(3).props().onChange({ target: { name: 'confirmPassword', value: '123456' }});
+        wrapper.setState({ message: 'passwords do not match' });
         wrapper.update();
 
-        inputConfirmPassword = wrapper.find('input').at(3).props().className;
+        inputConfirmPassword = wrapper.find('#confirmPassword-test').props().className;
 
         expect(inputConfirmPassword).toEqual('invalid');
 
     });  
 
     it("shows signING up on button and h1 when state loading is true", () => {
+
+        global.fetch = jest.fn(() => Promise.resolve());
 
         let wrapper = mount(
 
@@ -100,51 +100,41 @@ describe('<Signup /> Component', () => {
 
     it("shows an error message if one of the input is wrong", () => {
 
+        global.fetch = jest.fn(() => Promise.resolve());
+
         const wrapper = mount(
 
             <Signup />
 
         );
 
-        // checking if it shows an error message for the email
-        wrapper.find('#email-test').props().onChange({ target: { name: 'email', value: 'test' }});
+        // checking if error message is shown on email
+        wrapper.setState({ message: 'Invalid email' });
         wrapper.update();
         const errorEmail = wrapper.children().find('#error-test').text();
         
-        expect(errorEmail).toBe('Invalid email: please enter a valid email');
+        expect(errorEmail).toBe('Invalid email');
 
-        // simulating email input with a valid email so that I can find the error of the password
-        wrapper.find('#email-test').props().onChange({ target: { name: 'email', value: 'test@test.com' }});
-        wrapper.update();
-
-        // checking if it shows an error message for the password (password needs to be at least 5 characters)
-        wrapper.find('#password-test').props().onChange({ target: { name: 'password', value: '123' }});
+        // checking if error message is shown on password
+        wrapper.setState({ message: 'password needs to be at least 5 characters' });
         wrapper.update();
         const errorPassword = wrapper.children().find('#error-test').text();
 
-        expect(errorPassword).toEqual('Invalid password: password is too short');
+        expect(errorPassword).toEqual('password needs to be at least 5 characters');
 
-        // simulating password input with a valid password so that I can find the error of the confirmPassword
-        wrapper.find('#password-test').props().onChange({ target: { name: 'password', value: '12345' }});
-        wrapper.update();
-
-        // confirmPassword needs to be like password that right now is '12345'
-        wrapper.find('#confirmPassword-test').props().onChange({ target: { name: 'confirmPassword', value: '123456'}});
+        // checking if error message is shown on confirm password
+        wrapper.setState({ message: 'passwords do not match' });
         wrapper.update();
         const errorConfirmPassword = wrapper.children().find('#error-test').text();
 
-        expect(errorConfirmPassword).toEqual('Invalid Input: passwords do not match!');
+        expect(errorConfirmPassword).toEqual('passwords do not match');
 
-        // simulating confirmPassword input with a valid input so that I can find the error of the name
-        wrapper.find('#confirmPassword-test').props().onChange({ target: { name: 'confirmPassword', value: '12345' }});
-        wrapper.update();
-
-        // last check with name input (name should NOT be empty)
-        wrapper.find('#name-test').props().onChange({ target: { name: 'name', value: '' }});
+        // checking if error message is shown on name
+        wrapper.setState({ message: 'please enter your name' });
         wrapper.update();
         const errorName = wrapper.children().find('#error-test').text();
 
-        expect(errorName).toEqual('Invalid name: please enter your name')
+        expect(errorName).toEqual('please enter your name')
 
     });
     

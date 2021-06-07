@@ -90,7 +90,7 @@ class Signup extends Component {
 
             {/* showing error/messages */}
            
-            {this.state.message && ( <MessageStyles><h1 className={
+            {this.state.message && ( <MessageStyles><h1 id="error-test" className={
 
                 this.state.message === 'Invalid email' || this.state.message === 'please enter your name' || this.state.message === 'password needs to be at least 5 characters' ||
                 this.state.message === 'passwords do not match' ? 'red' : ''

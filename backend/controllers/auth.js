@@ -27,9 +27,7 @@ exports.signup = async (req, res) => {
         
         // checking if email is valid with regex
         if(!email.match(emailRegex)) {
-
             return res.status(422).json({ message: 'Invalid email' });
-
         }
 
         // checking if there is already an user with the same email
@@ -203,7 +201,6 @@ exports.verifySignup = async (req, res) => {
 exports.login = async (req, res) => {
 
     try { 
-
         // getting inputs of the user
         const email = req.body.email;
         const password = req.body.password;
@@ -213,9 +210,7 @@ exports.login = async (req, res) => {
 
         // if there is no account we throw an error
         if(!user) {
-
             return res.status(404).json({ message: `There is no account into our database with this email: ${email}` });
-
         }
 
         // checking if the password matches the one that we have into our database
@@ -223,26 +218,20 @@ exports.login = async (req, res) => {
 
         // if passwords do not match we throw an error
         if(!isEqual) {
-
             return res.status(401).json({ message: 'invalid password, please try again' });
-
         }
 
         // if the user didn't verify the email he cannot login
         if(user.tokenVerifyEmail) {
-
             return res.status(401).json({ message: 'Please Verify Your Account By Checking Your Email' })
-
         }
 
         const userId = user._id.toString();
 
         // signing a token
         const token = jwt.sign({
-
             email,
             userId,
-
         }, process.env.TOKEN_SECRET, { expiresIn: '24h' }); 
 
         // for navigation on the client side (I use the httpOnly false cookie for authentication)
@@ -250,22 +239,18 @@ exports.login = async (req, res) => {
 
         // if password and email matches we will authenticate by creating a session and storing the tokens into the cookies
         await User.findById(userId)
-
             .then(() => {
-        
                 // assigning into the session isAuth for auth purposes and all the info of the user
                 req.session.isAuth = true;
                 req.session.user = user;
 
                 // token into cookie
                 res.cookie('token', token, { maxAge: 3600000 * 24, httpOnly: true, path: '/' }); 
-
                 // navigation on the client side
                 res.cookie('authCookie', weakToken, {maxAge: 3600000 * 24, httpOnly: false, path: '/' }); 
 
                 // saving the session
                 req.session.save(err => console.log(err));
-
             })
 
             .catch(err => console.log(err));
@@ -273,31 +258,18 @@ exports.login = async (req, res) => {
         return res.status(200).json({ message: 'Successful Login, You Are Being Redirected To Our Shop' });
 
     } catch (err) {
-
         console.log(err);
 
         if(!err.statusCode) {
-
             err.statusCode = 500;
             console.log(err);
-
         }
-
     }
-
 };
 
 exports.createItem = async (req, res) => {
 
     try {
-
-        // if user has no session we throw an error
-        if(!req.session.isAuth) {
-
-            return res.status(401).json({ message: 'You cannot take this action, please login' });
-
-        }
-
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);
@@ -318,76 +290,55 @@ exports.createItem = async (req, res) => {
  
         // if title is less than 3 characters we throw an error
         if(title.length < 3) {
-
             return res.status(422).json({ message: 'Title needs to be at least 3 characters' });
-
         };
 
         // if price is equal or less than 0 we throw an error
         if(price <= 0) {
-
             return res.status(422).json({ message: 'Price cannot be less or equal than 0' });
-
         };
  
         // if there is no image we throw an error
         if(!image) {
-            
             return res.status(404).json({ message: 'you need to upload an image' });
-
         };  
 
         // if description is less than 5 characters we throw an error
         if(description.length < 5) {
-
             return res.status(422).json({ message: 'Description needs to be at least 5 characters' });
-
         };
 
         // checking if the user wrote the right value into the input (so stock > 0 and it has to be an integer)
         if(Number(stock) <= 0) {
-
             return res.status(422).json({ message: 'Items in stock need to be grater than 0' });
-
         }
 
         if(!Number.isInteger(Number(stock))) {
-
             return res.status(422).json({ message: 'the number has to be an integer' });
-            
         }
  
         // if we pass all these steps (so there is no error) we create the item into the db
         const item = new Item({
-
             title,
             description,
             price,
             image,
             stock,
             userId,
-
         });
 
         // saving the item and sending res
         const itemSave = await item.save();
-
         return res.status(200).json({ message: `item ${title} was created`, item: itemSave });
 
-
     } catch (err) {
-
         console.log(err);
 
         if(!err.statusCode) {
-
             err.statusCode = 500;
             console.log(err);
-
         }
-
     }
-
 };
 
 exports.logout = (req, res) => {
@@ -403,7 +354,7 @@ exports.logout = (req, res) => {
         res.status(200).clearCookie('authCookie');
 
         // redirecting to login page
-        return res.status(200).redirect('/auth/login');
+        return res.status(200).json();
 
     } catch (err) {
 
@@ -422,13 +373,6 @@ exports.logout = (req, res) => {
 exports.addToCart = async (req, res) => {
 
     try {
-
-        // no session no add to cart
-        if(!req.session.isAuth) {
-
-            return res.status(401).json({ message: 'you need to login in in order to take this action' });
-
-        }
 
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
@@ -524,13 +468,6 @@ exports.cartPage = async (req, res) => {
 
     try {
 
-        // if user has no session we throw an error (it will appear )
-        if(!req.session.isAuth) {
-
-            return res.status(401).json();
-
-        }
-
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);
@@ -589,13 +526,6 @@ exports.cartPage = async (req, res) => {
 exports.removeFromCart = async (req, res) => {
 
     try {
-
-        // no session no remove from cart
-        if(!req.session.isAuth) {
-
-            res.status(401).json();
-
-        }
 
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
@@ -698,13 +628,6 @@ exports.editItem = async (req, res) => {
 
     try {
 
-        // if user has no session we throw an error
-        if(!req.session.isAuth) {
-
-            return res.status(401).json({ message: 'You cannot take this action, please login' });
-
-        }
-
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);
@@ -781,13 +704,6 @@ exports.removeItem = async (req, res) => {
 
     try {
 
-        // if user has no session we throw an error
-        if(!req.session.isAuth) {
-
-            return res.status(401).json({ message: 'You cannot take this action, please login' });
-
-        }
-
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);
@@ -829,13 +745,6 @@ exports.removeItem = async (req, res) => {
 exports.checkout = async (req, res) => {
 
     try {
-
-        // if user has no session we throw an error
-        if(!req.session.isAuth) {
-
-            return res.status(401).json({ message: 'You cannot take this action, please login' });
-
-        }
 
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
@@ -1066,13 +975,6 @@ exports.writeReview = async (req, res) => {
 
     try {
 
-        // if user has no session we throw an error
-        if(!req.session.isAuth) {
-
-            return res.status(401).json({ message: 'You cannot take this action, please login' });
-
-        }
-
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);
@@ -1168,13 +1070,6 @@ exports.removeReview = async (req, res) => {
 
     try {
 
-        // if user has no session we throw an error
-        if(!req.session.isAuth) {
-
-            return res.status(401).json({ message: 'You cannot take this action, please login' });
-
-        }
-
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);
@@ -1216,13 +1111,6 @@ exports.removeReview = async (req, res) => {
 exports.changeDetails = async (req, res) => {
 
     try {
-
-        // if user has no session we throw an error (it will appear )
-        if(!req.session.isAuth) {
-
-            return res.status(401).json();
-
-        }
 
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
@@ -1380,13 +1268,6 @@ exports.saveNewIban = async (req, res) => {
 
     try {
 
-        // if user has no session we throw an error (it will appear )
-        if(!req.session.isAuth) {
-
-            return res.status(401).json();
-
-        }
-
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);
@@ -1401,27 +1282,18 @@ exports.saveNewIban = async (req, res) => {
         const iban = req.body.iban.toUpperCase();
 
         if(iban.length > 34) {
-
             return res.status(422).json({ message: 'something is wrong with your iban' });
-
         };
 
         user.iban = iban;
-
         await user.save();
-
         return res.status(200).json({ message: `your new iban is: ${iban}` });
 
     } catch(err) {
-
         console.log(err);
 
         if(!err.statusCode) {
-
             err.statusCode = 500;
-
         }
-
     }
-
 }

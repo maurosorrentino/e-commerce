@@ -55,32 +55,23 @@ agenda.define('deleting users that did not verify their email within 1 hour', as
 
     // mapping them
     users.map(async user => {
-
         const userId = user._id;
         let expired;
 
         // if the user doesn't have a token expire date we leave it
         if(user.tokenVerifyEmailExpires === undefined) {
-            
             return expired = false;
-
         }
 
         // if user has token expire date we check if it passed more than one hour and if so we remove the user
         if(user.tokenVerifyEmailExpires) {
-
             expired = Date.now() > user.tokenVerifyEmailExpires;
 
             if(expired) {
-
                 await User.findByIdAndDelete(userId);
-    
             }
-
         }
-
     })
-
 });
 
 // defining what the agenda should do (send emails to all the users that clicked "email me when available again")
