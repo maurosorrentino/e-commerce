@@ -16,34 +16,21 @@ class AddToCart extends Component {
         const itemId = this.props.itemId;
 
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/add-to-cart/${itemId}`, {
-
             method: 'PATCH',
 
             headers: {
-
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-
             },
-
             credentials: 'include',
-
         })
-
         .then(res => {
-
             return res.json();
-
         })
-
-        .then(resData => {  
-
+        .then(resData => {
             this.setState({ message: resData.message });
-
         })
-
         .catch(err => console.log(err));
-
     }
 
     // preventing page from refreshing so that we can tell the user how many items we have in stock (and also that they have to login if they haven't done it yet)
@@ -67,11 +54,11 @@ class AddToCart extends Component {
                 <input type="hidden" name="XSRF-TOKEN" value={cookie.load('token')} />
                 <input type="hidden" name="authCookie" value={cookie.load('authCookie')} />
 
-                <button disabled={disabled} onClick={this.addToCart}>Add To Cart</button>
+                <button id="add-to-cart-test" disabled={disabled} onClick={this.addToCart}>Add To Cart</button>
 
                 {this.state.message && (
 
-                    <MessageStyles><h1 className={this.state.message === `we only have ${(this.props.inStock)} left into the store` ||
+                    <MessageStyles><h1 id="message-test" className={this.state.message === `we only have ${(this.props.inStock)} left into the store` ||
                     this.state.message === 'you need to login in in order to take this action' ? 
                     'red' : ''}>{this.state.message}</h1></MessageStyles>
 

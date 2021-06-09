@@ -45,7 +45,5 @@ describe('<Login /> Component', () => {
         passwordInput = wrapper.find('#password-test').props().className;
 
         expect(passwordInput).toEqual('');
-
     });
-    
 });

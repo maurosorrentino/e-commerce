@@ -201,12 +201,6 @@ app.use((req, res, next) => {
 
 });
 
-// shop routes
-app.use(shopRoutes);
- 
-// auth routes
-app.use('/auth', authRoutes);
-
 // serving static files when in production
 if(process.env.NODE_ENV === 'production') {
     
@@ -317,12 +311,11 @@ if(process.env.NODE_ENV === 'production') {
     );
 
   } else {
-
-    app.get('/', (req, res) => {
-
-      res.send('API is running....')
-
-    })
+    // shop routes
+    app.use(shopRoutes);
+    
+    // auth routes
+    app.use('/auth', authRoutes);
   }
  
 // connecting to db

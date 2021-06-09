@@ -186,20 +186,15 @@ class Shop extends Component {
 
         // loop so that we can calculate how many pages we need
         for(let i = 1; i <= Math.ceil(this.state.totalItems / this.state.perPage); i++) {
-
             pageNumbers.push(i);
-
         };
 
         // mapping the page numbers so that we can show it to the users
         const renderPageNumbers = pageNumbers.map(pageNumber => {
 
             return (
-
                 <li key={pageNumber} id={pageNumber} className={this.state.currentPage === pageNumber ? 'current-page' : ''} onClick={this.handleClick}>{pageNumber}</li>
-
             );
-
         });
 
         return(

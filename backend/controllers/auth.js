@@ -270,6 +270,10 @@ exports.login = async (req, res) => {
 exports.createItem = async (req, res) => {
 
     try {
+        if(!req.session.isAuth) {
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+        }
+
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);
@@ -373,6 +377,9 @@ exports.logout = (req, res) => {
 exports.addToCart = async (req, res) => {
 
     try {
+        if(!req.session.isAuth) {
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+        }
 
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
@@ -402,15 +409,12 @@ exports.addToCart = async (req, res) => {
 
         // finding the index of the item present into the cart by comparing the ids of the items so that if we have -1 it means that the item is not into the cart
         const itemIndex = cart.findIndex(i => {
-
             // 1st id is the item id present into the cart and the 2nd the id of the item that is "clicked"
             return i.itemId.toString() === item._id.toString();
-
         });
 
         // so if item is present into the cart
         if(itemIndex >= 0) {
-
             // adding 1 to the quantity of that item
             const itemQuantity = cart[itemIndex].quantity + 1;
 
@@ -420,9 +424,7 @@ exports.addToCart = async (req, res) => {
             // throwing an error message if the quantity chosen is grater than the number in stock
             // I'm putting the if statement here because anyway if we have 0 product in stock the user is not able to click on add to cart
             if(cart[itemIndex].quantity > item.stock) {
-
                 return res.status(401).json({ message: `we only have ${item.stock} left into the store` });
-
             }
 
             // returning a responsive message saying to the user that item was added to the cart with the new quantity
@@ -434,34 +436,26 @@ exports.addToCart = async (req, res) => {
 
             // if item is not into the cart we push a new one
             await cart.push({
-
                 itemId: item._id,
                 title: item.title,
                 price: item.price,
                 quantity,
                 userPayout: item.userId,
-
             });
 
             await user.save();
-
         } 
 
         // saying to the user that item was added to the cart
         return res.status(200).json({ message: `Item ${item.title} was added to the cart` });
         
     } catch (err) {
-
         console.log(err);
 
         if(!err.statusCode) {
-
             err.statusCode = 500;
-
         }
-
     }
-
 };
 
 exports.cartPage = async (req, res) => {
@@ -491,10 +485,8 @@ exports.cartPage = async (req, res) => {
 
         // mapping the items so that we can push the prices (price * quantity) of every items into the empty array
         items.map(item => {
-
             const price = item.price * item.quantity;
             amount.push(price);
-
         });
 
         // declaring the reducer so that we can use the reduce function
@@ -510,22 +502,20 @@ exports.cartPage = async (req, res) => {
         return res.status(200).json({ message: 'fetched items', items, email, total });
 
     } catch (err) {
-
         console.log(err);
 
         if(!err.statusCode) {
-
             err.statusCode = 500;
-
         }
-
     }
-
 };
 
 exports.removeFromCart = async (req, res) => {
 
     try {
+        if(!req.session.isAuth) {
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+        }
 
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
@@ -627,6 +617,9 @@ exports.myItems = async (req, res) => {
 exports.editItem = async (req, res) => {
 
     try {
+        if(!req.session.isAuth) {
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+        }
 
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
@@ -703,6 +696,9 @@ exports.editItem = async (req, res) => {
 exports.removeItem = async (req, res) => {
 
     try {
+        if(!req.session.isAuth) {
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+        }
 
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
@@ -745,6 +741,9 @@ exports.removeItem = async (req, res) => {
 exports.checkout = async (req, res) => {
 
     try {
+        if(!req.session.isAuth) {
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+        }
 
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
@@ -974,6 +973,9 @@ exports.orders = async (req, res) => {
 exports.writeReview = async (req, res) => {
 
     try {
+        if(!req.session.isAuth) {
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+        }
 
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
@@ -1069,6 +1071,9 @@ exports.writeReview = async (req, res) => {
 exports.removeReview = async (req, res) => {
 
     try {
+        if(!req.session.isAuth) {
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+        }
 
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
@@ -1111,6 +1116,9 @@ exports.removeReview = async (req, res) => {
 exports.changeDetails = async (req, res) => {
 
     try {
+        if(!req.session.isAuth) {
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+        }
 
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
@@ -1267,7 +1275,10 @@ exports.currentIban = async (req, res) => {
 exports.saveNewIban = async (req, res) => {
 
     try {
-
+        if(!req.session.isAuth) {
+            return res.status(401).json({ message: 'You cannot take this action, please login' });
+        }
+        
         // verifying token from httpOnly true cookie
         const token = req.cookies.token;
         jwt.verify(token, process.env.TOKEN_SECRET);

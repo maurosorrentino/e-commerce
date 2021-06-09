@@ -1,15 +1,13 @@
+require('dotenv').config();
+
 const mongoose = require('mongoose');
-const supertest = require('supertest');
 const jwt = require('jsonwebtoken');
 const expressRequestMock = require('express-request-mock');
 
-const app = require('../app');
 const server = require('../app');
 
 const authController = require('../controllers/auth');
 const Item = require('../models/item');
-
-require('dotenv').config();
 
 describe('create item', () => {
     // without the following lines we will get errors like this one and others similar 
@@ -37,7 +35,7 @@ describe('create item', () => {
                     isAuth: true,
 
                     user: {
-                        _id: '602fb86391feb44b24d37c28',
+                        _id: '6086e277592392136aeb1979',
                     }
                 },
 
@@ -72,7 +70,7 @@ describe('create item', () => {
                     isAuth: true,
 
                     user: {
-                        _id: '602fb86391feb44b24d37c28',
+                        _id: '6086e277592392136aeb1979',
                     }
                 },
 
@@ -85,7 +83,7 @@ describe('create item', () => {
                 }
             };
 
-            let { res } = await expressRequestMock(authController.createItem, decorators);
+            const { res } = await expressRequestMock(authController.createItem, decorators);
             expect(res.statusCode).toBe(422);
             done();
 
@@ -102,7 +100,7 @@ describe('create item', () => {
                     isAuth: true,
     
                     user: {
-                        _id: '602fb86391feb44b24d37c28',
+                        _id: '6086e277592392136aeb1979',
                     }
                 },
     
@@ -132,7 +130,7 @@ describe('create item', () => {
                     isAuth: true,
 
                     user: {
-                        _id: '602fb86391feb44b24d37c28',
+                        _id: '6086e277592392136aeb1979',
                     }
                 },
 
@@ -162,7 +160,7 @@ describe('create item', () => {
                     isAuth: true,
 
                     user: {
-                        _id: '602fb86391feb44b24d37c28',
+                        _id: '6086e277592392136aeb1979',
                     }
                 },
 
@@ -192,7 +190,7 @@ describe('create item', () => {
                     isAuth: true,
                     
                     user: {
-                        _id: '602fb86391feb44b24d37c28',
+                        _id: '6086e277592392136aeb1979',
                     }
                 },
 
