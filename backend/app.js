@@ -269,51 +269,36 @@ if(process.env.NODE_ENV === 'production') {
     );
     
     app.get('/auth/settings', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'settings.html'))
-    
     );
     
     app.get('/auth/signup', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'signup.html'))
-    
     );
     
     app.get('/auth/success', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'success.html'))
-    
     );
 
     app.get('/reset-password', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'reset-password.html'))
-    
     );
 
     app.get('/view-item/:itemId', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'view-item/[itemId].html'))
-    
     );
 
     app.get('/reset-password-form/:resetToken/:userId', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'reset-password-form/[resetToken]/[userId].html'))
-    
     );
 
     app.get('/auth/verify-account/:tokenVerifyEmail/:userId', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'verify-account/[tokenVerifyEmail]/[userId].html'))
-    
     );
 
   } else {
     // shop routes
     app.use(shopRoutes);
-    
     // auth routes
     app.use('/auth', authRoutes);
   }
@@ -321,14 +306,10 @@ if(process.env.NODE_ENV === 'production') {
 // connecting to db
 // DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
 mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
-
     .then(() => {
-
         server.listen(process.env.PORT);
         console.log('connected to db');
-
     })
-
     .catch(err => console.log('mongo error: ' + err));
 
 module.exports = app;
