@@ -17,7 +17,7 @@ job "e-commerce" {
 
     network {
       port "http" {
-        to = 3000
+        to = 5000
       }
     }
 
@@ -40,8 +40,8 @@ job "e-commerce" {
           "traefik.enable=true",
           "traefik.http.middlewares.web.redirectscheme.scheme=https",
           "traefik.http.routers.web_insecure.middlewares=web",
-          "traefik.http.routers.web_insecure.rule=Host(`e-commerce.ansorren.unmanaged.io`)",
-          "traefik.http.routers.web.rule=Host(`e-commerce.ansorren.unmanaged.io`)",
+          "traefik.http.routers.web_insecure.rule=Host(`e-commerce-backend.ansorren.unmanaged.io`)",
+          "traefik.http.routers.web.rule=Host(`e-commerce-backend.ansorren.unmanaged.io`)",
           "traefik.http.routers.web.tls=true",
         ]
         port = "http"

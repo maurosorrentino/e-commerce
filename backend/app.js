@@ -191,81 +191,58 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // avoiding cors errors
 app.use((req, res, next) => {
-
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token');
     res.setHeader('Access-Control-Allow-Origin', process.env.URL);
 
     next();
-
 });
 
 // serving static files when in production
 if(process.env.NODE_ENV === 'production') {
-    
     app.use(express.static(path.join(__dirname + '/../frontend/out')));
   
     // I do not think that this is the best solution to serve these files (without this code people won't be able to send link to other people cause they will get a cannot get error)
     // but I didn't find anything on google so I thought of this solution
     app.get('/', (req, res) =>
-
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'index.html'))
-
     );
 
     app.get('/auth/cart', (req, res) =>
-
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'cart.html'))
-    
     );
     
     app.get('/auth/cancel', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'cancel.html'))
-    
     );
     
     app.get('/auth/change-details', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'change-details.html'))
-    
     );
     
     app.get('/auth/login', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'login.html'))
-    
     );
     
     app.get('/auth/my-items', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'my-items.html'))
-    
     );
     
     app.get('/auth/orders', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'orders.html'))
-    
     );
     
     app.get('/auth/payouts', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'payouts.html'))
-    
     );
     
     app.get('/auth/save-your-iban', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'save-your-iban.html'))
-    
     );
     
     app.get('/auth/sell', (req, res) =>
-    
         res.sendFile(path.resolve(__dirname + '/../', 'frontend' , 'out', 'auth', 'sell.html'))
-    
     );
     
     app.get('/auth/settings', (req, res) =>

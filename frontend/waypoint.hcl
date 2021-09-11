@@ -3,13 +3,13 @@ project = "e-commerce-frontend"
 app "e-commerce-frontend" {
 
   build {
-    use "pack" {}
+    use "docker" {}
     registry {
 
       use "docker" {
         image = "registry.service.consul:5000/e-commerce-frontend"
-        tag   = "1"
-        local = true
+        tag   = "3"
+        local = false
 
       }
     }
@@ -24,5 +24,3 @@ app "e-commerce-frontend" {
     }
   }
 }
-
-

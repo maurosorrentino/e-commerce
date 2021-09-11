@@ -6,13 +6,10 @@ import MessageStyles from '../components/styles/MessageStyles';
 class AddToCart extends Component {
 
     state = {
-
         message: null,
-
     }
 
     addToCart = () => {
-
         const itemId = this.props.itemId;
 
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/add-to-cart/${itemId}`, {

@@ -375,7 +375,6 @@ exports.logout = (req, res) => {
 };
 
 exports.addToCart = async (req, res) => {
-
     try {
         if(!req.session.isAuth) {
             return res.status(401).json({ message: 'You cannot take this action, please login' });

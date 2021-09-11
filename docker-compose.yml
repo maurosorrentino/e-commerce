@@ -1,22 +1,19 @@
+version: '3'
+
 services:
+  backend:
+    env_file:
+        "./backend/.env"
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    image: "maurosorrentino/e-commerce-backend"
+    ports:
+      - "5000:5000"
   frontend:
     build:
       context: ./frontend
-    env_file:
-      - "frontend/.env.local"
-    expose:
-      - 3000
+      dockerfile: ./Dockerfile
+    image: "maurosorrentino/e-commerce-frontend"
     ports:
       - "3000:3000"
-    command: npm start
-    links:
-      - "backend:backend"
-  backend:
-    build:
-      context: ./backend
-    env_file:
-      - "backend/.env"
-    expose:
-      - 8090
-    ports:
-      - "8090:8090"

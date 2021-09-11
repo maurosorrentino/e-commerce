@@ -23,6 +23,12 @@ job "e-commerce" {
 
     task "website" {
       driver = "docker"
+
+      resources {
+        cpu    = 1500
+        memory = 1024
+      }
+
       config {
         ports      = ["http"]
         image      = "${artifact.image}:${artifact.tag}"
