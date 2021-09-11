@@ -44,7 +44,10 @@ job "e-commerce" {
       template {
         data = <<EOF
           {{ with secret "kv/e-commerce" }}
-          ENVVAR="{{ .Data.ENVVAR }}"
+          CLOUDINARY="{{ .Data.CLOUDINARY }}"
+          PRESET="{{ .Data.PRESET }}"
+          STRIPE="{{ .Data.STRIPE }}"
+          NEXT_PUBLIC_API_URL="{{ .Data.NEXT_PUBLIC_API_URL }}"
           {{ end }}
         EOF
         destination = "secrets/e-commerce.env"
@@ -89,8 +92,17 @@ job "e-commerce" {
       template {
         data = <<EOF
           {{ with secret "kv/e-commerce" }}
-          ENVVAR1="{{ .Data.ENVVAR1 }}"
-          ENVVAR2="{{ .Data.ENVVAR2 }}"
+          MAIL_PASS="{{ .Data.MAIL_PASS }}"
+          MAIL_USER="{{ .Data.MAIL_USER }}"
+          MONGODB="{{ .Data.MONGODB }}"
+          NODE_ENV="{{ .Data.NODE_ENV }}"
+          PORT="{{ .Data.PORT }}"
+          SESSION_SECRET="{{ .Data.SESSION_SECRET }}"
+          STRIPE="{{ .Data.STRIPE }}"
+          STRIPE_SECRET_KEY="{{ .Data.STRIPE_SECRET_KEY }}"
+          TOKEN_SECRET="{{ .Data.TOKEN_SECRET }}"
+          WEAK_TOKEN_SECRET="{{ .Data.WEAK_TOKEN_SECRET }}"
+          URL="{{ .Data.URL }}"
           {{ end }}
         EOF
         destination = "secrets/e-commerce.env"
