@@ -7,6 +7,10 @@ job "e-commerce" {
     value     = "agent"
   }
 
+  vault {
+    policies = ["e-commerce"]
+  }
+
   group "website-group" {
     count = 1
     update {
@@ -36,6 +40,17 @@ job "e-commerce" {
         ports      = ["frontend"]
         image      = "registry.service.consul:5000/e-commerce-frontend:20"
       }
+
+      template {
+        data = <<EOF
+          {{ with secret "kv/e-commerce" }}
+          ENVVAR="{{ .Data.ENVVAR }}"
+          {{ end }}
+        EOF
+        destination = "secrets/e-commerce.env"
+        env         = true
+      }
+
 
       service {
         name = "e-commerce-frontend"
@@ -69,6 +84,17 @@ job "e-commerce" {
       config {
         ports      = ["backend"]
         image      = "registry.service.consul:5000/e-commerce-backend:20"
+      }
+
+      template {
+        data = <<EOF
+          {{ with secret "kv/e-commerce" }}
+          ENVVAR1="{{ .Data.ENVVAR1 }}"
+          ENVVAR2="{{ .Data.ENVVAR2 }}"
+          {{ end }}
+        EOF
+        destination = "secrets/e-commerce.env"
+        env         = true
       }
 
       service {
