@@ -11,6 +11,8 @@ services:
     ports:
       - "5000:5000"
   frontend:
+    env_file:
+      "./frontend/.env"
     build:
       context: ./frontend
       dockerfile: ./Dockerfile

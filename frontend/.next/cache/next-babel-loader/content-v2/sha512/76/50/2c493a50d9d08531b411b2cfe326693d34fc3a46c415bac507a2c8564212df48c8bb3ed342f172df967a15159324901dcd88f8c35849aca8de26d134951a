@@ -1,1 +1,0 @@
-{"ast":null,"code":"import React from 'react';\nimport ChangeDetails from '../../components/ChangeDetails';\n\nvar changeDetailsPage = function changeDetailsPage() {\n  return /*#__PURE__*/React.createElement(ChangeDetails, null);\n};\n\nexport default changeDetailsPage;","map":null,"metadata":{},"sourceType":"module"}

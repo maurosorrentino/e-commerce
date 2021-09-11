@@ -200,7 +200,7 @@ app.use((req, res, next) => {
 });
 
 // serving static files when in production
-if(process.env.NODE_ENV === 'production') {
+/* if(process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname + '/../frontend/out')));
   
     // I do not think that this is the best solution to serve these files (without this code people won't be able to send link to other people cause they will get a cannot get error)
@@ -274,11 +274,13 @@ if(process.env.NODE_ENV === 'production') {
     );
 
   } else {
-    // shop routes
-    app.use(shopRoutes);
-    // auth routes
-    app.use('/auth', authRoutes);
-  }
+ */    
+
+// shop routes
+app.use(shopRoutes);
+// auth routes
+app.use('/auth', authRoutes);
+// }
  
 // connecting to db
 // DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }

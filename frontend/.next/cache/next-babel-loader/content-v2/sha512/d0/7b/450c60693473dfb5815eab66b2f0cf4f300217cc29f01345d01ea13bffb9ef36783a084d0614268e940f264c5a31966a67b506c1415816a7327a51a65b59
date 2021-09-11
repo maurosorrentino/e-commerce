@@ -1,1 +1,0 @@
-{"ast":null,"code":"import MyItems from '../../components/MyItems';\nimport React from 'react';\n\nvar MyItemsPage = function MyItemsPage(props) {\n  return /*#__PURE__*/React.createElement(MyItems, null);\n};\n\nexport default MyItemsPage;","map":null,"metadata":{},"sourceType":"module"}

@@ -1,1 +1,0 @@
-{"ast":null,"code":"import React from 'react';\nimport Cart from '../../components/Cart';\n\nvar cancelPage = function cancelPage() {\n  return /*#__PURE__*/React.createElement(Cart, null);\n};\n\nexport default cancelPage;","map":null,"metadata":{},"sourceType":"module"}

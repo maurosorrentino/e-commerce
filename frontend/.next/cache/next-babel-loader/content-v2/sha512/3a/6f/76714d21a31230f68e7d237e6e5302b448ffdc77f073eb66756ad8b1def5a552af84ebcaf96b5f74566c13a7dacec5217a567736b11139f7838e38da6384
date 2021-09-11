@@ -1,1 +1,0 @@
-{"ast":null,"code":"import React from 'react';\nimport Success from '../../components/Success';\n\nvar successPage = function successPage() {\n  return /*#__PURE__*/React.createElement(Success, null);\n};\n\nexport default successPage;","map":null,"metadata":{},"sourceType":"module"}

@@ -1,1 +1,0 @@
-{"ast":null,"code":"import Login from '../../components/Login';\nimport React from 'react';\n\nvar logInPage = function logInPage(props) {\n  return /*#__PURE__*/React.createElement(Login, null);\n};\n\nexport default logInPage;","map":null,"metadata":{},"sourceType":"module"}
