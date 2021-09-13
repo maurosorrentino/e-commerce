@@ -1,80 +1,62 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Header from '../components/Header';
-import MessageStyles from '../components/styles/MessageStyles';
+import Header from "../components/Header";
+import MessageStyles from "../components/styles/MessageStyles";
 
 class Success extends Component {
+  constructor(props) {
+    super(props);
 
-    constructor(props) {
-        super(props)
+    this.state = {
+      name: "",
+    };
 
-        this.state = {
+    this.fetchData = this.fetchData.bind(this);
+  }
 
-            name: '',
+  fetchData = () => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/success`, {
+      method: "POST",
 
-        }
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
 
-        this.fetchData = this.fetchData.bind(this);
+      credentials: "include",
+    })
+      .then((res) => {
+        return res.json();
+      })
 
-    }
+      .then((resData) => {
+        this.setState({ name: resData.userName });
+      })
 
-    fetchData = () => {
+      .catch((err) => console.log(err));
+  };
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/success`, {
+  componentDidMount() {
+    this.fetchData();
+  }
 
-            method: 'POST',
+  render() {
+    return (
+      <>
+        <Header />
 
-            headers: {
-
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-
-            },
-
-            credentials: 'include',
-
-        })
-
-        .then(res => {
-
-            return res.json();
-
-        })
-
-        .then(resData => {
-
-            this.setState({ name: resData.userName });
-
-        })
-
-        .catch(err => console.log(err));
-
-    }
-
-    componentDidMount() {
-
-        this.fetchData();
-
-    }
-
-    render() {
-
-        return (
-<>
-            <Header />
-
-            <MessageStyles>
-
-                <h1>Thank You {this.state.name.toUpperCase()} For Your Order! <br></br><br></br> If You Have Any Question Please Send Us An Email On: <br></br><br></br>
-                <strong>myshop@customerservice.com</strong></h1>
-
-            </MessageStyles>
-
-</>
-        )
-
-    }
-
+        <MessageStyles>
+          <h1>
+            Thank You {this.state.name.toUpperCase()} For Your Order! <br></br>
+            <br></br> If You Have Any Question Please Send Us An Email On:{" "}
+            <br></br>
+            <br></br>
+            <strong>myshop@customerservice.com</strong>
+          </h1>
+        </MessageStyles>
+      </>
+    );
+  }
 }
 
 export default Success;

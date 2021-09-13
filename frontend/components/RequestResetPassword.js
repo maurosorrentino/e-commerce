@@ -1,115 +1,99 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import Form from '../components/styles/Form';
-import Header from '../components/Header';
-import MessageStyles from '../components/styles/MessageStyles';
+import Form from "../components/styles/Form";
+import Header from "../components/Header";
+import MessageStyles from "../components/styles/MessageStyles";
 
 class RequestResetPassword extends Component {
+  state = {
+    email: "",
+    message: "",
+    loading: false,
+  };
 
-    state = {
+  handleChange = (e) => {
+    this.setState({ email: e.target.value });
+  };
 
-        email: '',
-        message: '',
-        loading: false,
+  fetchData = (e) => {
+    e.preventDefault();
 
-    }
+    this.setState({ loading: true });
 
-    handleChange = e => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reset-password`, {
+      method: "PATCH",
 
-        this.setState({ email: e.target.value });
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
 
-    }
+      body: JSON.stringify({
+        email: this.state.email,
+      }),
 
-    fetchData = e => {
+      credentials: "include",
+    })
+      .then((res) => {
+        return res.json();
+      })
 
-        e.preventDefault();
+      .then((resData) => {
+        this.setState({ message: resData.message, loading: false });
+      })
 
-        this.setState({ loading: true });
+      .catch((err) => {
+        this.setState({ loading: false });
+        console.log(err);
+      });
+  };
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/reset-password`, {
+  render() {
+    return (
+      <>
+        <Header />
 
-            method: 'PATCH',
+        {this.state.message && (
+          <MessageStyles>
+            <h1
+              className={
+                this.state.message ===
+                `We Couldn't Find An Account With The Following Email: ${this.state.email}`
+                  ? "red"
+                  : ""
+              }
+              id="message-test"
+            >
+              {this.state.message}
+            </h1>
+          </MessageStyles>
+        )}
 
-            headers: {
+        <Form onSubmit={this.fetchData}>
+          <fieldset
+            aria-busy={this.state.loading}
+            disabled={this.state.loading}
+          >
+            <h1>Request{this.state.loading ? "ing" : ""} A New Password</h1>
 
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
+            <label htmlFor="email">
+              <input
+                name="email"
+                type="email"
+                value={this.state.email}
+                onChange={this.handleChange}
+                placeholder="enter your email"
+              />
+            </label>
 
-            },
-
-            body: JSON.stringify({
-
-                email: this.state.email,
-
-            }),
-
-            credentials: 'include',
-
-        })
-
-        .then(res => {
-
-            return res.json();
-
-        })
-
-        .then(resData => {
-
-            this.setState({ message: resData.message, loading: false });
-
-        })
-
-        .catch(err => {
-
-            this.setState({ loading: false });
-            console.log(err);
-
-        })
-
-    }
-
-    render() {
-
-        return (
-<>
-            <Header />
-
-            { this.state.message && (<MessageStyles><h1 className={
-                
-                this.state.message === `We Couldn't Find An Account With The Following Email: ${this.state.email}` ? 'red' : ''} 
-            
-            id="message-test">{this.state.message}</h1></MessageStyles> ) }
-    
-            <Form onSubmit={this.fetchData}>
-
-                <fieldset aria-busy={this.state.loading} disabled={this.state.loading}>
-
-                    <h1>Request{this.state.loading ? 'ing' : ''} A New Password</h1>
-
-                    <label htmlFor="email">
-
-                        <input
-
-                            name="email"
-                            type="email"
-                            value={this.state.email}
-                            onChange={this.handleChange}
-                            placeholder="enter your email"
-
-                        />
-
-                    </label>
-
-                    <button>Request{this.state.loading ? 'ing' : ''} A New Password</button>
-
-                </fieldset>
-
-            </Form>
-</>
-        )
-
-    }
-
+            <button>
+              Request{this.state.loading ? "ing" : ""} A New Password
+            </button>
+          </fieldset>
+        </Form>
+      </>
+    );
+  }
 }
 
 export default RequestResetPassword;

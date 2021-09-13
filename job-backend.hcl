@@ -35,7 +35,7 @@ job "e-commerce-backend" {
 
       config {
         ports      = ["backend"]
-        image      = "registry.service.consul:5000/e-commerce-backend:26"
+        image      = "registry.service.consul:5000/e-commerce-backend:30"
       }
 
       template {

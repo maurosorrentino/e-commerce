@@ -1,12 +1,11 @@
-import Link from 'next/link';
-import React from 'react';
+import Link from "next/link";
+import React from "react";
 
-import styled from 'styled-components';
-import Nav from './Nav';
-import Search from '../components/Search';
+import styled from "styled-components";
+import Nav from "./Nav";
+import Search from "../components/Search";
 
 const Logo = styled.h1`
-
   font-size: 4rem;
   margin-left: 2rem;
   position: relative;
@@ -14,35 +13,28 @@ const Logo = styled.h1`
   transform: skew(-30deg);
 
   a {
-
     padding: 0.5rem 1rem;
     background: yellowgreen;
     color: white;
     text-transform: uppercase;
     text-decoration: none;
-
   }
 
-  a:hover, a:focus {
-
+  a:hover,
+  a:focus {
     background: green;
     color: yellowgreen;
-
   }
 
   @media (max-width: 1300px) {
-
     margin: 1rem;
     font-size: 1rem;
     text-align: center;
-
   }
 `;
 
 const StyledHeader = styled.header`
-
   .bar {
-
     border-bottom: 10px solid lightgreen;
     display: grid;
     grid-template-columns: 50% 50%;
@@ -50,55 +42,37 @@ const StyledHeader = styled.header`
     align-items: stretch;
 
     @media (max-width: 1300px) {
-
       grid-template-columns: 1fr;
       justify-content: center;
       border-bottom: 1px solid lightgreen;
-
     }
   }
 
   .sub-bar {
-
     display: grid;
     grid-template-columns: 1fr auto;
     border-bottom: 10px solid lightgreen;
 
     @media (max-width: 1300px) {
-
       border-bottom: 1px solid lightgreen;
-
     }
-
   }
 `;
 
 export default function Header() {
-
-  return(
-
+  return (
     <StyledHeader>
-
       <div className="bar">
-
         <Logo>
-
           <Link href="/">My Shop</Link>
-
         </Logo>
 
         <Nav />
-
       </div>
 
       <div className="sub-bar">
-
         <Search />
-
       </div>
-
     </StyledHeader>
-
-)
-
-};
+  );
+}

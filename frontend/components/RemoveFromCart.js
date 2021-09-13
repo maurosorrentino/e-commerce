@@ -1,59 +1,55 @@
-import React, { Component } from 'react';
-import cookie from 'react-cookies';
+import React, { Component } from "react";
+import cookie from "react-cookies";
 
 class RemoveFromCart extends Component {
+  removeFromCart = () => {
+    const itemId = this.props.itemId;
 
-    removeFromCart = () => {
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/api/remove-from-cart/${itemId}`,
+      {
+        method: "PATCH",
 
-        const itemId = this.props.itemId;
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/remove-from-cart/${itemId}`, {
+        credentials: "include",
+      }
+    )
+      .then(() => {
+        /* staying on the same page */
+        return window.location.replace("/auth/cart");
+      })
 
-            method: 'PATCH',
+      .catch((err) => console.log(err));
+  };
 
-            headers: {
+  render() {
+    return (
+      <>
+        <form encType="multipart/form-data">
+          {/* checking presents of cookies (we also check on the backend the values) */}
+          <input
+            type="hidden"
+            name="cookie"
+            value={cookie.load("connect.sid")}
+          />
+          <input type="hidden" name="XSRF-TOKEN" value={cookie.load("token")} />
+          <input
+            type="hidden"
+            name="authCookie"
+            value={cookie.load("authCookie")}
+          />
 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-
-            },
-
-            credentials: 'include',
-
-        })
-
-        .then(() => {
-
-            /* staying on the same page */
-            return window.location.replace('/auth/cart')
-
-        })
-
-        .catch(err => console.log(err));
-
-    }
-
-    render() {
-
-        return(
-
-<>
-            <form encType="multipart/form-data">
-
-                {/* checking presents of cookies (we also check on the backend the values) */}
-                <input type="hidden" name="cookie" value={cookie.load('connect.sid')} />
-                <input type="hidden" name="XSRF-TOKEN" value={cookie.load('token')} />
-                <input type="hidden" name="authCookie" value={cookie.load('authCookie')} />
-
-                <button onClick={this.removeFromCart} aria-label="remove from cart">X</button>
-
-            </form>
-</>
-
-        )
-
-    }
-
+          <button onClick={this.removeFromCart} aria-label="remove from cart">
+            X
+          </button>
+        </form>
+      </>
+    );
+  }
 }
 
 export default RemoveFromCart;

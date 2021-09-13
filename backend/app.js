@@ -1,27 +1,27 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const http = require('http');
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const path = require('path');
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const http = require("http");
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const path = require("path");
 
 // agenda is used for background jobs
-const Agenda = require('agenda');
+const Agenda = require("agenda");
 
-const authRoutes = require('./routes/auth');
-const shopRoutes = require('./routes/shop');
+const authRoutes = require("./routes/auth");
+const shopRoutes = require("./routes/shop");
 
-const Item = require('./models/item');
-const User = require('./models/user');
-const ItemAvailableAgainUser = require('./models/ItemAvailableAgainUser');
+const Item = require("./models/item");
+const User = require("./models/user");
+const ItemAvailableAgainUser = require("./models/ItemAvailableAgainUser");
 
-const { transport } = require('./mail/mail');
+const { transport } = require("./mail/mail");
 
 // secrets in .env file
-require('dotenv').config();
+require("dotenv").config();
 
 const MONGODB_URL = process.env.MONGODB;
 
@@ -30,78 +30,70 @@ const app = express();
 // defining the db where the agenda will be saved (background job)
 // DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
 const agenda = new Agenda({
+  db: {
+    address: MONGODB_URL,
 
-    db: { 
-        
-        address: MONGODB_URL,
-
-        options: {
-
-            useUnifiedTopology: true,
-            useNewUrlParser: true,
-            useFindAndModify: false,
-    
-        },
-    
+    options: {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+      useFindAndModify: false,
     },
-    
+  },
 });
 
 // background job for deleting users that did not verified the email
-agenda.define('deleting users that did not verify their email within 1 hour', async (job) => {
-
+agenda.define(
+  "deleting users that did not verify their email within 1 hour",
+  async (job) => {
     // we first find all the users
     const users = await User.find();
 
     // mapping them
-    users.map(async user => {
-        const userId = user._id;
-        let expired;
+    users.map(async (user) => {
+      const userId = user._id;
+      let expired;
 
-        // if the user doesn't have a token expire date we leave it
-        if(user.tokenVerifyEmailExpires === undefined) {
-            return expired = false;
+      // if the user doesn't have a token expire date we leave it
+      if (user.tokenVerifyEmailExpires === undefined) {
+        return (expired = false);
+      }
+
+      // if user has token expire date we check if it passed more than one hour and if so we remove the user
+      if (user.tokenVerifyEmailExpires) {
+        expired = Date.now() > user.tokenVerifyEmailExpires;
+
+        if (expired) {
+          await User.findByIdAndDelete(userId);
         }
-
-        // if user has token expire date we check if it passed more than one hour and if so we remove the user
-        if(user.tokenVerifyEmailExpires) {
-            expired = Date.now() > user.tokenVerifyEmailExpires;
-
-            if(expired) {
-                await User.findByIdAndDelete(userId);
-            }
-        }
-    })
-});
+      }
+    });
+  }
+);
 
 // defining what the agenda should do (send emails to all the users that clicked "email me when available again")
-agenda.define('item_available_again_users', async (job) => {
+agenda.define("item_available_again_users", async (job) => {
+  // finding from db all the users that want to know if an item is back on the store
+  const itemAvailableAgainUser = await ItemAvailableAgainUser.find();
 
-    // finding from db all the users that want to know if an item is back on the store
-    const itemAvailableAgainUser = await ItemAvailableAgainUser.find();
-    
-    // mapping these users
-    itemAvailableAgainUser.map(async user => {
-    
-        // finding the item id, email and item from this collection
-        const itemId = user.itemId;
-        const userEmail = user.userEmail;
-        const item = await Item.findById(itemId);
-    
-        if(item.stock > 0) {
-    
-            const link = `${process.env.URL}/view-item/${itemId}`;
-    
-            // finding the user with the email that we found in this collection so that we can put the name into the email
-            const user = await User.findOne({ email: userEmail });
-    
-            // sending email
-            await transport.sendMail({
-    
-                from: process.env.MAIL_USER,
-                to: userEmail,
-                subject: `Item ${item.title} Is Back On Our Shop!`,
-                html: `
+  // mapping these users
+  itemAvailableAgainUser.map(async (user) => {
+    // finding the item id, email and item from this collection
+    const itemId = user.itemId;
+    const userEmail = user.userEmail;
+    const item = await Item.findById(itemId);
+
+    if (item.stock > 0) {
+      const link = `${process.env.URL}/view-item/${itemId}`;
+
+      // finding the user with the email that we found in this collection so that we can put the name into the email
+      const user = await User.findOne({ email: userEmail });
+
+      // sending email
+      await transport.sendMail({
+        from: process.env.MAIL_USER,
+        to: userEmail,
+        subject: `Item ${item.title} Is Back On Our Shop!`,
+        html: `
                         
                     <h1>Hi ${user.name}</h1>
         
@@ -112,45 +104,38 @@ agenda.define('item_available_again_users', async (job) => {
                     <a href="${link}">Click Here To Buy The Item!</a>
                         
                 `,
-        
-            });
+      });
 
-            // finding the id of this collection with the itemId so that we can delete it in order to don't send an email every 5 seconds
-            const findInfo = await ItemAvailableAgainUser.find({ itemId });
+      // finding the id of this collection with the itemId so that we can delete it in order to don't send an email every 5 seconds
+      const findInfo = await ItemAvailableAgainUser.find({ itemId });
 
-            const itemAvailableAgainUserId = findInfo.map(findId => {
+      const itemAvailableAgainUserId = findInfo.map((findId) => {
+        return findId._id;
+      });
 
-                return findId._id;
-
-            });
-
-            // deleting it so that we do not send duplicate emails to the users
-            await ItemAvailableAgainUser.findByIdAndRemove(itemAvailableAgainUserId);
-    
-        };
-    
-    });
-
+      // deleting it so that we do not send duplicate emails to the users
+      await ItemAvailableAgainUser.findByIdAndRemove(itemAvailableAgainUserId);
+    }
+  });
 });
 
 // starting the agenda and telling the computer to do it every 5 seconds
-(async function() {
-
-    await agenda.start();
-    await agenda.every("5 seconds", "item_available_again_users")
-    await agenda.every("5 seconds", "deleting users that did not verify their email within 1 hour");
-
+(async function () {
+  await agenda.start();
+  await agenda.every("5 seconds", "item_available_again_users");
+  await agenda.every(
+    "5 seconds",
+    "deleting users that did not verify their email within 1 hour"
+  );
 })();
 
 // setting up the sessions into the db
 const store = new MongoDBStore({
-
-    uri: MONGODB_URL,
-    collection: 'session',
-
+  uri: MONGODB_URL,
+  collection: "session",
 });
 
-// I am declaring the server like this instead of app.listen because otherwise the tests won't work (I'm using supertest and also exporting the app into another file didn't work so 
+// I am declaring the server like this instead of app.listen because otherwise the tests won't work (I'm using supertest and also exporting the app into another file didn't work so
 // I came up with this solution (closing the port after each test))
 const server = http.createServer(app);
 
@@ -160,24 +145,18 @@ app.use(cors({ origin: process.env.URL, credentials: true }));
 // resave: false means that the session won't be saved in every requests but only if something will be changed in the session (using default true has been deprecated)
 // saveUninitialized: false makes sure that the session won't be saved if nothing changes
 app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    store,
+    secret: process.env.SESSION_SECRET,
 
-    session({
-
-        resave: false,
-        saveUninitialized: false,
-        store,
-        secret: process.env.SESSION_SECRET,
-
-        cookie: {
-
-            httpOnly: true,
-            maxAge: 3600000 * 24, 
-            secure: false,
-
-        },
-
-    })
-
+    cookie: {
+      httpOnly: true,
+      maxAge: 3600000 * 24,
+      secure: false,
+    },
+  })
 );
 
 // able to parse json data application/json into headers
@@ -186,17 +165,23 @@ app.use(bodyParser.json());
 // parsing cookies so that we can verify the value
 app.use(cookieParser());
 
-// parsing the body 
+// parsing the body
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // avoiding cors errors
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token');
-    res.setHeader('Access-Control-Allow-Origin', process.env.URL);
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token"
+  );
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
-    next();
+  next();
 });
 
 // serving static files when in production
@@ -274,22 +259,27 @@ app.use((req, res, next) => {
     );
 
   } else {
- */    
+ */
 
 // shop routes
 app.use(shopRoutes);
 // auth routes
-app.use('/auth', authRoutes);
+app.use("/auth", authRoutes);
 // }
- 
+
 // connecting to db
 // DeprecationWarning: { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }
-mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
-    .then(() => {
-        server.listen(process.env.PORT);
-        console.log('connected to db');
-    })
-    .catch(err => console.log('mongo error: ' + err));
+mongoose
+  .connect(MONGODB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
+  .then(() => {
+    server.listen(process.env.PORT);
+    console.log("connected to db");
+  })
+  .catch((err) => console.log("mongo error: " + err));
 
 module.exports = app;
 module.exports = server;

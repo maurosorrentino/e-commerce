@@ -1,10 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const LoadingStyle = styled.h1`
-
-    color: green;
-    text-align: center;
-
+  color: green;
+  text-align: center;
 `;
 
 export default LoadingStyle;

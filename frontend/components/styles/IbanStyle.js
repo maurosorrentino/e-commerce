@@ -1,26 +1,19 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const IbanStyle = styled.div`
+  text-align: center;
+  text-transform: uppercase;
 
-    text-align: center;
-    text-transform: uppercase;
+  span {
+    color: green;
+  }
 
+  @media only screen and (max-width: 600px) {
+    h1,
     span {
-
-        color: green;
-        
+      font-size: 1rem;
     }
-
-    @media only screen and (max-width: 600px) {
-
-        h1, span {
-
-            font-size: 1rem;
-
-        }
-
-    }
-
+  }
 `;
 
 export default IbanStyle;

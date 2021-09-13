@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyleOfItem = styled.div`
   box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
@@ -36,17 +36,18 @@ const StyleOfItem = styled.div`
     border: 0;
     font-size: 2rem;
     font-weight: 600;
-    padding: 0.2rem .5rem;
+    padding: 0.2rem 0.5rem;
     margin: 1rem auto;
   }
 
-  button:hover, button:focus {
+  button:hover,
+  button:focus {
     cursor: pointer;
     color: yellowgreen;
   }
 
   button:disabled {
-    opacity: .5;
+    opacity: 0.5;
     color: white;
     cursor: not-allowed;
   }

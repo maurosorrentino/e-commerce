@@ -1,141 +1,106 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import OrderStyle from '../components/styles/OrderStyle';
-import Header from '../components/Header';
-import LoadingStyle from '../components/styles/LoadingStyle';
+import OrderStyle from "../components/styles/OrderStyle";
+import Header from "../components/Header";
+import LoadingStyle from "../components/styles/LoadingStyle";
 
 class Order extends Component {
+  constructor(props) {
+    super(props);
 
-    constructor(props) {
-        super(props)
+    this.state = {
+      orders: [],
+      loading: true,
+    };
 
-        this.state = {
-            
-            orders: [],
-            loading: true,
-    
-        }
+    this.fetchData = this.fetchData.bind(this);
+  }
 
-        this.fetchData = this.fetchData.bind(this);
+  fetchData = () => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/orders`, {
+      method: "GET",
 
-    }
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
 
-    fetchData = () => {
+      credentials: "include",
+    })
+      .then((res) => {
+        return res.json();
+      })
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/orders`, {
+      .then((resData) => {
+        // mapping the orders so that we can show them
+        this.setState({
+          loading: false,
+          orders: resData.orders.map((order) => {
+            return (
+              <>
+                <ul key={order._id}>
+                  <h1 id="order-id-total">
+                    Order id: <span>{order._id}</span>
+                  </h1>
 
+                  <li className="order">
+                    {order.items.map((item) => {
+                      return (
+                        <>
+                          <ul key={item.itemId} className="item">
+                            <li>
+                              <h1>Title</h1>
 
-            method: 'GET',
+                              <p>{item.title}</p>
 
-            headers: {
+                              <h1>Price</h1>
 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                              <p>{Number(item.price).toFixed(2)} €</p>
 
-            },
+                              <h1>Quantity</h1>
 
-            credentials: 'include',
-
-        })
-
-        .then(res => {
-
-            return res.json();
-
-        })
-
-        .then(resData => { 
-
-            // mapping the orders so that we can show them
-            this.setState({ loading: false, orders: resData.orders.map(order => {
-
-                return (
-
-                    <>
-                        <ul key={order._id}>
-
-                            <h1 id="order-id-total">Order id: <span>{order._id}</span></h1>
-
-                            <li className="order">
-                                
-                                {order.items.map(item => {
-
-                                    return (
-
-                                        <>
-
-                                            <ul key={item.itemId} className="item">
-
-                                                <li>
-
-                                                    <h1>Title</h1>
-
-                                                    <p>{item.title}</p>
-
-                                                    <h1>Price</h1>
-
-                                                    <p>{Number(item.price).toFixed(2)} €</p>
-
-                                                    <h1>Quantity</h1>
-
-                                                    <p>{item.quantity}</p>
-
-
-                                                </li>
-
-                                            </ul>
-
-                                        </>
-                                    )
-
-                                })}
-                                
+                              <p>{item.quantity}</p>
                             </li>
+                          </ul>
+                        </>
+                      );
+                    })}
+                  </li>
 
-                            <h1 id="order-id-total">Total: <span>{Number(order.total).toFixed(2)} €</span></h1>
+                  <h1 id="order-id-total">
+                    Total: <span>{Number(order.total).toFixed(2)} €</span>
+                  </h1>
+                </ul>
+              </>
+            );
+          }),
+        });
+      })
 
-                        </ul>
+      .catch((err) => console.log(err));
+  };
 
-                    </>
+  componentDidMount() {
+    this.fetchData();
+  }
 
-                )
+  render() {
+    return (
+      <>
+        <Header />
 
-            }) })
+        {this.state.loading && <LoadingStyle>Loading...</LoadingStyle>}
 
-        })
+        {this.state.orders.length === 0 && !this.state.loading && (
+          <OrderStyle>
+            <h1>you did not order anything yet.</h1>
+          </OrderStyle>
+        )}
 
-        .catch(err => console.log(err));
-
-    }
-
-    componentDidMount() {
-
-        this.fetchData();
-
-    }
-
-    render() {
-
-        return (
-<>
-            <Header />
-
-            {this.state.loading && (<LoadingStyle>Loading...</LoadingStyle>) }
-
-            {this.state.orders.length === 0 && !this.state.loading && (
-            
-                <OrderStyle>
-
-                    <h1>you did not order anything yet.</h1>
-
-                </OrderStyle>) }
-
-            {!this.state.loading && (<OrderStyle>{this.state.orders}</OrderStyle>) }
-</>
-        )
-
-    }
-
+        {!this.state.loading && <OrderStyle>{this.state.orders}</OrderStyle>}
+      </>
+    );
+  }
 }
 
 export default Order;
