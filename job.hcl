@@ -38,7 +38,7 @@ job "e-commerce" {
 
       config {
         ports      = ["frontend"]
-        image      = "registry.service.consul:5000/e-commerce-frontend:20"
+        image      = "registry.service.consul:5000/e-commerce-frontend:131"
       }
 
       template {
@@ -86,7 +86,7 @@ job "e-commerce" {
 
       config {
         ports      = ["backend"]
-        image      = "registry.service.consul:5000/e-commerce-backend:20"
+        image      = "registry.service.consul:5000/e-commerce-backend:131"
       }
 
       template {
@@ -111,14 +111,16 @@ job "e-commerce" {
 
       service {
         name = "e-commerce-backend"
+        tags = [
+          "traefik.enable=true",
+          "traefik.http.middlewares.backend.redirectscheme.scheme=https",
+          "traefik.http.routers.backend_insecure.middlewares=backend",
+          "traefik.http.routers.backend_insecure.rule=Host(`e-commerce-backend.ansorren.unmanaged.io`)",
+          "traefik.http.routers.backend.rule=Host(`e-commerce-backend.ansorren.unmanaged.io`)",
+          "traefik.http.routers.backend.tls=true",
+        ]
         port = "backend"
-        check {
-          type     = "http"
-          port     = "backend"
-          interval = "10s"
-          timeout  = "2s"
-          path     = "/"
-        }
+        
       }
     }
   }

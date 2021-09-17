@@ -31,7 +31,7 @@ job "e-commerce" {
 
       config {
         ports      = ["http"]
-        image      = "${artifact.image}:${artifact.tag}"
+        image      = "registry.service.consul:5000/e-commerce-backend:1"
       }
 
       service {

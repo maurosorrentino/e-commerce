@@ -1,45 +1,32 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Logout extends Component {
+  logout = () => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/logout`, {
+      method: "DELETE",
 
-    logout = () => {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/api/logout`, {
+      credentials: "include",
+    })
+      .then(() => {
+        // redirecting to login page once logged out
+        return window.location.replace("/auth/login");
+      })
 
-            method: 'DELETE',
+      .catch((err) => console.log(err));
+  };
 
-            headers: {
-
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-
-            },
-
-            credentials: 'include',
-
-        })
-
-        .then(() => {
-
-            // redirecting to login page once logged out
-            return window.location.replace('/auth/login');
-
-        })
-
-        .catch(err => console.log(err))
-
-    }
-
-    render() {
-
-        return (
-
-            <button id="logout-test" onClick={this.logout}>Logout</button>
-
-        )
-
-    }
-
+  render() {
+    return (
+      <button id="logout-test" onClick={this.logout}>
+        Logout
+      </button>
+    );
+  }
 }
 
 export default Logout;
